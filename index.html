@@ -3,373 +3,120 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sri Lanka 2025 Adventure Itinerary</title>
+  <title>Porsche Cayenne Camper Build Planner</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header class="hero">
     <div class="hero-overlay"></div>
     <div class="hero-content">
-      <p class="eyebrow">Sri Lanka · December 18, 2025 - January 1, 2026</p>
-      <h1>Adventure Travel Itinerary</h1>
-      <p class="lede">From ancient rock fortresses to coastal sunsets, this 15-day journey stitches together Sri Lanka's cultural heart, misty hill country, and wildlife-rich parks with curated stays and local tips.</p>
-      <div class="badges">
-        <span class="badge">BCN → CMB arrival 05:55</span>
-        <span class="badge">Return flight 07:25 on Jan 1</span>
-        <span class="badge">Road · Train · Safari</span>
-      </div>
+      <p class="eyebrow">Interactive Build Configurator</p>
+      <h1>Porsche Cayenne Camper Build App</h1>
+      <p class="lede">Dial in your rig, see a live budget estimate, and collect the key answers needed to plan a truly useful and feature-rich camper conversion.</p>
     </div>
   </header>
 
-  <main>
-    <section class="panel">
-      <div class="panel-header">
-        <h2>Trip Snapshot</h2>
-        <p>Handy highlights before you dive into the day-by-day plan.</p>
-      </div>
-      <div class="grid three">
-        <article class="card">
-          <h3>Best Photo Ops</h3>
-          <ul>
-            <li>Sunrise over Sigiriya rock from Pidurangala viewpoint.</li>
-            <li>Tea terraces on the Kandy–Nuwara Eliya train ride.</li>
-            <li>Golden hour at Nine Arch Bridge as trains roll past.</li>
-          </ul>
-        </article>
-        <article class="card">
-          <h3>Local Flavors</h3>
-          <ul>
-            <li>Try egg hoppers with spicy sambal at Kandy’s street stalls.</li>
-            <li>Order kottu roti with extra veggies in Ella for a post-hike refuel.</li>
-            <li>Seafood curry and fresh lime juice on Tangalle’s beach shacks.</li>
-          </ul>
-        </article>
-        <article class="card">
-          <h3>Good-to-Know</h3>
-          <ul>
-            <li>Carry small bills for temple donations and market snacks.</li>
-            <li>Pack a light rain shell for hill country showers.</li>
-            <li>Keep printed copies of bookings for rural check-ins.</li>
-          </ul>
-        </article>
-      </div>
-    </section>
+  <main class="layout">
+    <section class="panel controls">
+      <h2>Build Your Camper Setup</h2>
 
-    <section class="itinerary panel">
-      <div class="panel-header">
-        <h2>Day-by-Day Path</h2>
-        <p>Confirmed stays, travel legs, and top recommendations for each stop.</p>
-      </div>
-      <div class="timeline">
-        <article class="day">
-          <div class="day-meta">
-            <p class="date">Thu, Dec 18</p>
-            <p class="location">BCN → Colombo (CMB)</p>
-          </div>
-          <div class="day-content">
-            <h3>Arrival & Reset</h3>
-            <p>Flight lands 05:55. Clear immigration early and pick up a local SIM (Dialog or Mobitel) at arrivals.</p>
-            <ul>
-              <li>Refresh with coffee at Barista by the exit hall.</li>
-              <li>Arrange cash or card taxi to Sigiriya for the next morning; pre-booked driver recommended.</li>
-            </ul>
-          </div>
-        </article>
+      <label>Model Year
+        <input id="modelYear" type="number" min="2008" max="2026" value="2018">
+      </label>
 
-        <article class="day">
-          <div class="day-meta">
-            <p class="date">Fri, Dec 19</p>
-            <p class="location">CMB → Sigiriya</p>
-          </div>
-          <div class="day-content">
-            <h3>Sigiriya Jungle Welcome</h3>
-            <p>Check into <strong>Atha Resort</strong> (217.00 € · Booking.com). Afternoon free to shake off jetlag.</p>
-            <ul>
-              <li>Sunset climb of Pidurangala for panoramic Sigiriya views.</li>
-              <li>Dinner suggestion: spicy lake fish curry at a local homestyle kitchen.</li>
-            </ul>
-          </div>
-        </article>
+      <label>Travel Style
+        <select id="travelStyle">
+          <option value="weekend">Weekend escapes</option>
+          <option value="balanced" selected>Balanced trips</option>
+          <option value="expedition">Long expeditions</option>
+        </select>
+      </label>
 
-        <article class="day">
-          <div class="day-meta">
-            <p class="date">Sat, Dec 20</p>
-            <p class="location">Sigiriya → Kandy</p>
-          </div>
-          <div class="day-content">
-            <h3>Kandy’s Hill Country Gateway</h3>
-            <p>Private transfer to Kandy. Settle into <strong>Villa in Kandy</strong> (host Dani · Airbnb).</p>
-            <ul>
-              <li>Late afternoon stroll around Kandy Lake.</li>
-              <li>Evening cultural show and Temple of the Tooth night pooja.</li>
-            </ul>
-          </div>
-        </article>
+      <label>Sleeping Capacity
+        <input id="sleepers" type="range" min="1" max="3" value="2">
+        <span class="hint"><span id="sleepersValue">2</span> people</span>
+      </label>
 
-        <article class="day">
-          <div class="day-meta">
-            <p class="date">Sun, Dec 21</p>
-            <p class="location">Kandy</p>
-          </div>
-          <div class="day-content">
-            <h3>Tea & Temples</h3>
-            <p>Second night at Villa in Kandy. Explore the green hills around the city.</p>
-            <ul>
-              <li>Royal Botanic Gardens in Peradeniya for orchids and giant palms.</li>
-              <li>Tea museum visit followed by rooftop kottu roti dinner.</li>
-            </ul>
-          </div>
-        </article>
+      <label>Electrical Setup
+        <select id="powerTier">
+          <option value="basic">Basic (battery + USB/12v)</option>
+          <option value="plus" selected>Plus (inverter + solar prep)</option>
+          <option value="pro">Pro (solar + shore + smart monitoring)</option>
+        </select>
+      </label>
 
-        <article class="day">
-          <div class="day-meta">
-            <p class="date">Mon, Dec 22</p>
-            <p class="location">Kandy → Nuwara Eliya (train)</p>
-          </div>
-          <div class="day-content">
-            <h3>Scenic Rail to Little England</h3>
-            <p>Board the famed blue train; sit on the right for waterfalls. Book 1st or 2nd class seats in advance.</p>
-            <ul>
-              <li>Check-in on arrival; spend the evening by Gregory Lake.</li>
-              <li>Warm up with Ceylon tea and scones in the cool mist.</li>
-            </ul>
-          </div>
-        </article>
+      <label>Water Storage (liters)
+        <input id="waterLiters" type="range" min="0" max="60" value="25">
+        <span class="hint"><span id="waterValue">25</span>L tank capacity</span>
+      </label>
 
-        <article class="day">
-          <div class="day-meta">
-            <p class="date">Tue, Dec 23</p>
-            <p class="location">Nuwara Eliya → Haputale/Ella</p>
-          </div>
-          <div class="day-content">
-            <h3>Chasing Waterfalls</h3>
-            <p>Continue by train to the hill hamlets. Check into <strong>Train View Chalet</strong>.</p>
-            <ul>
-              <li>Detour to Diyaluma or Ravana Falls for a midday swim.</li>
-              <li>Golden-hour photo session at Nine Arch Bridge.</li>
-            </ul>
-          </div>
-        </article>
-
-        <article class="day">
-          <div class="day-meta">
-            <p class="date">Wed, Dec 24</p>
-            <p class="location">Haputale/Ella</p>
-          </div>
-          <div class="day-content">
-            <h3>Peaks & Plates</h3>
-            <p>Second night at Train View Chalet.</p>
-            <ul>
-              <li>Sunrise hike to Little Adam’s Peak; zipline option nearby.</li>
-              <li>Cooking class for string hoppers and coconut sambal.</li>
-            </ul>
-          </div>
-        </article>
-
-        <article class="day">
-          <div class="day-meta">
-            <p class="date">Thu, Dec 25</p>
-            <p class="location">Haputale/Ella → Yala</p>
-          </div>
-          <div class="day-content">
-            <h3>Into the Wild</h3>
-            <p>Transfer to the coast-side plains. Stay at <strong>Cinnamon Wild Yala</strong> (411.80 $ · 1 night · direct booking).</p>
-            <ul>
-              <li>Evening jeep safari for leopards, sloth bears, and crocs.</li>
-              <li>Night walk with resort naturalist to hear the jungle come alive.</li>
-            </ul>
-          </div>
-        </article>
-
-        <article class="day">
-          <div class="day-meta">
-            <p class="date">Fri, Dec 26</p>
-            <p class="location">Yala</p>
-          </div>
-          <div class="day-content">
-            <h3>Safari Sunrise</h3>
-            <p>Check into <strong>Leopard Nest</strong> (461.00 € · Booking.com) for a glam-camp vibe.</p>
-            <ul>
-              <li>Dawn safari while animals are most active.</li>
-              <li>Relax by the plunge pool; dine under the stars with a bush BBQ.</li>
-            </ul>
-          </div>
-        </article>
-
-        <article class="day">
-          <div class="day-meta">
-            <p class="date">Sat, Dec 27</p>
-            <p class="location">Yala → Tangalle</p>
-          </div>
-          <div class="day-content">
-            <h3>South Coast Calm</h3>
-            <p>Beachfront stay at <strong>Lagoon Paradise Beach Resort</strong> (138.62 € · Booking.com).</p>
-            <ul>
-              <li>Morning lagoon kayak to spot kingfishers.</li>
-              <li>Sunset swim and seafood grill by the sand.</li>
-            </ul>
-          </div>
-        </article>
-
-        <article class="day">
-          <div class="day-meta">
-            <p class="date">Sun, Dec 28</p>
-            <p class="location">Tangalle → Mirissa</p>
-          </div>
-          <div class="day-content">
-            <h3>Whale Coast</h3>
-            <p>Check into <strong>Turtle Eco Beach</strong> (126.00 € · 2 nights · Booking.com).</p>
-            <ul>
-              <li>Afternoon tuk-tuk hop to Coconut Tree Hill for aerial views.</li>
-              <li>Book dawn blue-whale and spinner dolphin watching for the next day.</li>
-            </ul>
-          </div>
-        </article>
-
-        <article class="day">
-          <div class="day-meta">
-            <p class="date">Mon, Dec 29</p>
-            <p class="location">Mirissa</p>
-          </div>
-          <div class="day-content">
-            <h3>Sea & Slow Time</h3>
-            <p>Second night at Turtle Eco Beach.</p>
-            <ul>
-              <li>Early boat tour for marine giants (carry motion-sickness bands).</li>
-              <li>Sundowners on Secret Beach; grilled prawns for dinner.</li>
-            </ul>
-          </div>
-        </article>
-
-        <article class="day">
-          <div class="day-meta">
-            <p class="date">Tue, Dec 30</p>
-            <p class="location">Mirissa → Habaraduwa</p>
-          </div>
-          <div class="day-content">
-            <h3>Design Stay</h3>
-            <p>One night at <strong>BREATHE Collections Habaraduwa</strong> (153.00 € · Booking.com).</p>
-            <ul>
-              <li>Cycle to nearby turtle hatcheries for an eco-briefing.</li>
-              <li>Evening at Unawatuna for beach bars and live music.</li>
-            </ul>
-          </div>
-        </article>
-
-        <article class="day">
-          <div class="day-meta">
-            <p class="date">Wed, Dec 31</p>
-            <p class="location">Habaraduwa → Galle</p>
-          </div>
-          <div class="day-content">
-            <h3>Fort Streets & Midnight Drive</h3>
-            <p>No hotel booked (early flight). Spend the day within Galle Fort’s Dutch-era lanes before the night transfer.</p>
-            <ul>
-              <li>Walk the ramparts at sunset, then light dinner at a courtyard café.</li>
-              <li>Depart around 03:00 for CMB; allow 2.5–3 hrs drive on New Year’s Eve.</li>
-            </ul>
-          </div>
-        </article>
-
-        <article class="day">
-          <div class="day-meta">
-            <p class="date">Thu, Jan 1</p>
-            <p class="location">Colombo (CMB)</p>
-          </div>
-          <div class="day-content">
-            <h3>Homebound</h3>
-            <p>Arrival at the airport by 04:30 for the 07:25 return flight. Grab final Ceylon tea tins at the duty-free counter.</p>
-          </div>
-        </article>
+      <div class="checkbox-grid">
+        <label><input type="checkbox" id="kitchen" checked> Compact kitchen module</label>
+        <label><input type="checkbox" id="fridge" checked> 12v fridge</label>
+        <label><input type="checkbox" id="awning"> Side awning</label>
+        <label><input type="checkbox" id="heater"> Diesel/parking heater</label>
+        <label><input type="checkbox" id="offroad"> Off-road tires + lift</label>
+        <label><input type="checkbox" id="storage" checked> Roof/gear storage system</label>
       </div>
     </section>
 
-    <section class="panel photos">
-      <div class="panel-header">
-        <h2>Inspiration Gallery</h2>
-        <p>Visual cues to spark your camera roll—each spot pairs well with your route.</p>
-      </div>
-      <div class="grid four">
-        <figure>
-          <img src="https://images.unsplash.com/photo-1567688002211-876597c3377a?auto=format&fit=crop&w=900&q=80" alt="Sigiriya rock fortress at sunrise">
-          <figcaption>Pidurangala sunrise with Sigiriya in view.</figcaption>
-        </figure>
-        <figure>
-          <img src="https://images.unsplash.com/photo-1589965772384-22f4fe3bc57c?auto=format&fit=crop&w=900&q=80" alt="Blue train winding through tea fields">
-          <figcaption>Kandy–Ella train sweeping through tea country.</figcaption>
-        </figure>
-        <figure>
-          <img src="https://images.unsplash.com/photo-1560831365-48587a1d88b1?auto=format&fit=crop&w=900&q=80" alt="Asian elephant in the wild">
-          <figcaption>Elephant encounter during a Yala safari.</figcaption>
-        </figure>
-        <figure>
-          <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=900&q=80" alt="Tropical beach at sunset">
-          <figcaption>South coast sunset swim near Mirissa.</figcaption>
-        </figure>
-      </div>
-    </section>
+    <aside class="panel output">
+      <h2>Live Plan Output</h2>
+      <div class="metric"><span>Estimated Budget</span><strong id="budget">€13,000</strong></div>
+      <div class="metric"><span>Complexity Score</span><strong id="complexity">Medium</strong></div>
+      <div class="metric"><span>Recommended Build Time</span><strong id="timeline">8-12 weeks</strong></div>
 
-    <section class="panel recommendations">
-      <div class="panel-header">
-        <h2>Top Recommendations</h2>
-        <p>Curated activities and eats that pair with each region.</p>
-      </div>
-      <div class="grid three">
-        <article class="card rec">
-          <img src="https://images.unsplash.com/photo-1520256862855-398228c41684?auto=format&fit=crop&w=900&q=80" alt="Traditional Sri Lankan food platter">
-          <div>
-            <h3>Food Trail</h3>
-            <p>Savor hoppers in Kandy, cinnamon-sprinkled tea in Nuwara Eliya, and lagoon crab in Tangalle. Book a home-cooked rice & curry lesson in Ella for authentic spice blends.</p>
-          </div>
-        </article>
-        <article class="card rec">
-          <img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=900&q=80" alt="Hiker looking at mountains in Sri Lanka">
-          <div>
-            <h3>Active Adventures</h3>
-            <p>Little Adam’s Peak sunrise hike, Diyaluma Falls natural pools, surf lessons in Weligama, and bicycle loops around Galle Fort’s leafy streets.</p>
-          </div>
-        </article>
-        <article class="card rec">
-          <img src="https://images.unsplash.com/photo-1530714457710-6bf18909d5a1?auto=format&fit=crop&w=900&q=80" alt="Spotted leopard in foliage">
-          <div>
-            <h3>Wildlife Moments</h3>
-            <p>Yala for leopards at dawn, Udawalawe detour for elephant herds, and turtle hatchling releases near Habaraduwa (choose licensed conservation programs).</p>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <section class="panel tips">
-      <div class="panel-header">
-        <h2>Logistics & Packing</h2>
-        <p>Stay comfortable on the road between coasts, mountains, and jungles.</p>
-      </div>
-      <div class="grid two">
-        <article class="card">
-          <h3>Essentials</h3>
-          <ul>
-            <li>Light layers for hill country (15–20°C) plus breathable linen for the coast.</li>
-            <li>Power adapter type D/G; carry a compact extension for multiple devices.</li>
-            <li>Dry bag for train and safari dust; quick-dry towel for waterfall swims.</li>
-          </ul>
-        </article>
-        <article class="card">
-          <h3>Getting Around</h3>
-          <ul>
-            <li>Reserve scenic train seats online early; keep passport for ticket checks.</li>
-            <li>Use metered or ride-hail (PickMe) in Colombo; private driver for Yala transfers.</li>
-            <li>For dawn safaris and whale watching, pack layers and motion bands.</li>
-          </ul>
-        </article>
-      </div>
-    </section>
+      <h3>Suggested Priorities</h3>
+      <ul id="priorities"></ul>
+    </aside>
   </main>
 
+  <section class="panel questions">
+    <h2>What I need to know to make this truly useful</h2>
+    <p>Answering these unlocks a more tailored and feature-rich app scope:</p>
+    <div class="grid">
+      <article class="card">
+        <h3>Vehicle & Constraints</h3>
+        <ul>
+          <li>Your Cayenne generation, trim, and current mods.</li>
+          <li>Payload limits and whether rear seats are removable.</li>
+          <li>Garage height/length constraints and daily-driver needs.</li>
+        </ul>
+      </article>
+      <article class="card">
+        <h3>Use Case</h3>
+        <ul>
+          <li>Trip duration (overnight, week, month+).</li>
+          <li>Climate range (winter, high altitude, humid coast).</li>
+          <li>How many people/pets and remote-work requirements.</li>
+        </ul>
+      </article>
+      <article class="card">
+        <h3>Budget & Build Approach</h3>
+        <ul>
+          <li>Target budget and DIY vs pro install split.</li>
+          <li>Priority order: comfort, stealth, durability, aesthetics.</li>
+          <li>Timeline and whether phased upgrades are acceptable.</li>
+        </ul>
+      </article>
+      <article class="card">
+        <h3>App Features You Want</h3>
+        <ul>
+          <li>Parts database with compatibility filters.</li>
+          <li>3D layout planner and weight distribution checks.</li>
+          <li>Shopping list export, maintenance logs, and trip planner.</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
   <footer class="footer">
-    <p>Adventure-ready for December 2025 · Share with travel buddies and save offline.</p>
+    Built as an MVP configurator: ready to expand with saved projects, part catalogs, and route-aware recommendations.
   </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
