@@ -310,6 +310,183 @@
       background: var(--gold);
       color: var(--bg);
     }
+
+    .accordion + .accordion { margin-top: 12px; }
+
+    .accordion {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      overflow: hidden;
+    }
+
+    .accordion:nth-of-type(2) { border-radius: 17px; }
+    .accordion:nth-of-type(3) { border-radius: 11px; }
+
+    .accordion-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 16px 18px;
+      background: transparent;
+      color: var(--gold);
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-align: left;
+    }
+
+    .accordion-header .chev {
+      width: 14px;
+      height: 14px;
+      border-right: 2px solid var(--gold);
+      border-bottom: 2px solid var(--gold);
+      transform: rotate(45deg);
+      transition: transform 0.2s;
+      margin-left: 12px;
+      flex-shrink: 0;
+    }
+
+    .accordion.open .accordion-header .chev { transform: rotate(-135deg); }
+
+    .accordion-body {
+      display: none;
+      padding: 0 18px 18px;
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .accordion.open .accordion-body { display: block; }
+
+    .accordion-body .section-title {
+      color: var(--gold);
+      font-size: 13px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin: 14px 0 6px;
+    }
+
+    .multi-line { white-space: pre-line; }
+
+    .rights-accent {
+      border-left: 3px solid var(--gold);
+      padding: 8px 12px;
+      margin: 10px 0;
+      background: rgba(232, 201, 106, 0.06);
+      border-radius: 0 11px 11px 0;
+    }
+
+    .filter-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 4px 0 14px;
+    }
+
+    .chip {
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      padding: 6px 12px;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+      transition: color 0.15s, background 0.15s, border-color 0.15s;
+    }
+
+    .chip:hover { color: var(--text); }
+
+    .chip.active {
+      background: var(--gold);
+      color: var(--bg);
+      border-color: var(--gold);
+    }
+
+    .packing-progress {
+      margin: 6px 0 14px;
+    }
+
+    .packing-progress .bar {
+      height: 6px;
+      background: var(--surface2);
+      border-radius: 11px;
+      overflow: hidden;
+    }
+
+    .packing-progress .fill {
+      height: 100%;
+      width: 0%;
+      background: var(--gold);
+      transition: width 0.25s;
+    }
+
+    .packing-progress .label {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 6px;
+      letter-spacing: 0.5px;
+    }
+
+    .packing-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 6px;
+    }
+
+    .packing-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+
+    .packing-item input { accent-color: var(--gold); width: 16px; height: 16px; cursor: pointer; }
+
+    .packing-item.checked { opacity: 0.55; }
+    .packing-item.checked .packing-label { text-decoration: line-through; color: var(--muted); }
+    .packing-item[hidden] { display: none; }
+
+    .packing-label {
+      color: var(--text);
+      font-size: 14px;
+      flex: 1;
+    }
+
+    .forum-link {
+      display: inline-block;
+      margin-top: 14px;
+      padding: 10px 16px;
+      border: 1px solid var(--gold);
+      border-radius: 13px;
+      color: var(--gold);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 14px;
+      letter-spacing: 0.5px;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .forum-link:hover, .forum-link:focus {
+      background: var(--gold);
+      color: var(--bg);
+    }
   </style>
 </head>
 <body>
@@ -371,7 +548,61 @@
       </div>
     </section>
     <section id="tab-info">
-      <p class="placeholder">Coming in next stage</p>
+      <div class="accordion open" data-acc>
+        <button class="accordion-header" type="button" aria-expanded="true">
+          <span data-i18n="info_entry_title">Festival Entry &amp; Controls</span>
+          <span class="chev" aria-hidden="true"></span>
+        </button>
+        <div class="accordion-body">
+          <p class="multi-line" data-i18n="info_entry_body">Arrive early — queues build up quickly.
+Have your ticket and ID ready at the gate.
+Vehicle check: bring your registration and be prepared for a boot inspection.
+Pack respectfully — glass and single-use plastics are not allowed on site.</p>
+          <h3 class="section-title" data-i18n="info_police_title">Police controls &amp; your rights</h3>
+          <div class="rights-accent">
+            <p class="multi-line" data-i18n="info_police_body">Expect routine police and drug-detection checks on roads near Lärz. Stay calm and polite.
+You have the right to remain silent. You are not required to answer questions beyond confirming your identity.
+You do not have to open bags or your vehicle for a search without a warrant or a concrete suspicion — ask politely what the legal basis is.
+Fusion provides on-site legal advice — ask at the Info point.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion" data-acc>
+        <button class="accordion-header" type="button" aria-expanded="false">
+          <span data-i18n="info_packing_title">Packing List</span>
+          <span class="chev" aria-hidden="true"></span>
+        </button>
+        <div class="accordion-body">
+          <div class="filter-chips" role="tablist">
+            <button class="chip active" data-filter="all" data-i18n="info_packing_filter_all">All</button>
+            <button class="chip" data-filter="camping" data-i18n="info_packing_filter_camping">Camping</button>
+            <button class="chip" data-filter="festival" data-i18n="info_packing_filter_festival">Festival</button>
+            <button class="chip" data-filter="clothing" data-i18n="info_packing_filter_clothing">Clothing</button>
+            <button class="chip" data-filter="docs" data-i18n="info_packing_filter_docs">Documents</button>
+          </div>
+          <div class="packing-progress">
+            <div class="bar"><div class="fill" id="packing-fill"></div></div>
+            <div class="label" id="packing-progress-label">0 of 0 items packed</div>
+          </div>
+          <ul class="packing-list" id="packing-list"></ul>
+        </div>
+      </div>
+
+      <div class="accordion" data-acc>
+        <button class="accordion-header" type="button" aria-expanded="false">
+          <span data-i18n="info_kulturkosmos_title">Kulturkosmos</span>
+          <span class="chev" aria-hidden="true"></span>
+        </button>
+        <div class="accordion-body">
+          <p class="multi-line" data-i18n="info_kulturkosmos_body">Kulturkosmos Lärz e.V. grew out of a collective project in the early 1990s and took over the former Soviet airfield in Lärz, Mecklenburg. The first Fusion festival followed in 1997 on the same runways and hangars that still shape the site today.
+
+Fusion is organised on a non-commercial, community-funded basis. Instead of corporate sponsors, the festival is supported by sympathisers who contribute to the year-round cultural work of Kulturkosmos.
+
+The programme is carried by dozens of crews and bars from across Europe. Each bar, stage and decoration is built by a collective — the network of crews is what makes the site feel like a city of its own.</p>
+          <a class="forum-link" href="https://fusion-festival.de/forum" target="_blank" rel="noopener noreferrer" data-i18n="info_forum_link">Visit the forum</a>
+        </div>
+      </div>
     </section>
     <section id="tab-camp">
       <p class="placeholder">Coming in next stage</p>
@@ -415,7 +646,53 @@
         home_bourse_label: "Bourse",
         home_bourse_date: "5 May 2026",
         home_website_btn: "Official website",
-        home_tickets_btn: "Ticket portal"
+        home_tickets_btn: "Ticket portal",
+        info_entry_title: "Festival Entry & Controls",
+        info_entry_body: "Arrive early — queues build up quickly.\nHave your ticket and ID ready at the gate.\nVehicle check: bring your registration and be prepared for a boot inspection.\nPack respectfully — glass and single-use plastics are not allowed on site.",
+        info_police_title: "Police controls & your rights",
+        info_police_body: "Expect routine police and drug-detection checks on roads near Lärz. Stay calm and polite.\nYou have the right to remain silent. You are not required to answer questions beyond confirming your identity.\nYou do not have to open bags or your vehicle for a search without a warrant or a concrete suspicion — ask politely what the legal basis is.\nFusion provides on-site legal advice — ask at the Info point.",
+        info_packing_title: "Packing List",
+        info_packing_filter_all: "All",
+        info_packing_filter_camping: "Camping",
+        info_packing_filter_festival: "Festival",
+        info_packing_filter_clothing: "Clothing",
+        info_packing_filter_docs: "Documents",
+        info_kulturkosmos_title: "Kulturkosmos",
+        info_kulturkosmos_body: "Kulturkosmos Lärz e.V. grew out of a collective project in the early 1990s and took over the former Soviet airfield in Lärz, Mecklenburg. The first Fusion festival followed in 1997 on the same runways and hangars that still shape the site today.\n\nFusion is organised on a non-commercial, community-funded basis. Instead of corporate sponsors, the festival is supported by sympathisers who contribute to the year-round cultural work of Kulturkosmos.\n\nThe programme is carried by dozens of crews and bars from across Europe. Each bar, stage and decoration is built by a collective — the network of crews is what makes the site feel like a city of its own.",
+        info_forum_link: "Visit the forum",
+        pack_progress: "{done} of {total} items packed",
+        pack_tent: "Tent",
+        pack_sleeping_bag: "Sleeping bag",
+        pack_sleeping_mat: "Sleeping mat",
+        pack_tarp: "Tarp",
+        pack_rope: "Rope",
+        pack_pegs: "Tent pegs & mallet",
+        pack_headtorch: "Head torch + batteries",
+        pack_repair_kit: "Repair kit (duct tape, cable ties)",
+        pack_earplugs: "Earplugs",
+        pack_cash: "Cash (no cards on site!)",
+        pack_reusable_cup: "Reusable cup",
+        pack_sunscreen: "Sunscreen",
+        pack_rain_poncho: "Rain poncho",
+        pack_portable_charger: "Portable charger",
+        pack_locker_lock: "Lock for locker",
+        pack_water_bottle: "Reusable water bottle",
+        pack_layers: "Layers for cold nights",
+        pack_swimwear: "Swimwear",
+        pack_sturdy_shoes: "Sturdy shoes",
+        pack_warm_jacket: "Warm jacket",
+        pack_hat: "Hat",
+        pack_sunglasses: "Sunglasses",
+        pack_socks_extra: "Extra socks",
+        pack_scarf: "Scarf / bandana",
+        pack_ticket: "Ticket (printed + digital)",
+        pack_id: "ID / passport",
+        pack_vehicle_docs: "Vehicle docs (if driving)",
+        pack_health_card: "Health insurance card",
+        pack_emergency_contacts: "Emergency contacts list",
+        pack_insurance_card: "Travel insurance info",
+        pack_booking_confirmation: "Booking confirmation",
+        pack_cash_reserve: "Emergency cash reserve"
       },
       es: {
         nav_home: "Inicio",
@@ -437,7 +714,53 @@
         home_bourse_label: "Bolsa",
         home_bourse_date: "5 mayo 2026",
         home_website_btn: "Web oficial",
-        home_tickets_btn: "Portal de entradas"
+        home_tickets_btn: "Portal de entradas",
+        info_entry_title: "Entrada al festival y controles",
+        info_entry_body: "Llega pronto — las colas se forman rápido.\nTen la entrada y el DNI listos en la puerta.\nControl de vehículo: lleva la documentación y prepárate para una inspección del maletero.\nEmpaca con respeto — no se permiten vidrio ni plásticos de un solo uso.",
+        info_police_title: "Controles policiales y tus derechos",
+        info_police_body: "Habrá controles policiales y de drogas rutinarios en las carreteras cercanas a Lärz. Mantén la calma y sé educado.\nTienes derecho a guardar silencio. No estás obligado a responder más allá de identificarte.\nNo tienes que abrir bolsas ni el vehículo sin una orden o una sospecha concreta — pregunta con educación cuál es la base legal.\nFusion ofrece asesoramiento legal en el recinto — pregunta en el punto de información.",
+        info_packing_title: "Lista de equipaje",
+        info_packing_filter_all: "Todo",
+        info_packing_filter_camping: "Camping",
+        info_packing_filter_festival: "Festival",
+        info_packing_filter_clothing: "Ropa",
+        info_packing_filter_docs: "Documentos",
+        info_kulturkosmos_title: "Kulturkosmos",
+        info_kulturkosmos_body: "Kulturkosmos Lärz e.V. surgió de un proyecto colectivo a principios de los 90 y tomó el antiguo aeródromo soviético de Lärz, Mecklemburgo. El primer festival Fusion se celebró en 1997 en las mismas pistas y hangares que siguen dando forma al recinto.\n\nFusion se organiza sin fines comerciales, financiado por la comunidad. En lugar de patrocinadores corporativos, lo sostienen simpatizantes que apoyan la labor cultural de Kulturkosmos durante todo el año.\n\nEl programa lo llevan docenas de crews y bares de toda Europa. Cada bar, escenario y decoración los construye un colectivo — la red de crews es lo que convierte el recinto en una ciudad propia.",
+        info_forum_link: "Visita el foro",
+        pack_progress: "{done} de {total} artículos listos",
+        pack_tent: "Tienda de campaña",
+        pack_sleeping_bag: "Saco de dormir",
+        pack_sleeping_mat: "Esterilla",
+        pack_tarp: "Lona",
+        pack_rope: "Cuerda",
+        pack_pegs: "Piquetas y martillo",
+        pack_headtorch: "Linterna frontal + pilas",
+        pack_repair_kit: "Kit de reparación (cinta, bridas)",
+        pack_earplugs: "Tapones para los oídos",
+        pack_cash: "Efectivo (¡no hay tarjetas en el recinto!)",
+        pack_reusable_cup: "Vaso reutilizable",
+        pack_sunscreen: "Protector solar",
+        pack_rain_poncho: "Poncho de lluvia",
+        pack_portable_charger: "Batería externa",
+        pack_locker_lock: "Candado para la taquilla",
+        pack_water_bottle: "Botella reutilizable",
+        pack_layers: "Capas para noches frías",
+        pack_swimwear: "Bañador",
+        pack_sturdy_shoes: "Calzado resistente",
+        pack_warm_jacket: "Chaqueta de abrigo",
+        pack_hat: "Gorra o sombrero",
+        pack_sunglasses: "Gafas de sol",
+        pack_socks_extra: "Calcetines extra",
+        pack_scarf: "Pañuelo / bandana",
+        pack_ticket: "Entrada (impresa + digital)",
+        pack_id: "DNI / pasaporte",
+        pack_vehicle_docs: "Documentación del vehículo",
+        pack_health_card: "Tarjeta sanitaria",
+        pack_emergency_contacts: "Lista de contactos de emergencia",
+        pack_insurance_card: "Seguro de viaje",
+        pack_booking_confirmation: "Confirmación de reserva",
+        pack_cash_reserve: "Reserva de efectivo de emergencia"
       },
       de: {
         nav_home: "Start",
@@ -459,7 +782,53 @@
         home_bourse_label: "Börse",
         home_bourse_date: "5. Mai 2026",
         home_website_btn: "Offizielle Website",
-        home_tickets_btn: "Ticketportal"
+        home_tickets_btn: "Ticketportal",
+        info_entry_title: "Einlass & Kontrollen",
+        info_entry_body: "Früh anreisen — die Schlangen werden schnell lang.\nTicket und Ausweis am Einlass bereithalten.\nFahrzeugkontrolle: Fahrzeugschein mitführen und auf eine Kofferraumkontrolle einstellen.\nRespektvoll packen — Glas und Einwegplastik sind auf dem Gelände nicht erlaubt.",
+        info_police_title: "Polizeikontrollen & deine Rechte",
+        info_police_body: "Auf den Straßen rund um Lärz sind routinemäßige Polizei- und Drogenkontrollen zu erwarten. Bleib ruhig und höflich.\nDu hast das Recht zu schweigen. Über die Identitätsfeststellung hinaus musst du keine Fragen beantworten.\nOhne Durchsuchungsbeschluss oder konkreten Verdacht musst du weder Taschen noch dein Fahrzeug öffnen — frage höflich nach der Rechtsgrundlage.\nDie Fusion bietet vor Ort Rechtsberatung an — frag am Infopunkt.",
+        info_packing_title: "Packliste",
+        info_packing_filter_all: "Alle",
+        info_packing_filter_camping: "Camping",
+        info_packing_filter_festival: "Festival",
+        info_packing_filter_clothing: "Kleidung",
+        info_packing_filter_docs: "Dokumente",
+        info_kulturkosmos_title: "Kulturkosmos",
+        info_kulturkosmos_body: "Der Kulturkosmos Lärz e.V. entstand Anfang der 1990er aus einem kollektiven Projekt und übernahm den ehemaligen sowjetischen Flugplatz in Lärz in Mecklenburg. 1997 fand auf denselben Start- und Landebahnen und in den Hangars die erste Fusion statt — sie prägen das Gelände bis heute.\n\nDie Fusion ist nicht-kommerziell organisiert und wird von der Community getragen. Statt Konzernsponsoring tragen Sympathisant*innen die ganzjährige Kulturarbeit des Kulturkosmos mit.\n\nDas Programm stemmen Dutzende Crews und Bars aus ganz Europa. Jede Bar, Bühne und Dekoration wird von einem Kollektiv gebaut — das Netzwerk der Crews macht aus dem Gelände eine eigene Stadt.",
+        info_forum_link: "Zum Forum",
+        pack_progress: "{done} von {total} Sachen gepackt",
+        pack_tent: "Zelt",
+        pack_sleeping_bag: "Schlafsack",
+        pack_sleeping_mat: "Isomatte",
+        pack_tarp: "Plane",
+        pack_rope: "Seil",
+        pack_pegs: "Heringe & Hammer",
+        pack_headtorch: "Stirnlampe + Batterien",
+        pack_repair_kit: "Reparaturset (Panzertape, Kabelbinder)",
+        pack_earplugs: "Ohrstöpsel",
+        pack_cash: "Bargeld (keine Karten auf dem Gelände!)",
+        pack_reusable_cup: "Mehrwegbecher",
+        pack_sunscreen: "Sonnencreme",
+        pack_rain_poncho: "Regenponcho",
+        pack_portable_charger: "Powerbank",
+        pack_locker_lock: "Schloss fürs Schließfach",
+        pack_water_bottle: "Trinkflasche",
+        pack_layers: "Kleidung in Schichten für kalte Nächte",
+        pack_swimwear: "Badesachen",
+        pack_sturdy_shoes: "Festes Schuhwerk",
+        pack_warm_jacket: "Warme Jacke",
+        pack_hat: "Mütze / Hut",
+        pack_sunglasses: "Sonnenbrille",
+        pack_socks_extra: "Socken im Überfluss",
+        pack_scarf: "Tuch / Bandana",
+        pack_ticket: "Ticket (gedruckt + digital)",
+        pack_id: "Personalausweis / Reisepass",
+        pack_vehicle_docs: "Fahrzeugpapiere (falls Auto)",
+        pack_health_card: "Krankenversicherungskarte",
+        pack_emergency_contacts: "Notfallkontakte",
+        pack_insurance_card: "Reiseversicherung",
+        pack_booking_confirmation: "Buchungsbestätigung",
+        pack_cash_reserve: "Notgroschen"
       }
     };
 
@@ -518,6 +887,127 @@
     }
     tickCountdown();
     setInterval(tickCountdown, 1000);
+
+    // Accordions
+    document.querySelectorAll('[data-acc] .accordion-header').forEach(hdr => {
+      hdr.addEventListener('click', () => {
+        const acc = hdr.closest('[data-acc]');
+        const open = acc.classList.toggle('open');
+        hdr.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+    });
+
+    // Packing list
+    const packingItems = [
+      { id: 'tent', cat: 'camping', key: 'pack_tent' },
+      { id: 'sleeping_bag', cat: 'camping', key: 'pack_sleeping_bag' },
+      { id: 'sleeping_mat', cat: 'camping', key: 'pack_sleeping_mat' },
+      { id: 'tarp', cat: 'camping', key: 'pack_tarp' },
+      { id: 'rope', cat: 'camping', key: 'pack_rope' },
+      { id: 'pegs', cat: 'camping', key: 'pack_pegs' },
+      { id: 'headtorch', cat: 'camping', key: 'pack_headtorch' },
+      { id: 'repair_kit', cat: 'camping', key: 'pack_repair_kit' },
+      { id: 'earplugs', cat: 'festival', key: 'pack_earplugs' },
+      { id: 'cash', cat: 'festival', key: 'pack_cash' },
+      { id: 'reusable_cup', cat: 'festival', key: 'pack_reusable_cup' },
+      { id: 'sunscreen', cat: 'festival', key: 'pack_sunscreen' },
+      { id: 'rain_poncho', cat: 'festival', key: 'pack_rain_poncho' },
+      { id: 'portable_charger', cat: 'festival', key: 'pack_portable_charger' },
+      { id: 'locker_lock', cat: 'festival', key: 'pack_locker_lock' },
+      { id: 'water_bottle', cat: 'festival', key: 'pack_water_bottle' },
+      { id: 'layers', cat: 'clothing', key: 'pack_layers' },
+      { id: 'swimwear', cat: 'clothing', key: 'pack_swimwear' },
+      { id: 'sturdy_shoes', cat: 'clothing', key: 'pack_sturdy_shoes' },
+      { id: 'warm_jacket', cat: 'clothing', key: 'pack_warm_jacket' },
+      { id: 'hat', cat: 'clothing', key: 'pack_hat' },
+      { id: 'sunglasses', cat: 'clothing', key: 'pack_sunglasses' },
+      { id: 'socks_extra', cat: 'clothing', key: 'pack_socks_extra' },
+      { id: 'scarf', cat: 'clothing', key: 'pack_scarf' },
+      { id: 'ticket', cat: 'docs', key: 'pack_ticket' },
+      { id: 'id', cat: 'docs', key: 'pack_id' },
+      { id: 'vehicle_docs', cat: 'docs', key: 'pack_vehicle_docs' },
+      { id: 'health_card', cat: 'docs', key: 'pack_health_card' },
+      { id: 'emergency_contacts', cat: 'docs', key: 'pack_emergency_contacts' },
+      { id: 'insurance_card', cat: 'docs', key: 'pack_insurance_card' },
+      { id: 'booking_confirmation', cat: 'docs', key: 'pack_booking_confirmation' },
+      { id: 'cash_reserve', cat: 'docs', key: 'pack_cash_reserve' }
+    ];
+
+    const PACK_KEY = 'fusion_packing_checked';
+    const packList = document.getElementById('packing-list');
+    const packFill = document.getElementById('packing-fill');
+    const packLabel = document.getElementById('packing-progress-label');
+    let packFilter = 'all';
+
+    function loadPack() {
+      try { return JSON.parse(localStorage.getItem(PACK_KEY) || '{}'); } catch { return {}; }
+    }
+    function savePack(state) { localStorage.setItem(PACK_KEY, JSON.stringify(state)); }
+
+    const packState = loadPack();
+
+    packingItems.forEach(item => {
+      const li = document.createElement('li');
+      li.className = 'packing-item';
+      li.dataset.cat = item.cat;
+      li.dataset.id = item.id;
+      const cb = document.createElement('input');
+      cb.type = 'checkbox';
+      cb.id = 'pack-' + item.id;
+      cb.checked = !!packState[item.id];
+      if (cb.checked) li.classList.add('checked');
+      const lbl = document.createElement('label');
+      lbl.className = 'packing-label';
+      lbl.setAttribute('for', cb.id);
+      lbl.setAttribute('data-i18n', item.key);
+      lbl.textContent = item.key;
+      li.append(cb, lbl);
+      cb.addEventListener('change', () => {
+        packState[item.id] = cb.checked;
+        li.classList.toggle('checked', cb.checked);
+        savePack(packState);
+        updatePackProgress();
+      });
+      packList.appendChild(li);
+    });
+
+    function applyPackFilter() {
+      document.querySelectorAll('.packing-item').forEach(li => {
+        li.hidden = !(packFilter === 'all' || li.dataset.cat === packFilter);
+      });
+    }
+
+    function updatePackProgress() {
+      const lang = document.documentElement.lang || 'en';
+      const dict = translations[lang] || translations.en;
+      const visible = packingItems.filter(i => packFilter === 'all' || i.cat === packFilter);
+      const done = visible.filter(i => packState[i.id]).length;
+      const total = visible.length;
+      const pct = total ? (done / total) * 100 : 0;
+      packFill.style.width = pct + '%';
+      const tmpl = dict.pack_progress || '{done} of {total} items packed';
+      packLabel.textContent = tmpl.replace('{done}', done).replace('{total}', total);
+    }
+
+    document.querySelectorAll('.chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        packFilter = chip.dataset.filter;
+        document.querySelectorAll('.chip').forEach(c => c.classList.toggle('active', c === chip));
+        applyPackFilter();
+        updatePackProgress();
+      });
+    });
+
+    // Re-translate packing items and refresh progress label on language change
+    const origApplyLang = applyLang;
+    window.applyLang = function(lang) {
+      origApplyLang(lang);
+      updatePackProgress();
+    };
+    applyPackFilter();
+    // Refresh labels now that items exist
+    origApplyLang(document.documentElement.lang || storedLang);
+    updatePackProgress();
 
     const manifest = {
       name: "Fusion 2026",
