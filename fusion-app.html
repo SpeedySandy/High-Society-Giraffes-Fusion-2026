@@ -985,6 +985,259 @@
       fill: #25D366;
       flex-shrink: 0;
     }
+
+    .budget-summary {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      padding: 14px 16px;
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .budget-summary .stat {
+      flex: 1 1 40%;
+      min-width: 120px;
+    }
+
+    .budget-summary .stat-label {
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+
+    .budget-summary .stat-value {
+      color: var(--gold);
+      font-size: 22px;
+      font-weight: 500;
+      font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+    }
+
+    .budget-list { display: grid; gap: 8px; margin-bottom: 8px; }
+
+    .budget-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 10px 12px;
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .budget-item .desc { color: var(--text); font-size: 14px; }
+    .budget-item .who {
+      color: var(--muted);
+      font-size: 12px;
+      display: block;
+      margin-top: 2px;
+    }
+    .budget-item .amt {
+      color: var(--gold);
+      font-weight: 500;
+      font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    .budget-item .del {
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 20px;
+      line-height: 1;
+      padding: 2px 8px;
+      border-radius: 7px;
+    }
+    .budget-item .del:hover { color: var(--magenta); background: rgba(200, 75, 106, 0.1); }
+
+    .budget-form {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      padding: 14px;
+      display: grid;
+      gap: 10px;
+      margin: 10px 0 12px;
+    }
+
+    .budget-form label {
+      display: grid;
+      gap: 4px;
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .budget-form input,
+    .budget-form select {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 10px 12px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 400;
+      letter-spacing: normal;
+      text-transform: none;
+      min-width: 0;
+    }
+
+    .budget-form input:focus, .budget-form select:focus {
+      outline: none;
+      border-color: var(--gold);
+    }
+
+    .budget-form button {
+      background: var(--gold);
+      color: var(--bg);
+      border: none;
+      border-radius: 11px;
+      padding: 12px 14px;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      margin-top: 4px;
+    }
+
+    .budget-export {
+      background: transparent;
+      color: var(--gold);
+      border: 1px solid var(--gold);
+      border-radius: 11px;
+      padding: 10px 16px;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .budget-export:hover, .budget-export:focus {
+      background: var(--gold);
+      color: var(--bg);
+    }
+
+    .budget-export.copied {
+      background: var(--teal);
+      border-color: var(--teal);
+      color: var(--bg);
+    }
+
+    .equip-list { display: grid; gap: 6px; margin-top: 4px; }
+
+    .equip-item {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 12px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 11px;
+    }
+
+    .equip-item input[type="checkbox"] {
+      accent-color: var(--gold);
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+    }
+
+    .equip-item .equip-main { min-width: 0; }
+    .equip-item .equip-name { color: var(--text); font-size: 14px; font-weight: 500; display: block; }
+    .equip-item .equip-sub { display: flex; gap: 6px; align-items: center; margin-top: 4px; }
+    .equip-item .equip-who-label {
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .equip-item input[type="text"] {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      padding: 5px 8px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 12px;
+      min-width: 0;
+      flex: 1;
+    }
+    .equip-item input[type="text"]:focus { outline: none; border-color: var(--gold); }
+    .equip-item.done .equip-name { text-decoration: line-through; color: var(--muted); }
+
+    .gps-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      padding: 18px;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+
+    .gps-label {
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 8px;
+    }
+
+    .gps-coords {
+      color: var(--gold);
+      font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+      font-size: 22px;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+    }
+
+    .gps-buttons { display: grid; gap: 10px; margin-bottom: 12px; }
+
+    .gps-btn {
+      display: block;
+      width: 100%;
+      text-align: center;
+      padding: 13px 14px;
+      background: transparent;
+      border: 1px solid var(--gold);
+      border-radius: 13px;
+      color: var(--gold);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: background 0.15s, color 0.15s;
+    }
+    .gps-btn:hover, .gps-btn:focus { background: var(--gold); color: var(--bg); }
+
+    .meeting-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--gold);
+      border-radius: 11px;
+      padding: 14px 16px;
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+    .meeting-card .meet-desc { margin: 0 0 8px; color: var(--text); }
+    .meeting-card .meet-reassure { color: var(--muted); font-style: italic; margin: 0; }
   </style>
 </head>
 <body>
@@ -1225,6 +1478,68 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
           <span data-i18n="camp_whatsapp_btn">Join our group chat</span>
         </a>
       </div>
+
+      <div class="camp-section">
+        <h2 class="camp-section-title" data-i18n="camp_budget_title">Shared Budget</h2>
+        <div class="budget-summary">
+          <div class="stat">
+            <div class="stat-label" data-i18n="camp_budget_total">Total spent</div>
+            <div class="stat-value" id="budget-total">€0.00</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label" data-i18n="camp_budget_per_person">Per person</div>
+            <div class="stat-value" id="budget-per-person">€0.00</div>
+          </div>
+        </div>
+        <div id="budget-list" class="budget-list"></div>
+        <p id="budget-empty" class="carpool-empty" data-i18n="camp_budget_empty" hidden>No expenses yet — start with the first beer run.</p>
+        <form class="budget-form" id="budget-form" autocomplete="off">
+          <label>
+            <span data-i18n="camp_budget_desc">Description</span>
+            <input type="text" id="budget-desc" required>
+          </label>
+          <label>
+            <span data-i18n="camp_budget_amount">Amount (€)</span>
+            <input type="number" id="budget-amount" step="0.01" min="0" required>
+          </label>
+          <label>
+            <span data-i18n="camp_budget_who">Who paid</span>
+            <select id="budget-who" required>
+              <option value="" data-i18n="camp_budget_who_placeholder">Select a camper…</option>
+            </select>
+          </label>
+          <button type="submit" data-i18n="camp_budget_add">Add expense</button>
+        </form>
+        <button type="button" id="budget-export" class="budget-export" data-i18n="camp_budget_export">Copy summary</button>
+      </div>
+
+      <div class="camp-section">
+        <h2 class="camp-section-title">
+          <span data-i18n="camp_equipment_title">Shared Equipment</span>
+          <span class="headcount-badge" id="equip-progress" hidden></span>
+        </h2>
+        <div class="packing-progress">
+          <div class="bar"><div class="fill" id="equip-fill"></div></div>
+          <div class="label" id="equip-progress-label">0 of 0 items confirmed</div>
+        </div>
+        <div id="equip-list" class="equip-list"></div>
+      </div>
+
+      <div class="camp-section">
+        <h2 class="camp-section-title" data-i18n="camp_gps_title">Camp GPS &amp; Meeting Point</h2>
+        <div class="gps-card">
+          <div class="gps-label" data-i18n="camp_gps_coords">GPS coordinates</div>
+          <div class="gps-coords" id="gps-coords">53.3180, 12.7520</div>
+        </div>
+        <div class="gps-buttons">
+          <a id="gps-google" class="gps-btn" href="#" target="_blank" rel="noopener noreferrer" data-i18n="camp_gps_open_google">Open in Google Maps</a>
+          <a id="gps-apple" class="gps-btn" href="#" target="_blank" rel="noopener noreferrer" data-i18n="camp_gps_open_apple">Open in Apple Maps</a>
+        </div>
+        <div class="meeting-card">
+          <p class="meet-desc" id="meeting-desc">[TODO: replace MEETING_POINT_DESCRIPTION]</p>
+          <p class="meet-reassure" id="meeting-reassure" data-i18n="camp_gps_meeting">If lost, head to the meeting point and wait — someone will find you.</p>
+        </div>
+      </div>
     </section>
   </main>
 
@@ -1363,7 +1678,41 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         camp_transport_from: "Departure point",
         camp_transport_empty: "No rides yet — be the first to offer a lift.",
         camp_whatsapp_title: "Group chat",
-        camp_whatsapp_btn: "Join our group chat"
+        camp_whatsapp_btn: "Join our group chat",
+        camp_budget_title: "Shared Budget",
+        camp_budget_add: "Add expense",
+        camp_budget_desc: "Description",
+        camp_budget_amount: "Amount (€)",
+        camp_budget_who: "Who paid",
+        camp_budget_who_placeholder: "Select a camper…",
+        camp_budget_total: "Total spent",
+        camp_budget_per_person: "Per person",
+        camp_budget_export: "Copy summary",
+        camp_budget_empty: "No expenses yet — start with the first beer run.",
+        camp_budget_copied: "Copied!",
+        camp_budget_summary_header: "Camp budget — Fusion 2026",
+        camp_budget_no_members: "Add camp members to split expenses.",
+        camp_equipment_title: "Shared Equipment",
+        camp_equipment_who: "Assigned",
+        camp_equipment_item: "Item",
+        camp_equipment_status: "Status",
+        camp_equipment_progress: "{done} of {total} items confirmed",
+        camp_equipment_who_ph: "Who's bringing it?",
+        equip_gas_stove: "Gas stove",
+        equip_first_aid: "First-aid kit",
+        equip_tarp: "Tarp",
+        equip_water_containers: "Water containers",
+        equip_rope_pegs: "Rope & pegs",
+        equip_tools: "Tools (hammer, knife)",
+        equip_cooler: "Shared cooler",
+        equip_solar_charger: "Solar charger",
+        equip_rug: "Chill-out rug",
+        equip_lighting: "Camp lighting",
+        camp_gps_title: "Camp GPS & Meeting Point",
+        camp_gps_coords: "GPS coordinates",
+        camp_gps_meeting: "If lost, head to {location} and wait — someone will find you.",
+        camp_gps_open_google: "Open in Google Maps",
+        camp_gps_open_apple: "Open in Apple Maps"
       },
       es: {
         nav_home: "Inicio",
@@ -1483,7 +1832,41 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         camp_transport_from: "Punto de salida",
         camp_transport_empty: "Aún no hay viajes — sé el primero en ofrecer uno.",
         camp_whatsapp_title: "Chat de grupo",
-        camp_whatsapp_btn: "Únete al chat del grupo"
+        camp_whatsapp_btn: "Únete al chat del grupo",
+        camp_budget_title: "Caja común",
+        camp_budget_add: "Añadir gasto",
+        camp_budget_desc: "Descripción",
+        camp_budget_amount: "Importe (€)",
+        camp_budget_who: "Quién pagó",
+        camp_budget_who_placeholder: "Elige a alguien…",
+        camp_budget_total: "Total gastado",
+        camp_budget_per_person: "Por persona",
+        camp_budget_export: "Copiar resumen",
+        camp_budget_empty: "Sin gastos aún — empieza con la primera ronda.",
+        camp_budget_copied: "¡Copiado!",
+        camp_budget_summary_header: "Caja común del camp — Fusion 2026",
+        camp_budget_no_members: "Añade personas al camp para poder dividir los gastos.",
+        camp_equipment_title: "Equipo compartido",
+        camp_equipment_who: "Asignado a",
+        camp_equipment_item: "Artículo",
+        camp_equipment_status: "Estado",
+        camp_equipment_progress: "{done} de {total} artículos confirmados",
+        camp_equipment_who_ph: "¿Quién lo trae?",
+        equip_gas_stove: "Hornillo de gas",
+        equip_first_aid: "Botiquín",
+        equip_tarp: "Lona",
+        equip_water_containers: "Garrafas de agua",
+        equip_rope_pegs: "Cuerda y piquetas",
+        equip_tools: "Herramientas (martillo, navaja)",
+        equip_cooler: "Nevera portátil",
+        equip_solar_charger: "Cargador solar",
+        equip_rug: "Alfombra chill-out",
+        equip_lighting: "Iluminación del camp",
+        camp_gps_title: "GPS del camp y punto de encuentro",
+        camp_gps_coords: "Coordenadas GPS",
+        camp_gps_meeting: "Si te pierdes, ve a {location} y espera — alguien te encontrará.",
+        camp_gps_open_google: "Abrir en Google Maps",
+        camp_gps_open_apple: "Abrir en Apple Maps"
       },
       de: {
         nav_home: "Start",
@@ -1603,7 +1986,41 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         camp_transport_from: "Abfahrtsort",
         camp_transport_empty: "Noch keine Mitfahrten — biete als Erste*r einen Platz an.",
         camp_whatsapp_title: "Gruppenchat",
-        camp_whatsapp_btn: "Dem Gruppenchat beitreten"
+        camp_whatsapp_btn: "Dem Gruppenchat beitreten",
+        camp_budget_title: "Gemeinsame Kasse",
+        camp_budget_add: "Ausgabe eintragen",
+        camp_budget_desc: "Beschreibung",
+        camp_budget_amount: "Betrag (€)",
+        camp_budget_who: "Wer hat bezahlt",
+        camp_budget_who_placeholder: "Person wählen…",
+        camp_budget_total: "Gesamt",
+        camp_budget_per_person: "Pro Person",
+        camp_budget_export: "Übersicht kopieren",
+        camp_budget_empty: "Noch keine Ausgaben — fang mit der ersten Runde an.",
+        camp_budget_copied: "Kopiert!",
+        camp_budget_summary_header: "Camp-Kasse — Fusion 2026",
+        camp_budget_no_members: "Trag erst Camp-Leute ein, um die Kosten zu teilen.",
+        camp_equipment_title: "Gemeinsame Ausrüstung",
+        camp_equipment_who: "Wer bringt's",
+        camp_equipment_item: "Gegenstand",
+        camp_equipment_status: "Status",
+        camp_equipment_progress: "{done} von {total} bestätigt",
+        camp_equipment_who_ph: "Wer bringt das mit?",
+        equip_gas_stove: "Gaskocher",
+        equip_first_aid: "Erste-Hilfe-Set",
+        equip_tarp: "Plane",
+        equip_water_containers: "Wasserkanister",
+        equip_rope_pegs: "Seil & Heringe",
+        equip_tools: "Werkzeug (Hammer, Messer)",
+        equip_cooler: "Gemeinsame Kühlbox",
+        equip_solar_charger: "Solarladegerät",
+        equip_rug: "Chill-out-Teppich",
+        equip_lighting: "Camp-Beleuchtung",
+        camp_gps_title: "Camp-GPS & Treffpunkt",
+        camp_gps_coords: "GPS-Koordinaten",
+        camp_gps_meeting: "Wenn du dich verläufst, geh zu {location} und warte — jemand findet dich.",
+        camp_gps_open_google: "In Google Maps öffnen",
+        camp_gps_open_apple: "In Apple Maps öffnen"
       }
     };
 
@@ -2135,6 +2552,281 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
     renderCarpool();
     loadMembers();
     loadArrivals('fusion');
+
+    // Stage 5 — Budget, Equipment, GPS
+
+    // GPS constants (TODO: replace with real values)
+    const CAMP_LAT = 53.3180;
+    const CAMP_LON = 12.7520;
+    const MEETING_POINT_DESCRIPTION = '[TODO: replace MEETING_POINT_DESCRIPTION — e.g. the big painted compass at the edge of our camp, next to the oak tree]';
+
+    document.getElementById('gps-coords').textContent = CAMP_LAT.toFixed(4) + ', ' + CAMP_LON.toFixed(4);
+    document.getElementById('gps-google').href = 'https://maps.google.com/?q=' + CAMP_LAT + ',' + CAMP_LON;
+    document.getElementById('gps-apple').href = 'https://maps.apple.com/?q=' + CAMP_LAT + ',' + CAMP_LON;
+    document.getElementById('meeting-desc').textContent = MEETING_POINT_DESCRIPTION;
+
+    function renderMeetingReassure() {
+      const el = document.getElementById('meeting-reassure');
+      el.textContent = tr('camp_gps_meeting', { location: MEETING_POINT_DESCRIPTION });
+    }
+
+    // Track members for budget dropdown — wrap the existing renderMembers
+    let campMembersList = [];
+    const _origRenderMembers = renderMembers;
+    renderMembers = function(rows) {
+      _origRenderMembers(rows);
+      campMembersList = (rows || []).map(r => (r.name || r.member || '').trim()).filter(Boolean);
+      updateBudgetWhoOptions();
+      updateBudgetSummary();
+    };
+
+    // Budget tracker
+    const BUDGET_KEY = 'fusion_budget';
+    const budgetList = document.getElementById('budget-list');
+    const budgetEmpty = document.getElementById('budget-empty');
+    const budgetForm = document.getElementById('budget-form');
+    const budgetWho = document.getElementById('budget-who');
+    const budgetTotalEl = document.getElementById('budget-total');
+    const budgetPerPersonEl = document.getElementById('budget-per-person');
+    const budgetExport = document.getElementById('budget-export');
+
+    function loadBudget() {
+      try { return JSON.parse(localStorage.getItem(BUDGET_KEY) || '[]'); } catch { return []; }
+    }
+    function saveBudget(arr) { localStorage.setItem(BUDGET_KEY, JSON.stringify(arr)); }
+
+    function formatEuro(n) {
+      const lang = document.documentElement.lang || 'en';
+      const locale = { en: 'en-IE', es: 'es-ES', de: 'de-DE' }[lang] || 'en-IE';
+      try {
+        return new Intl.NumberFormat(locale, { style: 'currency', currency: 'EUR' }).format(n);
+      } catch {
+        return '€' + n.toFixed(2);
+      }
+    }
+
+    function updateBudgetWhoOptions() {
+      const current = budgetWho.value;
+      const placeholder = budgetWho.querySelector('option[value=""]');
+      budgetWho.innerHTML = '';
+      if (placeholder) budgetWho.appendChild(placeholder);
+      campMembersList.forEach(name => {
+        const opt = document.createElement('option');
+        opt.value = name;
+        opt.textContent = name;
+        budgetWho.appendChild(opt);
+      });
+      // keep selection if still valid
+      if (current && campMembersList.includes(current)) budgetWho.value = current;
+    }
+
+    function updateBudgetSummary() {
+      const items = loadBudget();
+      const total = items.reduce((s, it) => s + (parseFloat(it.amount) || 0), 0);
+      budgetTotalEl.textContent = formatEuro(total);
+      const n = campMembersList.length;
+      budgetPerPersonEl.textContent = n > 0 ? formatEuro(total / n) : formatEuro(total);
+    }
+
+    function renderBudget() {
+      const items = loadBudget();
+      budgetList.innerHTML = '';
+      budgetEmpty.hidden = items.length > 0;
+      items.forEach((it, idx) => {
+        const row = document.createElement('div');
+        row.className = 'budget-item';
+        const main = document.createElement('div');
+        const desc = document.createElement('div');
+        desc.className = 'desc';
+        desc.textContent = it.desc;
+        const who = document.createElement('span');
+        who.className = 'who';
+        who.textContent = it.who || '—';
+        main.append(desc, who);
+        const amt = document.createElement('span');
+        amt.className = 'amt';
+        amt.textContent = formatEuro(parseFloat(it.amount) || 0);
+        const del = document.createElement('button');
+        del.type = 'button';
+        del.className = 'del';
+        del.textContent = '×';
+        del.setAttribute('aria-label', 'Remove');
+        del.addEventListener('click', () => {
+          const cur = loadBudget();
+          cur.splice(idx, 1);
+          saveBudget(cur);
+          renderBudget();
+        });
+        row.append(main, amt, del);
+        budgetList.appendChild(row);
+      });
+      updateBudgetSummary();
+    }
+
+    budgetForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const entry = {
+        desc: document.getElementById('budget-desc').value.trim(),
+        amount: parseFloat(document.getElementById('budget-amount').value) || 0,
+        who: budgetWho.value.trim()
+      };
+      if (!entry.desc || !entry.amount || !entry.who) return;
+      const cur = loadBudget();
+      cur.push(entry);
+      saveBudget(cur);
+      budgetForm.reset();
+      renderBudget();
+    });
+
+    function buildBudgetSummary() {
+      const items = loadBudget();
+      const total = items.reduce((s, it) => s + (parseFloat(it.amount) || 0), 0);
+      const n = campMembersList.length;
+      const lines = [];
+      lines.push(tr('camp_budget_summary_header'));
+      lines.push('');
+      items.forEach(it => {
+        lines.push('- ' + it.desc + ' — ' + formatEuro(parseFloat(it.amount) || 0) + ' (' + (it.who || '—') + ')');
+      });
+      if (!items.length) lines.push(tr('camp_budget_empty'));
+      lines.push('');
+      lines.push(tr('camp_budget_total') + ': ' + formatEuro(total));
+      lines.push(tr('camp_budget_per_person') + ': ' + (n > 0 ? formatEuro(total / n) : tr('camp_budget_no_members')));
+      return lines.join('\n');
+    }
+
+    async function copyBudget() {
+      const text = buildBudgetSummary();
+      let ok = false;
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          await navigator.clipboard.writeText(text);
+          ok = true;
+        }
+      } catch { ok = false; }
+      if (!ok) {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.top = '-1000px';
+        document.body.appendChild(ta);
+        ta.focus(); ta.select();
+        try { ok = document.execCommand('copy'); } catch { ok = false; }
+        document.body.removeChild(ta);
+      }
+      if (ok) {
+        const orig = budgetExport.textContent;
+        budgetExport.textContent = tr('camp_budget_copied');
+        budgetExport.classList.add('copied');
+        setTimeout(() => {
+          budgetExport.classList.remove('copied');
+          budgetExport.textContent = tr('camp_budget_export');
+        }, 1400);
+      } else {
+        prompt(tr('camp_budget_export'), text);
+      }
+    }
+    budgetExport.addEventListener('click', copyBudget);
+
+    // Equipment list
+    const EQUIP_KEY = 'fusion_equipment';
+    const equipItemsDef = [
+      { id: 'gas_stove', key: 'equip_gas_stove' },
+      { id: 'first_aid', key: 'equip_first_aid' },
+      { id: 'tarp', key: 'equip_tarp' },
+      { id: 'water_containers', key: 'equip_water_containers' },
+      { id: 'rope_pegs', key: 'equip_rope_pegs' },
+      { id: 'tools', key: 'equip_tools' },
+      { id: 'cooler', key: 'equip_cooler' },
+      { id: 'solar_charger', key: 'equip_solar_charger' },
+      { id: 'rug', key: 'equip_rug' },
+      { id: 'lighting', key: 'equip_lighting' }
+    ];
+    const equipList = document.getElementById('equip-list');
+    const equipFill = document.getElementById('equip-fill');
+    const equipProgressLabel = document.getElementById('equip-progress-label');
+
+    function loadEquip() {
+      try { return JSON.parse(localStorage.getItem(EQUIP_KEY) || '{}'); } catch { return {}; }
+    }
+    function saveEquip(state) { localStorage.setItem(EQUIP_KEY, JSON.stringify(state)); }
+
+    const equipState = loadEquip();
+
+    function updateEquipProgress() {
+      const done = equipItemsDef.filter(i => equipState[i.id] && equipState[i.id].done).length;
+      const total = equipItemsDef.length;
+      equipFill.style.width = (total ? (done / total) * 100 : 0) + '%';
+      equipProgressLabel.textContent = tr('camp_equipment_progress', { done, total });
+    }
+
+    equipItemsDef.forEach(item => {
+      const state = equipState[item.id] || { done: false, who: '' };
+      const row = document.createElement('div');
+      row.className = 'equip-item' + (state.done ? ' done' : '');
+      const cb = document.createElement('input');
+      cb.type = 'checkbox';
+      cb.id = 'equip-' + item.id;
+      cb.checked = !!state.done;
+      const main = document.createElement('div');
+      main.className = 'equip-main';
+      const name = document.createElement('label');
+      name.className = 'equip-name';
+      name.setAttribute('for', cb.id);
+      name.setAttribute('data-i18n', item.key);
+      name.textContent = item.key;
+      const sub = document.createElement('div');
+      sub.className = 'equip-sub';
+      const subLabel = document.createElement('span');
+      subLabel.className = 'equip-who-label';
+      subLabel.setAttribute('data-i18n', 'camp_equipment_who');
+      subLabel.textContent = 'Assigned';
+      const who = document.createElement('input');
+      who.type = 'text';
+      who.value = state.who || '';
+      who.setAttribute('data-i18n-ph', 'camp_equipment_who_ph');
+      who.placeholder = tr('camp_equipment_who_ph');
+      who.addEventListener('input', () => {
+        const cur = loadEquip();
+        cur[item.id] = Object.assign({ done: cb.checked, who: '' }, cur[item.id] || {}, { who: who.value });
+        saveEquip(cur);
+        equipState[item.id] = cur[item.id];
+      });
+      sub.append(subLabel, who);
+      main.append(name, sub);
+      cb.addEventListener('change', () => {
+        const cur = loadEquip();
+        cur[item.id] = Object.assign({ done: false, who: '' }, cur[item.id] || {}, { done: cb.checked });
+        saveEquip(cur);
+        equipState[item.id] = cur[item.id];
+        row.classList.toggle('done', cb.checked);
+        updateEquipProgress();
+      });
+      row.append(cb, main);
+      equipList.appendChild(row);
+    });
+
+    function refreshEquipPlaceholders() {
+      equipList.querySelectorAll('input[type="text"][data-i18n-ph]').forEach(inp => {
+        inp.placeholder = tr(inp.getAttribute('data-i18n-ph'));
+      });
+    }
+
+    // Wrap applyLang once more to refresh stage-5 UI strings
+    const prevApplyLang3 = window.applyLang;
+    window.applyLang = function(lang) {
+      prevApplyLang3(lang);
+      updateBudgetSummary();
+      renderBudget();
+      updateEquipProgress();
+      refreshEquipPlaceholders();
+      renderMeetingReassure();
+    };
+
+    renderBudget();
+    updateEquipProgress();
+    refreshEquipPlaceholders();
+    renderMeetingReassure();
 
     const manifest = {
       name: "Fusion 2026",
