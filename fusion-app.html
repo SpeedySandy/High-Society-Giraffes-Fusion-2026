@@ -487,6 +487,193 @@
       background: var(--gold);
       color: var(--bg);
     }
+
+    .rules-intro {
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.55;
+      margin: 10px 0 14px;
+    }
+
+    .rules-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .rules-list li {
+      position: relative;
+      padding: 8px 0 8px 22px;
+      line-height: 1.55;
+      font-size: 14px;
+      color: var(--text);
+    }
+
+    .rules-list li::before {
+      content: '';
+      position: absolute;
+      left: 2px;
+      top: 15px;
+      width: 8px;
+      height: 8px;
+      background: var(--teal);
+      border-radius: 50%;
+    }
+
+    .rules-list .kw {
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-weight: 500;
+      font-size: 12px;
+      display: inline-block;
+      margin-right: 6px;
+    }
+
+    .emergency-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .emergency-item {
+      display: flex;
+      align-items: center;
+      min-height: 56px;
+      padding: 14px 16px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      color: var(--text);
+      font-size: 17px;
+      font-weight: 500;
+      line-height: 1.35;
+      text-decoration: none;
+      letter-spacing: 0.3px;
+    }
+
+    .emergency-item.medical {
+      border-left: 5px solid var(--magenta);
+      background: #201428;
+      color: #fff;
+      font-size: 19px;
+      border-radius: 11px 13px 13px 11px;
+    }
+
+    .emergency-item.legal { border-left: 5px solid var(--gold); }
+    .emergency-item.buddy { border-left: 5px solid var(--teal); }
+
+    .emergency-item.call {
+      background: var(--magenta);
+      color: #fff;
+      font-size: 22px;
+      font-weight: 500;
+      border-color: var(--magenta);
+      justify-content: center;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      min-height: 64px;
+    }
+
+    .schedule-note {
+      color: var(--muted);
+      font-size: 13px;
+      margin: 4px 0 12px;
+    }
+
+    .schedule-sub-title {
+      color: var(--gold);
+      font-size: 13px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin: 18px 0 8px;
+    }
+
+    .schedule-input-label {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+
+    .schedule-add {
+      display: flex;
+      gap: 8px;
+    }
+
+    .schedule-add input {
+      flex: 1;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 10px 12px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 14px;
+      min-width: 0;
+    }
+
+    .schedule-add input:focus {
+      outline: none;
+      border-color: var(--gold);
+    }
+
+    .schedule-add button {
+      background: var(--gold);
+      color: var(--bg);
+      border: none;
+      border-radius: 11px;
+      padding: 10px 16px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .schedule-list {
+      list-style: none;
+      margin: 10px 0 0;
+      padding: 0;
+      display: grid;
+      gap: 6px;
+    }
+
+    .schedule-list li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 11px;
+    }
+
+    .schedule-list li span { flex: 1; color: var(--text); font-size: 14px; }
+
+    .schedule-list .del {
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 20px;
+      line-height: 1;
+      padding: 4px 8px;
+      border-radius: 7px;
+    }
+
+    .schedule-list .del:hover { color: var(--magenta); background: rgba(200, 75, 106, 0.1); }
+
+    .schedule-empty {
+      color: var(--muted);
+      font-style: italic;
+      font-size: 13px;
+      text-align: center;
+      padding: 14px 0 4px;
+    }
   </style>
 </head>
 <body>
@@ -603,6 +790,58 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
           <a class="forum-link" href="https://fusion-festival.de/forum" target="_blank" rel="noopener noreferrer" data-i18n="info_forum_link">Visit the forum</a>
         </div>
       </div>
+
+      <div class="accordion" data-acc>
+        <button class="accordion-header" type="button" aria-expanded="false">
+          <span data-i18n="info_rules_title">Rules &amp; Etiquette</span>
+          <span class="chev" aria-hidden="true"></span>
+        </button>
+        <div class="accordion-body">
+          <p class="rules-intro" data-i18n="info_rules_body">A handful of principles that keep the site what it is. Not rules to enforce — agreements we make with each other.</p>
+          <ul class="rules-list">
+            <li><span class="kw" data-i18n="rules_no_photo_kw">No cameras</span><span data-i18n="rules_no_photo_body">The lens stays at home. No commercial photography or filming — we protect everyone's visual sovereignty so people can really let go.</span></li>
+            <li><span class="kw" data-i18n="rules_cash_kw">Cash only</span><span data-i18n="rules_cash_body">No card terminals and no ATMs on site. Bring enough for four days of food, drinks and crew love.</span></li>
+            <li><span class="kw" data-i18n="rules_lnt_kw">Leave no trace</span><span data-i18n="rules_lnt_body">Pack in, pack out. Whatever arrives with you leaves with you — the airfield is borrowed, not taken.</span></li>
+            <li><span class="kw" data-i18n="rules_quiet_kw">Quiet hours</span><span data-i18n="rules_quiet_body">Sleep zones have posted quiet hours. Keep voices, music and engines low where people are resting.</span></li>
+            <li><span class="kw" data-i18n="rules_consent_kw">Consent</span><span data-i18n="rules_consent_body">Ask first — for touch, for photos of each other, for anything. A yes is a yes; anything else is a no.</span></li>
+            <li><span class="kw" data-i18n="rules_selforg_kw">Self-organised</span><span data-i18n="rules_selforg_body">No security staff patrolling you. We look out for each other — if something feels off, step up or find the Awareness crew.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="accordion" data-acc>
+        <button class="accordion-header" type="button" aria-expanded="false">
+          <span data-i18n="info_emergency_title">Emergency Contacts</span>
+          <span class="chev" aria-hidden="true"></span>
+        </button>
+        <div class="accordion-body">
+          <div class="emergency-list">
+            <div class="emergency-item medical" data-i18n="info_emergency_medical">Medical tent — [TODO: add location]</div>
+            <div class="emergency-item legal" data-i18n="info_emergency_legal">On-site legal aid — ask at the Info point</div>
+            <div class="emergency-item buddy" data-i18n="info_emergency_buddy">Check in with your camp buddy every evening</div>
+            <a class="emergency-item call" href="tel:112" data-i18n="info_emergency_112">General emergency — 112</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion" data-acc>
+        <button class="accordion-header" type="button" aria-expanded="false">
+          <span data-i18n="info_schedule_title">Program &amp; Schedule</span>
+          <span class="chev" aria-hidden="true"></span>
+        </button>
+        <div class="accordion-body">
+          <p class="schedule-note" data-i18n="info_schedule_note">Full program published closer to the event.</p>
+          <a class="link-btn" href="https://fusion-festival.de/en/program" target="_blank" rel="noopener noreferrer" data-i18n="info_schedule_link">Official program</a>
+          <h3 class="schedule-sub-title" data-i18n="schedule_camp_title">Camp meetups</h3>
+          <label class="schedule-input-label" for="schedule-input" data-i18n="schedule_input_label">Meetup or shared meal</label>
+          <div class="schedule-add">
+            <input type="text" id="schedule-input" autocomplete="off">
+            <button type="button" id="schedule-add-btn" data-i18n="schedule_add">Add</button>
+          </div>
+          <ul class="schedule-list" id="schedule-list"></ul>
+          <p class="schedule-empty" id="schedule-empty" data-i18n="schedule_empty" hidden>No entries yet — add your first camp meetup above.</p>
+        </div>
+      </div>
     </section>
     <section id="tab-camp">
       <p class="placeholder">Coming in next stage</p>
@@ -692,7 +931,33 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         pack_emergency_contacts: "Emergency contacts list",
         pack_insurance_card: "Travel insurance info",
         pack_booking_confirmation: "Booking confirmation",
-        pack_cash_reserve: "Emergency cash reserve"
+        pack_cash_reserve: "Emergency cash reserve",
+        info_rules_title: "Rules & Etiquette",
+        info_rules_body: "A handful of principles that keep the site what it is. Not rules to enforce — agreements we make with each other.",
+        rules_no_photo_kw: "No cameras",
+        rules_no_photo_body: "The lens stays at home. No commercial photography or filming — we protect everyone's visual sovereignty so people can really let go.",
+        rules_cash_kw: "Cash only",
+        rules_cash_body: "No card terminals and no ATMs on site. Bring enough for four days of food, drinks and crew love.",
+        rules_lnt_kw: "Leave no trace",
+        rules_lnt_body: "Pack in, pack out. Whatever arrives with you leaves with you — the airfield is borrowed, not taken.",
+        rules_quiet_kw: "Quiet hours",
+        rules_quiet_body: "Sleep zones have posted quiet hours. Keep voices, music and engines low where people are resting.",
+        rules_consent_kw: "Consent",
+        rules_consent_body: "Ask first — for touch, for photos of each other, for anything. A yes is a yes; anything else is a no.",
+        rules_selforg_kw: "Self-organised",
+        rules_selforg_body: "No security staff patrolling you. We look out for each other — if something feels off, step up or find the Awareness crew.",
+        info_emergency_title: "Emergency Contacts",
+        info_emergency_medical: "Medical tent — [TODO: add location]",
+        info_emergency_legal: "On-site legal aid — ask at the Info point",
+        info_emergency_buddy: "Check in with your camp buddy every evening",
+        info_emergency_112: "General emergency — 112",
+        info_schedule_title: "Program & Schedule",
+        info_schedule_link: "Official program",
+        info_schedule_note: "Full program published closer to the event.",
+        schedule_camp_title: "Camp meetups",
+        schedule_input_label: "Meetup or shared meal",
+        schedule_add: "Add",
+        schedule_empty: "No entries yet — add your first camp meetup above."
       },
       es: {
         nav_home: "Inicio",
@@ -760,7 +1025,33 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         pack_emergency_contacts: "Lista de contactos de emergencia",
         pack_insurance_card: "Seguro de viaje",
         pack_booking_confirmation: "Confirmación de reserva",
-        pack_cash_reserve: "Reserva de efectivo de emergencia"
+        pack_cash_reserve: "Reserva de efectivo de emergencia",
+        info_rules_title: "Normas y etiqueta",
+        info_rules_body: "Unos principios que mantienen el recinto como es. No son normas a imponer — son acuerdos que hacemos entre nosotros.",
+        rules_no_photo_kw: "Sin cámaras",
+        rules_no_photo_body: "La cámara se queda en casa. Nada de fotografía o grabación comercial — protegemos la soberanía visual de cada persona para que todo el mundo pueda soltarse de verdad.",
+        rules_cash_kw: "Solo efectivo",
+        rules_cash_body: "Ni datáfonos ni cajeros en el recinto. Trae suficiente para cuatro días de comida, bebida y cariño de crew.",
+        rules_lnt_kw: "No dejes rastro",
+        rules_lnt_body: "Lo que entra contigo, sale contigo. El aeródromo está prestado, no regalado.",
+        rules_quiet_kw: "Horas de silencio",
+        rules_quiet_body: "Las zonas de descanso tienen horas de silencio marcadas. Baja voces, música y motores donde la gente descansa.",
+        rules_consent_kw: "Consentimiento",
+        rules_consent_body: "Pregunta primero — para el contacto, para las fotos, para todo. Un sí es un sí; cualquier otra cosa es un no.",
+        rules_selforg_kw: "Autoorganizado",
+        rules_selforg_body: "No hay seguridad patrullando. Nos cuidamos entre nosotros — si algo no va bien, interviene o busca al equipo Awareness.",
+        info_emergency_title: "Contactos de emergencia",
+        info_emergency_medical: "Carpa médica — [TODO: añadir ubicación]",
+        info_emergency_legal: "Asesoría legal en el recinto — pregunta en el punto de información",
+        info_emergency_buddy: "Consulta con tu compañero de camping cada noche",
+        info_emergency_112: "Emergencia general — 112",
+        info_schedule_title: "Programa y horario",
+        info_schedule_link: "Programa oficial",
+        info_schedule_note: "El programa completo se publica cerca del evento.",
+        schedule_camp_title: "Encuentros del camping",
+        schedule_input_label: "Encuentro o comida compartida",
+        schedule_add: "Añadir",
+        schedule_empty: "Sin entradas aún — añade tu primer encuentro arriba."
       },
       de: {
         nav_home: "Start",
@@ -828,7 +1119,33 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         pack_emergency_contacts: "Notfallkontakte",
         pack_insurance_card: "Reiseversicherung",
         pack_booking_confirmation: "Buchungsbestätigung",
-        pack_cash_reserve: "Notgroschen"
+        pack_cash_reserve: "Notgroschen",
+        info_rules_title: "Regeln & Etikette",
+        info_rules_body: "Ein paar Prinzipien, die das Gelände zu dem machen, was es ist. Keine Regeln zum Durchsetzen — Vereinbarungen, die wir miteinander treffen.",
+        rules_no_photo_kw: "Keine Kameras",
+        rules_no_photo_body: "Die Linse bleibt zu Hause. Keine kommerzielle Foto- oder Filmaufnahme — wir schützen die visuelle Selbstbestimmung aller, damit sich wirklich loslassen lässt.",
+        rules_cash_kw: "Nur Bargeld",
+        rules_cash_body: "Keine Kartenterminals und keine Automaten auf dem Gelände. Bring genug für vier Tage Essen, Getränke und Crew-Liebe mit.",
+        rules_lnt_kw: "Keine Spuren",
+        rules_lnt_body: "Mitgebracht heißt mitgenommen. Der Flugplatz ist geborgt, nicht übernommen.",
+        rules_quiet_kw: "Ruhezeiten",
+        rules_quiet_body: "Schlafzonen haben ausgeschilderte Ruhezeiten. Stimmen, Musik und Motoren leise halten, wo geschlafen wird.",
+        rules_consent_kw: "Konsens",
+        rules_consent_body: "Frag zuerst — bei Berührung, bei Fotos voneinander, bei allem. Ein Ja ist ein Ja; alles andere ist ein Nein.",
+        rules_selforg_kw: "Selbstorganisiert",
+        rules_selforg_body: "Kein Sicherheitspersonal patrouilliert. Wir passen aufeinander auf — wenn etwas komisch ist, greif ein oder such die Awareness-Crew.",
+        info_emergency_title: "Notfallkontakte",
+        info_emergency_medical: "Sanitätszelt — [TODO: Standort eintragen]",
+        info_emergency_legal: "Rechtsberatung vor Ort — am Infopunkt fragen",
+        info_emergency_buddy: "Jeden Abend bei deinem Camp-Buddy einchecken",
+        info_emergency_112: "Notruf — 112",
+        info_schedule_title: "Programm & Zeitplan",
+        info_schedule_link: "Offizielles Programm",
+        info_schedule_note: "Das vollständige Programm erscheint näher am Festival.",
+        schedule_camp_title: "Camp-Treffen",
+        schedule_input_label: "Treffen oder gemeinsames Essen",
+        schedule_add: "Hinzufügen",
+        schedule_empty: "Noch keine Einträge — füg oben dein erstes Camp-Treffen hinzu."
       }
     };
 
@@ -1008,6 +1325,58 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
     // Refresh labels now that items exist
     origApplyLang(document.documentElement.lang || storedLang);
     updatePackProgress();
+
+    // Camp meetup schedule (editable, localStorage)
+    const SCHEDULE_KEY = 'fusion_camp_schedule';
+    const scheduleList = document.getElementById('schedule-list');
+    const scheduleInput = document.getElementById('schedule-input');
+    const scheduleAddBtn = document.getElementById('schedule-add-btn');
+    const scheduleEmpty = document.getElementById('schedule-empty');
+
+    function loadSchedule() {
+      try { return JSON.parse(localStorage.getItem(SCHEDULE_KEY) || '[]'); } catch { return []; }
+    }
+    function saveSchedule(arr) { localStorage.setItem(SCHEDULE_KEY, JSON.stringify(arr)); }
+
+    function renderSchedule() {
+      const items = loadSchedule();
+      scheduleList.innerHTML = '';
+      items.forEach((text, idx) => {
+        const li = document.createElement('li');
+        const span = document.createElement('span');
+        span.textContent = text;
+        const del = document.createElement('button');
+        del.type = 'button';
+        del.className = 'del';
+        del.textContent = '×';
+        del.setAttribute('aria-label', 'Remove');
+        del.addEventListener('click', () => {
+          const cur = loadSchedule();
+          cur.splice(idx, 1);
+          saveSchedule(cur);
+          renderSchedule();
+        });
+        li.append(span, del);
+        scheduleList.appendChild(li);
+      });
+      scheduleEmpty.hidden = items.length > 0;
+    }
+
+    function addScheduleEntry() {
+      const val = scheduleInput.value.trim();
+      if (!val) return;
+      const cur = loadSchedule();
+      cur.push(val);
+      saveSchedule(cur);
+      scheduleInput.value = '';
+      renderSchedule();
+    }
+
+    scheduleAddBtn.addEventListener('click', addScheduleEntry);
+    scheduleInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') { e.preventDefault(); addScheduleEntry(); }
+    });
+    renderSchedule();
 
     const manifest = {
       name: "Fusion 2026",
