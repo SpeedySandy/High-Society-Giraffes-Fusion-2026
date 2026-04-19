@@ -1294,6 +1294,180 @@
     }
     .meeting-card .meet-desc { margin: 0 0 8px; color: var(--text); font-size: 14px; }
     .meeting-card .meet-reassure { color: var(--muted); font-style: italic; margin: 0; font-size: 14px; }
+
+    .weather-card {
+      margin-top: 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-top: 1px solid var(--gold);
+      border-radius: 17px;
+      padding: 16px;
+    }
+    .weather-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .weather-title {
+      margin: 0;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .weather-refresh {
+      min-width: 44px;
+      min-height: 44px;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      color: var(--muted);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+    .weather-refresh:hover, .weather-refresh:focus {
+      background: var(--surface2);
+      color: var(--gold);
+      border-color: var(--gold);
+    }
+    .weather-refresh svg { display: block; }
+    .weather-refresh.wx-loading svg { animation: wx-spin 0.8s linear infinite; }
+    @keyframes wx-spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .weather-current {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+      align-items: center;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .weather-icon { width: 48px; height: 48px; flex-shrink: 0; }
+    .weather-current-text { min-width: 0; }
+    .weather-temp {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .weather-condition {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .weather-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .weather-stat {
+      background: var(--surface2);
+      border-radius: 11px;
+      padding: 10px 12px;
+    }
+    .weather-stat-label {
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .weather-stat-value {
+      margin-top: 2px;
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .weather-forecast-title {
+      margin: 16px 0 10px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .weather-forecast {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .weather-forecast::-webkit-scrollbar { height: 4px; }
+    .weather-forecast::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+    .weather-day {
+      flex: 0 0 auto;
+      min-width: 72px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 10px;
+      text-align: center;
+    }
+    .weather-day-label {
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 600;
+    }
+    .weather-day-icon {
+      width: 28px;
+      height: 28px;
+      margin: 6px auto 4px;
+      display: block;
+    }
+    .weather-day-temps {
+      font-size: 14px;
+      color: var(--text);
+    }
+    .weather-day-temps .wx-hi { color: var(--gold); font-weight: 600; }
+    .weather-day-temps .wx-sep { color: var(--muted); margin: 0 3px; }
+    .weather-day-temps .wx-lo { color: var(--muted); }
+
+    .weather-skeleton {
+      background: linear-gradient(90deg, var(--surface2) 0%, var(--border) 50%, var(--surface2) 100%);
+      background-size: 200% 100%;
+      animation: wx-pulse 1.4s ease-in-out infinite;
+      border-radius: 8px;
+    }
+    @keyframes wx-pulse {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+    .sk-icon { width: 48px; height: 48px; border-radius: 50%; }
+    .sk-temp { width: 90px; height: 32px; }
+    .sk-cond { width: 140px; height: 14px; margin-top: 6px; }
+    .sk-stat { height: 46px; }
+    .sk-day { width: 72px; height: 92px; border-radius: 11px; flex-shrink: 0; }
+
+    .weather-banner {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 11px;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+    .weather-banner.wx-error {
+      background: rgba(200, 75, 106, 0.1);
+      border: 1px solid rgba(200, 75, 106, 0.4);
+      color: var(--magenta);
+    }
+    .weather-banner.wx-offline {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
   </style>
 </head>
 <body>
@@ -1357,6 +1531,44 @@
           </span>
           <span class="dates-value" data-i18n="home_bourse_date">5 May 2026</span>
         </div>
+      </div>
+
+      <div class="card weather-card" id="weather-card">
+        <div class="weather-header">
+          <h2 class="weather-title" data-i18n="weather_title">Weather in Lärz</h2>
+          <button class="weather-refresh" id="weather-refresh" type="button" aria-label="Refresh weather" data-i18n-aria="weather_refresh_aria">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 12a9 9 0 0 1-15 6.7L3 16"></path>
+              <path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path>
+              <polyline points="21 3 21 8 16 8"></polyline>
+              <polyline points="3 21 3 16 8 16"></polyline>
+            </svg>
+          </button>
+        </div>
+        <div id="weather-body">
+          <div class="weather-current">
+            <div class="weather-skeleton sk-icon"></div>
+            <div class="weather-current-text">
+              <div class="weather-skeleton sk-temp"></div>
+              <div class="weather-skeleton sk-cond"></div>
+            </div>
+          </div>
+          <div class="weather-stats">
+            <div class="weather-skeleton sk-stat"></div>
+            <div class="weather-skeleton sk-stat"></div>
+            <div class="weather-skeleton sk-stat"></div>
+            <div class="weather-skeleton sk-stat"></div>
+          </div>
+          <h3 class="weather-forecast-title" data-i18n="weather_forecast_title">5-day forecast</h3>
+          <div class="weather-forecast">
+            <div class="weather-skeleton sk-day"></div>
+            <div class="weather-skeleton sk-day"></div>
+            <div class="weather-skeleton sk-day"></div>
+            <div class="weather-skeleton sk-day"></div>
+            <div class="weather-skeleton sk-day"></div>
+          </div>
+        </div>
+        <div id="weather-banner" hidden></div>
       </div>
 
       <div class="link-stack">
@@ -1647,6 +1859,31 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         home_bourse_date: "5 May 2026",
         home_website_btn: "Official website",
         home_tickets_btn: "Ticket portal",
+        weather_title: "Weather in Lärz",
+        weather_refresh_aria: "Refresh weather",
+        weather_loading: "Loading weather…",
+        weather_error: "Couldn't fetch weather. Tap refresh to try again.",
+        weather_offline: "Offline — showing last saved forecast.",
+        weather_now: "Now",
+        weather_feels_like: "Feels like",
+        weather_wind: "Wind",
+        weather_humidity: "Humidity",
+        weather_forecast_title: "5-day forecast",
+        weather_day_mon: "Mon",
+        weather_day_tue: "Tue",
+        weather_day_wed: "Wed",
+        weather_day_thu: "Thu",
+        weather_day_fri: "Fri",
+        weather_day_sat: "Sat",
+        weather_day_sun: "Sun",
+        weather_cond_clear: "Clear sky",
+        weather_cond_partly: "Partly cloudy",
+        weather_cond_cloudy: "Cloudy",
+        weather_cond_rain: "Rain",
+        weather_cond_showers: "Heavy showers",
+        weather_cond_thunder: "Thunderstorm",
+        weather_cond_fog: "Fog",
+        weather_cond_snow: "Snow",
         info_entry_title: "Festival Entry & Controls",
         info_entry_body: "Arrive early — queues build up quickly.\nHave your ticket and ID ready at the gate.\nVehicle check: bring your registration and be prepared for a boot inspection.\nPack respectfully — glass and single-use plastics are not allowed on site.",
         info_police_title: "Police controls & your rights",
@@ -1801,6 +2038,31 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         home_bourse_date: "5 mayo 2026",
         home_website_btn: "Web oficial",
         home_tickets_btn: "Portal de entradas",
+        weather_title: "Tiempo en Lärz",
+        weather_refresh_aria: "Actualizar tiempo",
+        weather_loading: "Cargando tiempo…",
+        weather_error: "No se pudo obtener el tiempo. Toca actualizar para reintentar.",
+        weather_offline: "Sin conexión — mostrando el último pronóstico guardado.",
+        weather_now: "Ahora",
+        weather_feels_like: "Sensación",
+        weather_wind: "Viento",
+        weather_humidity: "Humedad",
+        weather_forecast_title: "Pronóstico de 5 días",
+        weather_day_mon: "Lun",
+        weather_day_tue: "Mar",
+        weather_day_wed: "Mié",
+        weather_day_thu: "Jue",
+        weather_day_fri: "Vie",
+        weather_day_sat: "Sáb",
+        weather_day_sun: "Dom",
+        weather_cond_clear: "Cielo despejado",
+        weather_cond_partly: "Parcialmente nublado",
+        weather_cond_cloudy: "Nublado",
+        weather_cond_rain: "Lluvia",
+        weather_cond_showers: "Chubascos fuertes",
+        weather_cond_thunder: "Tormenta",
+        weather_cond_fog: "Niebla",
+        weather_cond_snow: "Nieve",
         info_entry_title: "Entrada al festival y controles",
         info_entry_body: "Llega pronto — las colas se forman rápido.\nTen la entrada y el DNI listos en la puerta.\nControl de vehículo: lleva la documentación y prepárate para una inspección del maletero.\nEmpaca con respeto — no se permiten vidrio ni plásticos de un solo uso.",
         info_police_title: "Controles policiales y tus derechos",
@@ -1955,6 +2217,31 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         home_bourse_date: "5. Mai 2026",
         home_website_btn: "Offizielle Website",
         home_tickets_btn: "Ticketportal",
+        weather_title: "Wetter in Lärz",
+        weather_refresh_aria: "Wetter aktualisieren",
+        weather_loading: "Wetter wird geladen…",
+        weather_error: "Wetter konnte nicht geladen werden. Tippe auf Aktualisieren.",
+        weather_offline: "Offline — zeige zuletzt gespeicherte Vorhersage.",
+        weather_now: "Jetzt",
+        weather_feels_like: "Gefühlt",
+        weather_wind: "Wind",
+        weather_humidity: "Luftfeuchte",
+        weather_forecast_title: "5-Tage-Vorhersage",
+        weather_day_mon: "Mo",
+        weather_day_tue: "Di",
+        weather_day_wed: "Mi",
+        weather_day_thu: "Do",
+        weather_day_fri: "Fr",
+        weather_day_sat: "Sa",
+        weather_day_sun: "So",
+        weather_cond_clear: "Klarer Himmel",
+        weather_cond_partly: "Teils bewölkt",
+        weather_cond_cloudy: "Bewölkt",
+        weather_cond_rain: "Regen",
+        weather_cond_showers: "Starke Schauer",
+        weather_cond_thunder: "Gewitter",
+        weather_cond_fog: "Nebel",
+        weather_cond_snow: "Schnee",
         info_entry_title: "Einlass & Kontrollen",
         info_entry_body: "Früh anreisen — die Schlangen werden schnell lang.\nTicket und Ausweis am Einlass bereithalten.\nFahrzeugkontrolle: Fahrzeugschein mitführen und auf eine Kofferraumkontrolle einstellen.\nRespektvoll packen — Glas und Einwegplastik sind auf dem Gelände nicht erlaubt.",
         info_police_title: "Polizeikontrollen & deine Rechte",
@@ -2893,6 +3180,241 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
     updateEquipProgress();
     refreshEquipPlaceholders();
     renderMeetingReassure();
+
+    // ===== Stage 7: Weather (Open-Meteo, Lärz) =====
+    const WEATHER_LAT = 53.3180;
+    const WEATHER_LON = 12.7520;
+    const WEATHER_CACHE_KEY = 'fusion_weather_cache';
+    const WEATHER_URL = 'https://api.open-meteo.com/v1/forecast?latitude=' + WEATHER_LAT +
+      '&longitude=' + WEATHER_LON +
+      '&current=temperature_2m,apparent_temperature,relative_humidity_2m,wind_speed_10m,weather_code' +
+      '&daily=weather_code,temperature_2m_max,temperature_2m_min' +
+      '&timezone=Europe%2FBerlin&forecast_days=6';
+
+    function codeToCategory(code) {
+      if (code === 0) return 'clear';
+      if (code === 1 || code === 2) return 'partly';
+      if (code === 3) return 'cloudy';
+      if (code === 45 || code === 48) return 'fog';
+      if (code === 51 || code === 53 || code === 55 || code === 56 || code === 57 ||
+          code === 61 || code === 63 || code === 66 || code === 80 || code === 81) return 'rain';
+      if (code === 65 || code === 67 || code === 82) return 'showers';
+      if (code === 71 || code === 73 || code === 75 || code === 77 || code === 85 || code === 86) return 'snow';
+      if (code >= 95 && code <= 99) return 'thunder';
+      return 'cloudy';
+    }
+
+    function weatherIcon(cat, size) {
+      const s = size || 48;
+      const GOLD = '#e8c96a', TEAL = '#4bc8a0', MAG = '#c84b6a', MUTED = '#9090b0', WHITE = '#f0ece0';
+      const open = '<svg class="weather-icon" viewBox="0 0 64 64" width="' + s + '" height="' + s + '" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">';
+      const close = '</svg>';
+      const sun = function(cx, cy, r, rays) {
+        let g = '<circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" fill="' + GOLD + '"/>';
+        if (rays) {
+          for (let i = 0; i < 8; i++) {
+            const a = (i * Math.PI) / 4;
+            const x1 = cx + Math.cos(a) * (r + 3);
+            const y1 = cy + Math.sin(a) * (r + 3);
+            const x2 = cx + Math.cos(a) * (r + 9);
+            const y2 = cy + Math.sin(a) * (r + 9);
+            g += '<line x1="' + x1.toFixed(1) + '" y1="' + y1.toFixed(1) + '" x2="' + x2.toFixed(1) + '" y2="' + y2.toFixed(1) + '" stroke="' + GOLD + '" stroke-width="3" stroke-linecap="round"/>';
+          }
+        }
+        return g;
+      };
+      const cloud = function(fill) {
+        return '<path d="M18 42 Q12 42 12 36 Q12 30 18 30 Q19 24 26 24 Q33 24 35 30 Q42 30 42 36 Q42 42 36 42 Z" fill="' + fill + '"/>';
+      };
+      if (cat === 'clear') {
+        return open + sun(32, 32, 10, true) + close;
+      }
+      if (cat === 'partly') {
+        return open + sun(42, 22, 7, true) + cloud(MUTED) + close;
+      }
+      if (cat === 'cloudy') {
+        return open + '<path d="M18 44 Q10 44 10 36 Q10 28 18 28 Q19 20 28 20 Q37 20 39 28 Q48 28 48 36 Q48 44 40 44 Z" fill="' + MUTED + '"/>' + close;
+      }
+      if (cat === 'rain') {
+        return open + cloud(MUTED) +
+          '<line x1="20" y1="46" x2="18" y2="54" stroke="' + TEAL + '" stroke-width="3" stroke-linecap="round"/>' +
+          '<line x1="28" y1="46" x2="26" y2="54" stroke="' + TEAL + '" stroke-width="3" stroke-linecap="round"/>' +
+          '<line x1="36" y1="46" x2="34" y2="54" stroke="' + TEAL + '" stroke-width="3" stroke-linecap="round"/>' +
+          close;
+      }
+      if (cat === 'showers') {
+        return open + cloud(MUTED) +
+          '<line x1="22" y1="46" x2="19" y2="58" stroke="' + TEAL + '" stroke-width="4" stroke-linecap="round"/>' +
+          '<line x1="34" y1="46" x2="31" y2="58" stroke="' + TEAL + '" stroke-width="4" stroke-linecap="round"/>' +
+          close;
+      }
+      if (cat === 'thunder') {
+        return open + cloud(MUTED) +
+          '<polygon points="30,44 24,56 29,56 26,62 36,50 31,50 34,44" fill="' + MAG + '"/>' +
+          close;
+      }
+      if (cat === 'fog') {
+        return open +
+          '<line x1="10" y1="24" x2="54" y2="24" stroke="' + MUTED + '" stroke-width="3" stroke-linecap="round"/>' +
+          '<line x1="14" y1="34" x2="50" y2="34" stroke="' + MUTED + '" stroke-width="3" stroke-linecap="round"/>' +
+          '<line x1="10" y1="44" x2="54" y2="44" stroke="' + MUTED + '" stroke-width="3" stroke-linecap="round"/>' +
+          close;
+      }
+      if (cat === 'snow') {
+        return open + cloud(MUTED) +
+          '<circle cx="20" cy="50" r="2.5" fill="' + WHITE + '"/>' +
+          '<circle cx="30" cy="54" r="2.5" fill="' + WHITE + '"/>' +
+          '<circle cx="40" cy="50" r="2.5" fill="' + WHITE + '"/>' +
+          close;
+      }
+      return open + cloud(MUTED) + close;
+    }
+
+    const DAY_KEYS = ['weather_day_sun','weather_day_mon','weather_day_tue','weather_day_wed','weather_day_thu','weather_day_fri','weather_day_sat'];
+
+    let weatherState = { data: null, offline: false, error: false };
+
+    function renderWeather() {
+      const body = document.getElementById('weather-body');
+      const banner = document.getElementById('weather-banner');
+      if (!body || !banner) return;
+      banner.hidden = true;
+      banner.className = '';
+      const data = weatherState.data;
+
+      if (!data) {
+        if (weatherState.error) {
+          body.innerHTML = '';
+          banner.hidden = false;
+          banner.className = 'weather-banner wx-error';
+          banner.textContent = tr('weather_error');
+        }
+        return;
+      }
+
+      const cur = data.current;
+      const daily = data.daily;
+      const curCat = codeToCategory(cur.weather_code);
+      const curCondKey = 'weather_cond_' + curCat;
+      const temp = Math.round(cur.temperature_2m);
+      const feels = Math.round(cur.apparent_temperature);
+      const wind = Math.round(cur.wind_speed_10m);
+      const hum = Math.round(cur.relative_humidity_2m);
+
+      let html = '';
+      html += '<div class="weather-current">';
+      html += weatherIcon(curCat, 48);
+      html += '<div class="weather-current-text">';
+      html += '<div class="weather-temp">' + temp + '°</div>';
+      html += '<div class="weather-condition" data-wx-cond>' + tr(curCondKey) + '</div>';
+      html += '</div></div>';
+
+      html += '<div class="weather-stats">';
+      html += '<div class="weather-stat"><div class="weather-stat-label" data-wx-label="weather_feels_like">' + tr('weather_feels_like') + '</div><div class="weather-stat-value">' + feels + '°</div></div>';
+      html += '<div class="weather-stat"><div class="weather-stat-label" data-wx-label="weather_wind">' + tr('weather_wind') + '</div><div class="weather-stat-value">' + wind + ' km/h</div></div>';
+      html += '<div class="weather-stat"><div class="weather-stat-label" data-wx-label="weather_humidity">' + tr('weather_humidity') + '</div><div class="weather-stat-value">' + hum + '%</div></div>';
+      html += '<div class="weather-stat"><div class="weather-stat-label" data-wx-label="weather_now">' + tr('weather_now') + '</div><div class="weather-stat-value">' + temp + '°</div></div>';
+      html += '</div>';
+
+      html += '<h3 class="weather-forecast-title" data-i18n="weather_forecast_title">' + tr('weather_forecast_title') + '</h3>';
+      html += '<div class="weather-forecast">';
+      const times = daily.time || [];
+      for (let i = 1; i < times.length && i <= 5; i++) {
+        const d = new Date(times[i] + 'T00:00:00');
+        const dayKey = DAY_KEYS[d.getDay()];
+        const cat = codeToCategory(daily.weather_code[i]);
+        const hi = Math.round(daily.temperature_2m_max[i]);
+        const lo = Math.round(daily.temperature_2m_min[i]);
+        html += '<div class="weather-day">';
+        html += '<div class="weather-day-label" data-wx-day="' + dayKey + '">' + tr(dayKey) + '</div>';
+        const dayIcon = weatherIcon(cat, 28).replace('class="weather-icon"', 'class="weather-day-icon"');
+        html += dayIcon;
+        html += '<div class="weather-day-temps"><span class="wx-hi">' + hi + '°</span><span class="wx-sep">/</span><span class="wx-lo">' + lo + '°</span></div>';
+        html += '</div>';
+      }
+      html += '</div>';
+
+      body.innerHTML = html;
+
+      if (weatherState.offline) {
+        banner.hidden = false;
+        banner.className = 'weather-banner wx-offline';
+        banner.textContent = tr('weather_offline');
+      }
+    }
+
+    async function loadWeather(force) {
+      const btn = document.getElementById('weather-refresh');
+      if (btn) btn.classList.add('wx-loading');
+
+      let cached = null;
+      try {
+        const raw = localStorage.getItem(WEATHER_CACHE_KEY);
+        if (raw) cached = JSON.parse(raw);
+      } catch (_) {}
+
+      const fresh = cached && (Date.now() - cached.timestamp) < 10 * 60 * 1000;
+      if (cached && !force) {
+        weatherState.data = cached.data;
+        weatherState.offline = false;
+        weatherState.error = false;
+        renderWeather();
+        if (fresh) {
+          if (btn) btn.classList.remove('wx-loading');
+          return;
+        }
+      }
+
+      try {
+        const res = await fetch(WEATHER_URL);
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const json = await res.json();
+        weatherState.data = json;
+        weatherState.offline = false;
+        weatherState.error = false;
+        try {
+          localStorage.setItem(WEATHER_CACHE_KEY, JSON.stringify({ timestamp: Date.now(), data: json }));
+        } catch (_) {}
+        renderWeather();
+      } catch (err) {
+        if (cached) {
+          weatherState.data = cached.data;
+          weatherState.offline = true;
+          weatherState.error = false;
+          renderWeather();
+        } else {
+          weatherState.data = null;
+          weatherState.offline = false;
+          weatherState.error = true;
+          renderWeather();
+        }
+      } finally {
+        if (btn) btn.classList.remove('wx-loading');
+      }
+    }
+
+    const weatherRefreshBtn = document.getElementById('weather-refresh');
+    if (weatherRefreshBtn) {
+      weatherRefreshBtn.addEventListener('click', function() { loadWeather(true); });
+    }
+
+    const prevApplyLang4 = window.applyLang;
+    window.applyLang = function(lang) {
+      prevApplyLang4(lang);
+      const btn = document.getElementById('weather-refresh');
+      if (btn) btn.setAttribute('aria-label', tr('weather_refresh_aria'));
+      if (weatherState.data) {
+        renderWeather();
+      } else if (weatherState.error) {
+        const banner = document.getElementById('weather-banner');
+        if (banner && !banner.hidden) banner.textContent = tr('weather_error');
+      }
+    };
+
+    if (weatherRefreshBtn) {
+      weatherRefreshBtn.setAttribute('aria-label', tr('weather_refresh_aria'));
+    }
+    loadWeather(false);
 
     const manifest = {
       name: "Fusion 2026",
