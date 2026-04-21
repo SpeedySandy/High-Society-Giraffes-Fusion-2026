@@ -522,6 +522,14 @@
       border-color: var(--gold);
     }
 
+    .packing-disclaimer {
+      color: var(--muted);
+      font-size: 13px;
+      font-style: italic;
+      line-height: 1.5;
+      margin: 8px 0 14px;
+    }
+
     .packing-progress {
       margin: 6px 0 14px;
     }
@@ -1669,6 +1677,7 @@ Fusion provides on-site legal advice — ask at the Info point.</p>
           <span class="chev" aria-hidden="true"></span>
         </button>
         <div class="accordion-body">
+          <p class="packing-disclaimer" data-i18n="info_packing_disclaimer">Of course, this is all just a recommendation — some people show up with short pants and not much more.</p>
           <div class="filter-chips" role="tablist">
             <button class="chip active" data-filter="all" data-i18n="info_packing_filter_all">All</button>
             <button class="chip" data-filter="weather" data-i18n="info_packing_filter_weather">🌧️ Weather</button>
@@ -1980,6 +1989,7 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         info_packing_filter_health: "💊 Health",
         info_packing_filter_camp: "🔥 Camp",
         info_packing_filter_fuel: "🍫 Fuel",
+        info_packing_disclaimer: "Of course, this is all just a recommendation — some people show up with short pants and not much more.",
         info_kulturkosmos_title: "Kulturkosmos",
         info_kulturkosmos_body: "Kulturkosmos Lärz e.V. grew out of a collective project in the early 1990s and took over the former Soviet airfield in Lärz, Mecklenburg. The first Fusion festival followed in 1997 on the same runways and hangars that still shape the site today.\n\nFusion is organised on a non-commercial, community-funded basis. Instead of corporate sponsors, the festival is supported by sympathisers who contribute to the year-round cultural work of Kulturkosmos.\n\nThe programme is carried by dozens of crews and bars from across Europe. Each bar, stage and decoration is built by a collective — the network of crews is what makes the site feel like a city of its own.",
         info_forum_link: "Visit the forum",
@@ -1997,6 +2007,7 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         pack_long_pants: "Long pants",
         pack_funky_outfits: "Funky outfits",
         pack_fanny_bag: "Fanny bag",
+        pack_bandana: "Bandana",
         pack_quick_dry_towel: "Fast-drying towel",
         pack_shampoo_gel: "Shampoo + shower gel",
         pack_toothbrush: "Toothbrush",
@@ -2019,6 +2030,11 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         pack_camping_chair: "Camping chair",
         pack_camping_mattress: "Camping mattress",
         pack_torch: "Torch or LED",
+        pack_earplugs: "Earplugs",
+        pack_power_bank: "Power bank",
+        pack_locker_lock: "Locker lock",
+        pack_id: "ID / passport",
+        pack_ticket_offline: "Ticket (offline copy)",
         pack_power_bars: "Power bars",
         pack_dried_fruits: "Dried fruits",
         pack_snacks: "Snacks to bite on the go",
@@ -2179,6 +2195,7 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         info_packing_filter_health: "💊 Salud",
         info_packing_filter_camp: "🔥 Camp",
         info_packing_filter_fuel: "🍫 Provisiones",
+        info_packing_disclaimer: "Por supuesto, esto es solo una recomendación — hay gente que aparece con unos pantalones cortos y poco más.",
         info_kulturkosmos_title: "Kulturkosmos",
         info_kulturkosmos_body: "Kulturkosmos Lärz e.V. surgió de un proyecto colectivo a principios de los 90 y tomó el antiguo aeródromo soviético de Lärz, Mecklemburgo. El primer festival Fusion se celebró en 1997 en las mismas pistas y hangares que siguen dando forma al recinto.\n\nFusion se organiza sin fines comerciales, financiado por la comunidad. En lugar de patrocinadores corporativos, lo sostienen simpatizantes que apoyan la labor cultural de Kulturkosmos durante todo el año.\n\nEl programa lo llevan docenas de crews y bares de toda Europa. Cada bar, escenario y decoración los construye un colectivo — la red de crews es lo que convierte el recinto en una ciudad propia.",
         info_forum_link: "Visita el foro",
@@ -2196,6 +2213,7 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         pack_long_pants: "Pantalones largos",
         pack_funky_outfits: "Outfits funky",
         pack_fanny_bag: "Riñonera",
+        pack_bandana: "Bandana",
         pack_quick_dry_towel: "Toalla de secado rápido",
         pack_shampoo_gel: "Champú + gel de ducha",
         pack_toothbrush: "Cepillo de dientes",
@@ -2218,6 +2236,11 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         pack_camping_chair: "Silla de camping",
         pack_camping_mattress: "Esterilla / colchoneta",
         pack_torch: "Linterna o luz LED",
+        pack_earplugs: "Tapones para los oídos",
+        pack_power_bank: "Batería externa / power bank",
+        pack_locker_lock: "Candado para la taquilla",
+        pack_id: "DNI / pasaporte",
+        pack_ticket_offline: "Entrada (copia offline)",
         pack_power_bars: "Barritas energéticas",
         pack_dried_fruits: "Frutos secos",
         pack_snacks: "Snacks para picar",
@@ -2378,6 +2401,7 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         info_packing_filter_health: "💊 Gesundheit",
         info_packing_filter_camp: "🔥 Camp",
         info_packing_filter_fuel: "🍫 Proviant",
+        info_packing_disclaimer: "Natürlich ist das alles nur eine Empfehlung — manche kommen einfach mit kurzer Hose und sonst nicht viel.",
         info_kulturkosmos_title: "Kulturkosmos",
         info_kulturkosmos_body: "Der Kulturkosmos Lärz e.V. entstand Anfang der 1990er aus einem kollektiven Projekt und übernahm den ehemaligen sowjetischen Flugplatz in Lärz in Mecklenburg. 1997 fand auf denselben Start- und Landebahnen und in den Hangars die erste Fusion statt — sie prägen das Gelände bis heute.\n\nDie Fusion ist nicht-kommerziell organisiert und wird von der Community getragen. Statt Konzernsponsoring tragen Sympathisant*innen die ganzjährige Kulturarbeit des Kulturkosmos mit.\n\nDas Programm stemmen Dutzende Crews und Bars aus ganz Europa. Jede Bar, Bühne und Dekoration wird von einem Kollektiv gebaut — das Netzwerk der Crews macht aus dem Gelände eine eigene Stadt.",
         info_forum_link: "Zum Forum",
@@ -2395,6 +2419,7 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         pack_long_pants: "Lange Hose",
         pack_funky_outfits: "Ausgefallene Outfits",
         pack_fanny_bag: "Bauchtasche",
+        pack_bandana: "Bandana",
         pack_quick_dry_towel: "Schnelltrocknendes Handtuch",
         pack_shampoo_gel: "Shampoo + Duschgel",
         pack_toothbrush: "Zahnbürste",
@@ -2417,6 +2442,11 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         pack_camping_chair: "Campingstuhl",
         pack_camping_mattress: "Isomatte",
         pack_torch: "Taschenlampe oder LED",
+        pack_earplugs: "Ohrstöpsel",
+        pack_power_bank: "Powerbank",
+        pack_locker_lock: "Schloss fürs Schließfach",
+        pack_id: "Personalausweis / Reisepass",
+        pack_ticket_offline: "Ticket (Offline-Kopie)",
         pack_power_bars: "Energieriegel",
         pack_dried_fruits: "Trockenfrüchte",
         pack_snacks: "Snacks für unterwegs",
@@ -2601,6 +2631,7 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
       { id: 'long_pants', cat: 'outfit', key: 'pack_long_pants' },
       { id: 'funky_outfits', cat: 'outfit', key: 'pack_funky_outfits' },
       { id: 'fanny_bag', cat: 'outfit', key: 'pack_fanny_bag' },
+      { id: 'bandana', cat: 'outfit', key: 'pack_bandana' },
       { id: 'quick_dry_towel', cat: 'body', key: 'pack_quick_dry_towel' },
       { id: 'shampoo_gel', cat: 'body', key: 'pack_shampoo_gel' },
       { id: 'toothbrush', cat: 'body', key: 'pack_toothbrush' },
@@ -2623,6 +2654,11 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
       { id: 'camping_chair', cat: 'camp', key: 'pack_camping_chair' },
       { id: 'camping_mattress', cat: 'camp', key: 'pack_camping_mattress' },
       { id: 'torch', cat: 'camp', key: 'pack_torch' },
+      { id: 'earplugs', cat: 'camp', key: 'pack_earplugs' },
+      { id: 'power_bank', cat: 'camp', key: 'pack_power_bank' },
+      { id: 'locker_lock', cat: 'camp', key: 'pack_locker_lock' },
+      { id: 'id', cat: 'camp', key: 'pack_id' },
+      { id: 'ticket_offline', cat: 'camp', key: 'pack_ticket_offline' },
       { id: 'power_bars', cat: 'fuel', key: 'pack_power_bars' },
       { id: 'dried_fruits', cat: 'fuel', key: 'pack_dried_fruits' },
       { id: 'snacks', cat: 'fuel', key: 'pack_snacks' },
