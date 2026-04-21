@@ -8,6 +8,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500&display=swap" rel="stylesheet">
   <link rel="manifest" href="#" id="manifest-link">
+  <link rel="icon" type="image/png" href="assets/fusion-icon.png">
+  <link rel="apple-touch-icon" href="assets/fusion-icon.png">
   <title>Fusion 2026</title>
   <style>
     :root {
@@ -46,6 +48,22 @@
       padding: 18px 20px;
       border-bottom: 1px solid var(--border);
       background: var(--surface);
+    }
+
+    .app-heading {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .app-logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+      box-shadow: 0 0 0 1px rgba(232, 201, 106, 0.2);
     }
 
     .app-title {
@@ -110,6 +128,38 @@
       border-radius: 13px;
       padding: 16px;
     }
+
+    .tab-hero {
+      position: relative;
+      height: 120px;
+      border-radius: 13px;
+      overflow: hidden;
+      margin-bottom: 16px;
+      background-color: var(--surface);
+      background-size: cover;
+      background-position: center;
+      border: 1px solid var(--border);
+    }
+
+    .tab-hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(15, 15, 30, 0.15) 0%,
+        rgba(15, 15, 30, 0.55) 60%,
+        rgba(15, 15, 30, 0.92) 100%
+      );
+      pointer-events: none;
+    }
+
+    @media (min-width: 640px) {
+      .tab-hero { height: 160px; }
+    }
+
+    .tab-hero-camp { background-image: url('assets/IMG_6814.JPG'); }
+    .tab-hero-info { background-image: url('assets/IMG_4293.JPG'); }
 
     .tab-bar {
       position: fixed;
@@ -196,19 +246,38 @@
       text-align: center;
     }
 
-    .poster-star {
-      display: block;
-      margin: 0 auto 10px;
-      width: 24px;
-      height: 24px;
-      color: var(--violet);
-      animation: poster-spin 14s linear infinite;
+    .poster-card {
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      background-image:
+        linear-gradient(
+          rgba(15, 15, 30, 0.78) 0%,
+          rgba(15, 15, 30, 0.82) 60%,
+          rgba(15, 15, 30, 0.95) 100%
+        ),
+        url('assets/IMG_4272.JPG');
+      background-size: cover;
+      background-position: center;
+      border-color: rgba(232, 201, 106, 0.18);
     }
 
-    @keyframes poster-spin {
-      0%   { transform: rotate(-6deg); }
-      50%  { transform: rotate(12deg); }
-      100% { transform: rotate(-6deg); }
+    .poster-hero {
+      display: block;
+      margin: 4px auto 14px;
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow:
+        0 0 40px rgba(232, 201, 106, 0.22),
+        0 0 0 1px rgba(232, 201, 106, 0.18);
+      animation: poster-float 6s ease-in-out infinite;
+    }
+
+    @keyframes poster-float {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(-4px); }
     }
 
     .poster-tagline {
@@ -703,34 +772,50 @@
     .member-grid {
       display: grid;
       gap: 10px;
+      grid-template-columns: 1fr;
+    }
+
+    @media (min-width: 640px) {
+      .member-grid { grid-template-columns: 1fr 1fr; }
     }
 
     .member-card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 13px;
-      padding: 14px 16px;
+      padding: 12px 14px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      flex-wrap: wrap;
+      gap: 12px;
+      min-height: 60px;
     }
 
     .member-card:nth-child(even) { border-radius: 17px; }
 
-    .member-card .member-main { min-width: 0; }
-    .member-name { font-size: 17px; font-weight: 500; color: var(--text); line-height: 1.2; }
-    .member-arrival { color: var(--muted); font-size: 14px; display: block; margin-top: 4px; }
-    .member-note-badge {
-      background: var(--violet);
-      color: #fff;
-      font-size: 11px;
-      padding: 3px 10px;
-      border-radius: 11px;
-      letter-spacing: 0.5px;
+    .member-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--bg);
       font-weight: 500;
-      white-space: nowrap;
+      font-size: 16px;
+      letter-spacing: 0.5px;
+    }
+
+    .member-main { min-width: 0; flex: 1; }
+    .member-name { font-size: 16px; font-weight: 500; color: var(--text); line-height: 1.25; }
+    .member-arrival { color: var(--muted); font-size: 13px; display: block; margin-top: 2px; }
+    .member-note {
+      color: var(--muted);
+      font-size: 12px;
+      font-style: italic;
+      display: block;
+      margin-top: 3px;
+      opacity: 0.85;
     }
 
     .skeleton { display: grid; gap: 10px; }
@@ -1451,9 +1536,12 @@
 </head>
 <body>
   <header>
-    <div>
-      <h1 class="app-title" data-i18n="app_title">Fusion 2026</h1>
-      <p class="app-subtitle" data-i18n="app_subtitle">Festival companion</p>
+    <div class="app-heading">
+      <img class="app-logo" src="assets/fusion-icon.png" alt="" aria-hidden="true">
+      <div>
+        <h1 class="app-title" data-i18n="app_title">Fusion 2026</h1>
+        <p class="app-subtitle" data-i18n="app_subtitle">Festival companion</p>
+      </div>
     </div>
     <nav class="lang-switcher" aria-label="Language">
       <button class="lang-btn" data-lang="en" data-i18n="lang_en">EN</button>
@@ -1464,17 +1552,8 @@
 
   <main>
     <section id="tab-home" class="active">
-      <div class="card">
-        <svg class="poster-star" viewBox="0 0 24 24" aria-hidden="true">
-          <g stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none">
-            <path d="M12 3.2 C 11.7 7 11.6 10 12 12.2"/>
-            <path d="M12 11.9 C 12.4 15.2 12.1 18.7 12 20.7"/>
-            <path d="M4.2 8.5 C 7.2 9.2 10 10.8 12 12"/>
-            <path d="M12 12 C 14.3 13.2 17.5 14.7 20 15.6"/>
-            <path d="M5 16 C 7.4 14.4 10 13.2 12 12.2"/>
-            <path d="M12 12 C 14 10.9 17.4 9.4 19.5 8.1"/>
-          </g>
-        </svg>
+      <div class="card poster-card">
+        <img class="poster-hero" src="assets/fusion-icon.png" alt="Fusion 2026">
         <h2 class="poster-title" data-i18n="app_title">Fusion 2026</h2>
         <p class="poster-tagline" data-i18n="home_tagline">Four days on the airfield</p>
         <hr class="rule">
@@ -1556,6 +1635,7 @@
       </div>
     </section>
     <section id="tab-info">
+      <div class="tab-hero tab-hero-info" aria-hidden="true"></div>
       <div class="accordion open" data-acc>
         <button class="accordion-header" type="button" aria-expanded="true">
           <span data-i18n="info_entry_title">Festival Entry &amp; Controls</span>
@@ -1674,6 +1754,7 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
       </div>
     </section>
     <section id="tab-camp">
+      <div class="tab-hero tab-hero-camp" aria-hidden="true"></div>
       <div class="camp-section">
         <h2 class="camp-section-title">
           <span data-i18n="camp_members_title">Camp Members</span>
@@ -2697,6 +2778,13 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
       return cleanCell(r.name || r.member || r.members);
     }
 
+    const AVATAR_PALETTE = ['#e8c96a', '#4bc8a0', '#7a4bc8', '#c84b6a', '#e87a3a'];
+    function avatarColor(name) {
+      let h = 0;
+      for (let i = 0; i < name.length; i++) h = ((h << 5) - h + name.charCodeAt(i)) | 0;
+      return AVATAR_PALETTE[Math.abs(h) % AVATAR_PALETTE.length];
+    }
+
     function renderMembers(rows) {
       const visible = (rows || []).filter(r => memberName(r));
       membersList.innerHTML = '';
@@ -2711,12 +2799,21 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
       visible.forEach(r => {
         const card = document.createElement('div');
         card.className = 'member-card';
+        const name = memberName(r) || '—';
+
+        const avatar = document.createElement('div');
+        avatar.className = 'member-avatar';
+        avatar.style.background = avatarColor(name);
+        avatar.textContent = (name.match(/\p{L}/u)?.[0] || '?').toUpperCase();
+        card.appendChild(avatar);
+
         const main = document.createElement('div');
         main.className = 'member-main';
         const nm = document.createElement('div');
         nm.className = 'member-name';
-        nm.textContent = memberName(r) || '—';
+        nm.textContent = name;
         main.appendChild(nm);
+
         const arrivalRaw = (r.arrival || r.arrival_date || r.date || r['arrival fusion'] || '').trim();
         if (arrivalRaw) {
           const ar = document.createElement('span');
@@ -2724,13 +2821,16 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
           ar.textContent = formatArrivalLabel(arrivalRaw);
           main.appendChild(ar);
         }
-        card.appendChild(main);
-        if (r.notes && r.notes.trim()) {
-          const badge = document.createElement('span');
-          badge.className = 'member-note-badge';
-          badge.textContent = r.notes.trim();
-          card.appendChild(badge);
+
+        const note = cleanCell(r.notes);
+        if (note) {
+          const nt = document.createElement('span');
+          nt.className = 'member-note';
+          nt.textContent = note;
+          main.appendChild(nt);
         }
+
+        card.appendChild(main);
         membersList.appendChild(card);
       });
       membersHeadcount.textContent = tr('camp_members_total', { count: visible.length });
@@ -2751,18 +2851,28 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
 
     async function loadMembers() {
       membersError.hidden = true;
-      membersSkeleton.hidden = false;
-      membersList.hidden = true;
+      // Only show the skeleton on the first load. On tab-switch refetches,
+      // keep the existing rendered cards visible and swap data in silently
+      // when the request resolves — avoids a flicker on every Camp-tab open.
+      const isFirstLoad = membersList.hidden || !membersList.children.length;
+      if (isFirstLoad) {
+        membersSkeleton.hidden = false;
+        membersList.hidden = true;
+      }
       const { data, fromCache, error } = await fetchCSV(SHEET_URL_MEMBERS);
-      membersSkeleton.hidden = true;
-      membersList.hidden = false;
+      if (isFirstLoad) {
+        membersSkeleton.hidden = true;
+        membersList.hidden = false;
+      }
       if (data) {
         renderMembers(data);
         if (fromCache) {
           setBannerWithDebug(membersError, tr('camp_members_load_error'), error);
         }
-      } else {
+      } else if (isFirstLoad) {
         renderMembers([]);
+        setBannerWithDebug(membersError, tr('camp_members_offline'), error);
+      } else {
         setBannerWithDebug(membersError, tr('camp_members_offline'), error);
       }
     }
