@@ -1,0 +1,3889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0f0f1e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="manifest" href="#" id="manifest-link">
+  <title>Fusion 2026</title>
+  <style>
+    :root {
+      --bg: #0f0f1e;
+      --surface: #1a1a2e;
+      --surface2: #2a2a4e;
+      --border: #3a3a6a;
+      --gold: #e8c96a;
+      --magenta: #c84b6a;
+      --teal: #4bc8a0;
+      --violet: #7a4bc8;
+      --orange: #e87a3a;
+      --text: #f0ece0;
+      --muted: #9090b0;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body { margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+      font-weight: 400;
+      min-height: 100vh;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.05  0 0 0 0 0.05  0 0 0 0 0.12  0 0 0 0.35 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/></svg>");
+      background-attachment: fixed;
+      padding-bottom: 80px;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .app-title {
+      font-size: 20px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      color: var(--gold);
+      margin: 0;
+    }
+
+    .app-subtitle {
+      font-size: 14px;
+      color: var(--muted);
+      margin: 2px 0 0;
+    }
+
+    .lang-switcher {
+      display: flex;
+      gap: 2px;
+    }
+
+    .lang-btn {
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 10px 12px;
+      min-height: 44px;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
+    }
+
+    .lang-btn:hover { color: var(--text); }
+
+    .lang-btn.active {
+      color: var(--gold);
+      border-bottom-color: var(--gold);
+    }
+
+    main {
+      padding: 20px;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    section[id^="tab-"] { display: none; }
+    section[id^="tab-"].active { display: block; }
+
+    .rule {
+      border: 0;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+      margin: 20px 0;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      padding: 16px;
+    }
+
+    .tab-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      z-index: 10;
+    }
+
+    .tab-btn {
+      position: relative;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: 10px 4px 12px;
+      min-height: 56px;
+      background: transparent;
+      border: none;
+      border-top: 2px solid transparent;
+      color: var(--muted);
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .tab-btn::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transform-origin: center;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .tab-btn svg {
+      width: 24px;
+      height: 24px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .tab-btn.active {
+      color: var(--gold);
+    }
+
+    .tab-btn.active::before {
+      transform: scaleX(1);
+    }
+
+    .tab-btn:first-child { border-top-left-radius: 11px; }
+    .tab-btn:last-child { border-top-right-radius: 11px; }
+    .tab-btn:nth-child(2) { border-radius: 0; }
+
+    .placeholder {
+      color: var(--muted);
+      font-style: italic;
+      text-align: center;
+      padding: 40px 0;
+      border: 1px dashed var(--border);
+      border-radius: 17px;
+    }
+
+    .poster-title {
+      color: var(--gold);
+      font-size: 28px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      margin: 0;
+      text-align: center;
+    }
+
+    .poster-star {
+      display: block;
+      margin: 0 auto 10px;
+      width: 24px;
+      height: 24px;
+      color: var(--violet);
+      animation: poster-spin 14s linear infinite;
+    }
+
+    @keyframes poster-spin {
+      0%   { transform: rotate(-6deg); }
+      50%  { transform: rotate(12deg); }
+      100% { transform: rotate(-6deg); }
+    }
+
+    .poster-tagline {
+      color: var(--muted);
+      text-align: center;
+      font-size: 14px;
+      margin: 8px 0 0;
+      letter-spacing: 1px;
+    }
+
+    .countdown {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin: 8px 0 20px;
+    }
+
+    .countdown-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      padding: 14px 6px 12px;
+      text-align: center;
+      animation: cd-pulse 1s ease-in-out infinite;
+    }
+
+    .countdown-block:nth-child(2) { border-radius: 17px; }
+    .countdown-block:nth-child(3) { border-radius: 11px; }
+
+    .countdown-digit {
+      font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+      font-size: 36px;
+      font-weight: 500;
+      color: var(--gold);
+      line-height: 1;
+      letter-spacing: 1px;
+    }
+
+    .countdown-label {
+      display: block;
+      margin-top: 6px;
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+
+    .countdown-live {
+      text-align: center;
+      color: var(--gold);
+      font-size: 20px;
+      font-weight: 500;
+      padding: 22px 16px;
+      border: 1px solid var(--gold);
+      border-radius: 17px;
+      margin: 8px 0 20px;
+      letter-spacing: 1px;
+    }
+
+    @keyframes cd-pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.85; }
+    }
+
+    .dates-card .dates-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 8px 0;
+    }
+
+    .dates-card .dates-row + .dates-row {
+      border-top: 1px solid var(--border);
+    }
+
+    .dates-label {
+      color: var(--muted);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .dates-value {
+      color: var(--text);
+      font-size: 15px;
+      font-weight: 500;
+      text-align: right;
+    }
+
+    .badge {
+      display: inline-block;
+      background: var(--gold);
+      color: var(--bg);
+      font-size: 11px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 2px 8px;
+      border-radius: 11px;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+
+    .link-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .link-btn {
+      display: block;
+      width: 100%;
+      text-align: center;
+      padding: 14px 16px;
+      background: transparent;
+      color: var(--gold);
+      border: 1px solid var(--gold);
+      border-radius: 13px;
+      text-decoration: none;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .link-btn:nth-child(2) { border-radius: 17px; }
+
+    .link-btn:hover,
+    .link-btn:focus {
+      background: var(--gold);
+      color: var(--bg);
+    }
+
+    .accordion + .accordion { margin-top: 12px; }
+
+    .accordion {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      overflow: hidden;
+    }
+
+    .accordion:nth-of-type(2) { border-radius: 17px; }
+    .accordion:nth-of-type(3) { border-radius: 11px; }
+
+    .accordion-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 16px 18px;
+      background: transparent;
+      color: var(--gold);
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-align: left;
+    }
+
+    .accordion-header .chev {
+      width: 14px;
+      height: 14px;
+      border-right: 2px solid var(--gold);
+      border-bottom: 2px solid var(--gold);
+      transform: rotate(45deg);
+      transition: transform 0.2s;
+      margin-left: 12px;
+      flex-shrink: 0;
+    }
+
+    .accordion.open .accordion-header .chev { transform: rotate(-135deg); }
+
+    .accordion-body {
+      max-height: 0;
+      overflow: hidden;
+      padding: 0 18px;
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.55;
+      transition: max-height 0.35s ease, padding-top 0.25s ease, padding-bottom 0.25s ease;
+    }
+
+    .accordion.open .accordion-body {
+      max-height: 4000px;
+      padding-top: 0;
+      padding-bottom: 18px;
+    }
+
+    .accordion-body .section-title {
+      color: var(--gold);
+      font-size: 13px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin: 14px 0 6px;
+    }
+
+    .multi-line { white-space: pre-line; }
+
+    .rights-accent {
+      border-left: 3px solid var(--gold);
+      padding: 8px 12px;
+      margin: 10px 0;
+      background: rgba(232, 201, 106, 0.06);
+      border-radius: 0 11px 11px 0;
+    }
+
+    .filter-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 4px 0 14px;
+    }
+
+    .chip {
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      padding: 10px 14px;
+      min-height: 44px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+      transition: color 0.15s, background 0.15s, border-color 0.15s;
+    }
+
+    .chip:hover { color: var(--text); }
+
+    .chip.active {
+      background: var(--gold);
+      color: var(--bg);
+      border-color: var(--gold);
+    }
+
+    .packing-progress {
+      margin: 6px 0 14px;
+    }
+
+    .packing-progress .bar {
+      height: 6px;
+      background: var(--surface2);
+      border-radius: 11px;
+      overflow: hidden;
+    }
+
+    .packing-progress .fill {
+      height: 100%;
+      width: 0%;
+      background: var(--gold);
+      transition: width 0.25s;
+    }
+
+    .packing-progress .label {
+      color: var(--muted);
+      font-size: 14px;
+      margin-top: 6px;
+      letter-spacing: 0.5px;
+    }
+
+    .packing-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 6px;
+    }
+
+    .packing-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      min-height: 44px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+
+    .packing-item input { accent-color: var(--gold); width: 16px; height: 16px; cursor: pointer; }
+
+    .packing-item.checked { opacity: 0.55; }
+    .packing-item.checked .packing-label { text-decoration: line-through; color: var(--muted); }
+    .packing-item[hidden] { display: none; }
+
+    .packing-label {
+      color: var(--text);
+      font-size: 14px;
+      flex: 1;
+    }
+
+    .forum-link {
+      display: inline-block;
+      margin-top: 14px;
+      padding: 10px 16px;
+      border: 1px solid var(--gold);
+      border-radius: 13px;
+      color: var(--gold);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 14px;
+      letter-spacing: 0.5px;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .forum-link:hover, .forum-link:focus {
+      background: var(--gold);
+      color: var(--bg);
+    }
+
+    .rules-intro {
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.55;
+      margin: 10px 0 14px;
+    }
+
+    .rules-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .rules-list li {
+      position: relative;
+      padding: 8px 0 8px 22px;
+      line-height: 1.55;
+      font-size: 14px;
+      color: var(--text);
+    }
+
+    .rules-list li::before {
+      content: '';
+      position: absolute;
+      left: 2px;
+      top: 15px;
+      width: 8px;
+      height: 8px;
+      background: var(--teal);
+      border-radius: 50%;
+    }
+
+    .rules-list .kw {
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-weight: 500;
+      font-size: 12px;
+      display: inline-block;
+      margin-right: 6px;
+    }
+
+    .emergency-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .emergency-item {
+      display: flex;
+      align-items: center;
+      min-height: 56px;
+      padding: 14px 16px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      color: var(--text);
+      font-size: 17px;
+      font-weight: 500;
+      line-height: 1.35;
+      text-decoration: none;
+      letter-spacing: 0.3px;
+    }
+
+    .emergency-item.medical {
+      border-left: 5px solid var(--magenta);
+      background: #201428;
+      color: #fff;
+      font-size: 19px;
+      border-radius: 11px 13px 13px 11px;
+    }
+
+    .emergency-item.legal { border-left: 5px solid var(--gold); }
+    .emergency-item.buddy { border-left: 5px solid var(--teal); }
+
+    .emergency-item.call {
+      background: var(--magenta);
+      color: #fff;
+      font-size: 22px;
+      font-weight: 500;
+      border-color: var(--magenta);
+      justify-content: center;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      min-height: 64px;
+    }
+
+    .schedule-note {
+      color: var(--muted);
+      font-size: 14px;
+      margin: 4px 0 12px;
+    }
+
+    .schedule-sub-title {
+      color: var(--gold);
+      font-size: 13px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin: 18px 0 8px;
+    }
+
+    .schedule-input-label {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+
+    .schedule-add {
+      display: flex;
+      gap: 8px;
+    }
+
+    .schedule-add input {
+      flex: 1;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 10px 12px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 14px;
+      min-width: 0;
+    }
+
+    .schedule-add input:focus {
+      outline: none;
+      border-color: var(--gold);
+    }
+
+    .schedule-add button {
+      background: var(--gold);
+      color: var(--bg);
+      border: none;
+      border-radius: 11px;
+      padding: 10px 16px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .schedule-list {
+      list-style: none;
+      margin: 10px 0 0;
+      padding: 0;
+      display: grid;
+      gap: 6px;
+    }
+
+    .schedule-list li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      min-height: 44px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 11px;
+    }
+
+    .schedule-list li span { flex: 1; color: var(--text); font-size: 14px; }
+
+    .schedule-list .del {
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 22px;
+      line-height: 1;
+      padding: 10px 12px;
+      min-width: 44px;
+      min-height: 44px;
+      border-radius: 7px;
+    }
+
+    .schedule-list .del:hover { color: var(--magenta); background: rgba(200, 75, 106, 0.1); }
+
+    .schedule-empty {
+      color: var(--muted);
+      font-style: italic;
+      font-size: 14px;
+      text-align: center;
+      padding: 14px 0 4px;
+    }
+
+    .camp-section + .camp-section { margin-top: 24px; }
+
+    .camp-section-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--gold);
+      font-size: 14px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin: 0 0 12px;
+    }
+
+    .headcount-badge {
+      background: var(--gold);
+      color: var(--bg);
+      font-size: 11px;
+      letter-spacing: 1px;
+      padding: 3px 10px;
+      border-radius: 11px;
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+
+    .member-grid {
+      display: grid;
+      gap: 10px;
+    }
+
+    .member-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .member-card:nth-child(even) { border-radius: 17px; }
+
+    .member-card .member-main { min-width: 0; }
+    .member-name { font-size: 17px; font-weight: 500; color: var(--text); line-height: 1.2; }
+    .member-arrival { color: var(--muted); font-size: 14px; display: block; margin-top: 4px; }
+    .member-note-badge {
+      background: var(--violet);
+      color: #fff;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 11px;
+      letter-spacing: 0.5px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .skeleton { display: grid; gap: 10px; }
+    .skeleton-card {
+      height: 58px;
+      border-radius: 13px;
+      background: linear-gradient(90deg, var(--surface) 0%, var(--surface2) 50%, var(--surface) 100%);
+      background-size: 200% 100%;
+      animation: skel 1.4s ease-in-out infinite;
+    }
+    @keyframes skel {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    .error-banner {
+      background: rgba(200, 75, 106, 0.12);
+      border: 1px solid var(--magenta);
+      color: var(--text);
+      padding: 10px 14px;
+      border-radius: 11px;
+      font-size: 14px;
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .subtabs {
+      display: flex;
+      gap: 6px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      padding: 4px;
+      margin-bottom: 12px;
+    }
+
+    .subtab {
+      flex: 1;
+      background: transparent;
+      color: var(--muted);
+      border: none;
+      padding: 12px 10px;
+      min-height: 44px;
+      border-radius: 11px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .subtab.active { background: var(--gold); color: var(--bg); }
+
+    .arrival-table-wrap {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      overflow: auto;
+      max-height: 440px;
+    }
+
+    .arrival-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    .arrival-table thead th {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      background: var(--surface2);
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 10px 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+
+    .arrival-table thead th.sortable { cursor: pointer; user-select: none; }
+    .arrival-table thead th.sortable:hover { color: var(--text); }
+    .arrival-table thead th.sort-asc::after { content: ' \25B2'; color: var(--gold); }
+    .arrival-table thead th.sort-desc::after { content: ' \25BC'; color: var(--gold); }
+
+    .arrival-table tbody td {
+      padding: 10px 12px;
+      vertical-align: top;
+      color: var(--text);
+    }
+
+    .arrival-table tbody tr:nth-child(even) { background: rgba(255, 255, 255, 0.025); }
+    .arrival-table tbody tr + tr td { border-top: 1px solid var(--border); }
+
+    .arrival-empty {
+      padding: 18px;
+      text-align: center;
+      color: var(--muted);
+      font-style: italic;
+      font-size: 14px;
+    }
+
+    .train-note {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--teal);
+      border-radius: 11px;
+      padding: 12px 14px;
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.5;
+      margin-bottom: 14px;
+    }
+
+    .carpool-list { display: grid; gap: 10px; }
+
+    .carpool-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      padding: 14px 16px;
+      display: grid;
+      gap: 6px;
+    }
+    .carpool-card .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+    .carpool-card .name { font-size: 16px; font-weight: 500; color: var(--text); }
+    .carpool-card .seats-badge {
+      background: var(--teal);
+      color: var(--bg);
+      padding: 3px 10px;
+      border-radius: 11px;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .carpool-card .meta { color: var(--muted); font-size: 14px; }
+    .carpool-card .contact {
+      color: var(--gold);
+      font-size: 14px;
+      text-decoration: none;
+      word-break: break-all;
+    }
+    .carpool-card .del {
+      justify-self: end;
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 22px;
+      line-height: 1;
+      padding: 10px 12px;
+      min-width: 44px;
+      min-height: 44px;
+      border-radius: 7px;
+    }
+    .carpool-card .del:hover { color: var(--magenta); background: rgba(200, 75, 106, 0.1); }
+
+    .carpool-empty {
+      color: var(--muted);
+      font-style: italic;
+      font-size: 14px;
+      text-align: center;
+      padding: 14px 0;
+    }
+
+    .carpool-form {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      padding: 14px;
+      margin-top: 12px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .carpool-form label {
+      display: grid;
+      gap: 4px;
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .carpool-form input {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 10px 12px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 400;
+      letter-spacing: normal;
+      text-transform: none;
+      min-width: 0;
+    }
+
+    .carpool-form input:focus { outline: none; border-color: var(--gold); }
+
+    .carpool-form button {
+      background: var(--gold);
+      color: var(--bg);
+      border: none;
+      border-radius: 11px;
+      padding: 14px;
+      min-height: 48px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      margin-top: 4px;
+    }
+
+    .whatsapp-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      width: 100%;
+      padding: 18px 20px;
+      background: transparent;
+      border: 2px solid var(--gold);
+      border-radius: 17px;
+      color: var(--gold);
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .whatsapp-btn:hover, .whatsapp-btn:focus {
+      background: var(--gold);
+      color: var(--bg);
+    }
+
+    .whatsapp-btn svg {
+      width: 30px;
+      height: 30px;
+      fill: #25D366;
+      flex-shrink: 0;
+    }
+
+    .budget-summary {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      padding: 14px 16px;
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .budget-summary .stat {
+      flex: 1 1 40%;
+      min-width: 120px;
+    }
+
+    .budget-summary .stat-label {
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+
+    .budget-summary .stat-value {
+      color: var(--gold);
+      font-size: 22px;
+      font-weight: 500;
+      font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+    }
+
+    .budget-list { display: grid; gap: 8px; margin-bottom: 8px; }
+
+    .budget-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 10px 12px;
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .budget-item .desc { color: var(--text); font-size: 14px; }
+    .budget-item .who {
+      color: var(--muted);
+      font-size: 14px;
+      display: block;
+      margin-top: 2px;
+    }
+    .budget-item .amt {
+      color: var(--gold);
+      font-weight: 500;
+      font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    .budget-item .del {
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 22px;
+      line-height: 1;
+      padding: 10px 12px;
+      min-width: 44px;
+      min-height: 44px;
+      border-radius: 7px;
+    }
+    .budget-item .del:hover { color: var(--magenta); background: rgba(200, 75, 106, 0.1); }
+
+    .budget-form {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      padding: 14px;
+      display: grid;
+      gap: 10px;
+      margin: 10px 0 12px;
+    }
+
+    .budget-form label {
+      display: grid;
+      gap: 4px;
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .budget-form input,
+    .budget-form select {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 10px 12px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 400;
+      letter-spacing: normal;
+      text-transform: none;
+      min-width: 0;
+    }
+
+    .budget-form input:focus, .budget-form select:focus {
+      outline: none;
+      border-color: var(--gold);
+    }
+
+    .budget-form button {
+      background: var(--gold);
+      color: var(--bg);
+      border: none;
+      border-radius: 11px;
+      padding: 14px;
+      min-height: 48px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      margin-top: 4px;
+    }
+
+    .budget-export {
+      background: transparent;
+      color: var(--gold);
+      border: 1px solid var(--gold);
+      border-radius: 11px;
+      padding: 12px 16px;
+      min-height: 44px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .budget-export:hover, .budget-export:focus {
+      background: var(--gold);
+      color: var(--bg);
+    }
+
+    .budget-export.copied {
+      background: var(--teal);
+      border-color: var(--teal);
+      color: var(--bg);
+    }
+
+    .equip-list { display: grid; gap: 6px; margin-top: 4px; }
+
+    .equip-item {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 12px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 11px;
+    }
+
+    .equip-item input[type="checkbox"] {
+      accent-color: var(--gold);
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+    }
+
+    .equip-item .equip-main { min-width: 0; }
+    .equip-item .equip-name { color: var(--text); font-size: 14px; font-weight: 500; display: block; }
+    .equip-item .equip-sub { display: flex; gap: 6px; align-items: center; margin-top: 4px; }
+    .equip-item .equip-who-label {
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .equip-item input[type="text"] {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      padding: 8px 10px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 14px;
+      min-width: 0;
+      flex: 1;
+    }
+    .equip-item input[type="text"]:focus { outline: none; border-color: var(--gold); }
+    .equip-item.done .equip-name { text-decoration: line-through; color: var(--muted); }
+
+    .gps-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      padding: 18px;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+
+    .gps-label {
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 8px;
+    }
+
+    .gps-coords {
+      color: var(--gold);
+      font-family: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+      font-size: 22px;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+    }
+
+    .gps-buttons { display: grid; gap: 10px; margin-bottom: 12px; }
+
+    .gps-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 48px;
+      text-align: center;
+      padding: 14px;
+      background: transparent;
+      border: 1px solid var(--gold);
+      border-radius: 13px;
+      color: var(--gold);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: background 0.15s, color 0.15s;
+    }
+    .gps-btn:hover, .gps-btn:focus { background: var(--gold); color: var(--bg); }
+
+    .meeting-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--gold);
+      border-radius: 11px;
+      padding: 14px 16px;
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+    .meeting-card .meet-desc { margin: 0 0 8px; color: var(--text); font-size: 14px; }
+    .meeting-card .meet-reassure { color: var(--muted); font-style: italic; margin: 0; font-size: 14px; }
+
+    .weather-card {
+      margin-top: 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-top: 1px solid var(--gold);
+      border-radius: 17px;
+      padding: 16px;
+    }
+    .weather-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .weather-title {
+      margin: 0;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .weather-refresh {
+      min-width: 44px;
+      min-height: 44px;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      color: var(--muted);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+    .weather-refresh:hover, .weather-refresh:focus {
+      background: var(--surface2);
+      color: var(--gold);
+      border-color: var(--gold);
+    }
+    .weather-refresh svg { display: block; }
+    .weather-refresh.wx-loading svg { animation: wx-spin 0.8s linear infinite; }
+    @keyframes wx-spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .weather-current {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+      align-items: center;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .weather-icon { width: 48px; height: 48px; flex-shrink: 0; }
+    .weather-current-text { min-width: 0; }
+    .weather-temp {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .weather-condition {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .weather-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .weather-stat {
+      background: var(--surface2);
+      border-radius: 11px;
+      padding: 10px 12px;
+    }
+    .weather-stat-label {
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .weather-stat-value {
+      margin-top: 2px;
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .weather-forecast-title {
+      margin: 16px 0 10px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .weather-forecast {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .weather-forecast::-webkit-scrollbar { height: 4px; }
+    .weather-forecast::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+    .weather-day {
+      flex: 0 0 auto;
+      min-width: 72px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 10px;
+      text-align: center;
+    }
+    .weather-day-label {
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 600;
+    }
+    .weather-day-icon {
+      width: 28px;
+      height: 28px;
+      margin: 6px auto 4px;
+      display: block;
+    }
+    .weather-day-temps {
+      font-size: 14px;
+      color: var(--text);
+    }
+    .weather-day-temps .wx-hi { color: var(--gold); font-weight: 600; }
+    .weather-day-temps .wx-sep { color: var(--muted); margin: 0 3px; }
+    .weather-day-temps .wx-lo { color: var(--muted); }
+
+    .weather-skeleton {
+      background: linear-gradient(90deg, var(--surface2) 0%, var(--border) 50%, var(--surface2) 100%);
+      background-size: 200% 100%;
+      animation: wx-pulse 1.4s ease-in-out infinite;
+      border-radius: 8px;
+    }
+    @keyframes wx-pulse {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+    .sk-icon { width: 48px; height: 48px; border-radius: 50%; }
+    .sk-temp { width: 90px; height: 32px; }
+    .sk-cond { width: 140px; height: 14px; margin-top: 6px; }
+    .sk-stat { height: 46px; }
+    .sk-day { width: 72px; height: 92px; border-radius: 11px; flex-shrink: 0; }
+
+    .weather-banner {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 11px;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+    .weather-banner.wx-error {
+      background: rgba(200, 75, 106, 0.1);
+      border: 1px solid rgba(200, 75, 106, 0.4);
+      color: var(--magenta);
+    }
+    .weather-banner.wx-offline {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    .sitemap-intro { margin: 0 0 8px; color: var(--muted); font-size: 14px; line-height: 1.5; }
+    .sitemap-wrap {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      padding: 10px;
+      overflow: hidden;
+    }
+    .sitemap-svg {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-height: 340px;
+      border-radius: 11px;
+      background-color: var(--surface2);
+      background-image: radial-gradient(rgba(144, 144, 176, 0.18) 1px, transparent 1px);
+      background-size: 12px 12px;
+    }
+    .sitemap-hint {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      font-style: italic;
+      text-align: center;
+    }
+    .sitemap-svg .sm-landmark { cursor: pointer; outline: none; }
+    .sitemap-svg .sm-landmark:focus-visible .sm-marker,
+    .sitemap-svg .sm-landmark:focus .sm-focus-ring {
+      stroke: var(--gold);
+      stroke-dasharray: 3 3;
+      stroke-width: 2;
+    }
+    .sitemap-svg .sm-focus-ring { fill: none; stroke: transparent; pointer-events: none; }
+    .sitemap-svg .sm-landmark:focus-visible .sm-focus-ring { stroke: var(--gold); stroke-dasharray: 3 3; stroke-width: 2; }
+    .sitemap-svg .sm-landmark .sm-marker { transition: r 0.2s ease, fill 0.2s ease; }
+    .sitemap-svg .sm-landmark.sm-active .sm-marker { fill: var(--gold); }
+    .sitemap-svg .sm-label {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 9px;
+      fill: var(--text);
+      pointer-events: none;
+      text-anchor: middle;
+      letter-spacing: 0.03em;
+    }
+    .sitemap-svg .sm-airfield { fill: var(--bg); stroke: var(--muted); stroke-width: 1.5; }
+    .sitemap-svg .sm-lake { fill: var(--teal); opacity: 0.3; }
+    .sitemap-svg .sm-road {
+      fill: none;
+      stroke: var(--gold);
+      stroke-width: 2;
+      stroke-dasharray: 6 4;
+      opacity: 0.7;
+    }
+    .sitemap-svg .sm-notech {
+      fill: none;
+      stroke: var(--violet);
+      stroke-width: 1.5;
+      stroke-dasharray: 2 3;
+      opacity: 0.6;
+    }
+    .sitemap-card {
+      margin-top: 10px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 1.5px solid var(--gold);
+      border-radius: 11px;
+      padding: 12px;
+      opacity: 0;
+      transform: translateY(-6px);
+      max-height: 0;
+      overflow: hidden;
+      transition: opacity 0.25s ease, transform 0.25s ease, max-height 0.25s ease, padding 0.25s ease, margin-top 0.25s ease;
+      padding-top: 0;
+      padding-bottom: 0;
+      margin-top: 0;
+    }
+    .sitemap-card.open {
+      opacity: 1;
+      transform: translateY(0);
+      max-height: 200px;
+      padding-top: 12px;
+      padding-bottom: 12px;
+      margin-top: 10px;
+    }
+    .sitemap-card-name {
+      margin: 0 0 4px;
+      color: var(--gold);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+    }
+    .sitemap-card-desc { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.5; }
+    .sitemap-legend {
+      margin-top: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 14px;
+    }
+    .sitemap-legend-title {
+      width: 100%;
+      margin: 0 0 2px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .sitemap-legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text);
+    }
+    .sitemap-legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1 class="app-title" data-i18n="app_title">Fusion 2026</h1>
+      <p class="app-subtitle" data-i18n="app_subtitle">Festival companion</p>
+    </div>
+    <nav class="lang-switcher" aria-label="Language">
+      <button class="lang-btn" data-lang="en" data-i18n="lang_en">EN</button>
+      <button class="lang-btn" data-lang="es" data-i18n="lang_es">ES</button>
+      <button class="lang-btn" data-lang="de" data-i18n="lang_de">DE</button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="tab-home" class="active">
+      <div class="card">
+        <svg class="poster-star" viewBox="0 0 24 24" aria-hidden="true">
+          <g stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none">
+            <path d="M12 3.2 C 11.7 7 11.6 10 12 12.2"/>
+            <path d="M12 11.9 C 12.4 15.2 12.1 18.7 12 20.7"/>
+            <path d="M4.2 8.5 C 7.2 9.2 10 10.8 12 12"/>
+            <path d="M12 12 C 14.3 13.2 17.5 14.7 20 15.6"/>
+            <path d="M5 16 C 7.4 14.4 10 13.2 12 12.2"/>
+            <path d="M12 12 C 14 10.9 17.4 9.4 19.5 8.1"/>
+          </g>
+        </svg>
+        <h2 class="poster-title" data-i18n="app_title">Fusion 2026</h2>
+        <p class="poster-tagline" data-i18n="home_tagline">Four days on the airfield</p>
+        <hr class="rule">
+        <div class="countdown" id="countdown" aria-live="polite">
+          <div class="countdown-block">
+            <span class="countdown-digit" id="cd-days">--</span>
+            <span class="countdown-label" data-i18n="home_days">Days</span>
+          </div>
+          <div class="countdown-block">
+            <span class="countdown-digit" id="cd-hours">--</span>
+            <span class="countdown-label" data-i18n="home_hours">Hours</span>
+          </div>
+          <div class="countdown-block">
+            <span class="countdown-digit" id="cd-mins">--</span>
+            <span class="countdown-label" data-i18n="home_mins">Mins</span>
+          </div>
+          <div class="countdown-block">
+            <span class="countdown-digit" id="cd-secs">--</span>
+            <span class="countdown-label" data-i18n="home_secs">Secs</span>
+          </div>
+        </div>
+        <div class="countdown-live" id="countdown-live" data-i18n="home_until" hidden>Until Fusion 2026</div>
+      </div>
+
+      <div class="card dates-card" style="margin-top: 16px;">
+        <div class="dates-row">
+          <span class="dates-label" data-i18n="home_dates_label">Festival dates</span>
+          <span class="dates-value" data-i18n="home_dates_value">Wed 24 June – Sun 28 June 2026</span>
+        </div>
+        <div class="dates-row">
+          <span class="dates-label">
+            <span class="badge" data-i18n="home_bourse_label">Bourse</span>
+          </span>
+          <span class="dates-value" data-i18n="home_bourse_date">5 May 2026</span>
+        </div>
+      </div>
+
+      <div class="card weather-card" id="weather-card">
+        <div class="weather-header">
+          <h2 class="weather-title" data-i18n="weather_title">Weather in Lärz</h2>
+          <button class="weather-refresh" id="weather-refresh" type="button" aria-label="Refresh weather" data-i18n-aria="weather_refresh_aria">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 12a9 9 0 0 1-15 6.7L3 16"></path>
+              <path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path>
+              <polyline points="21 3 21 8 16 8"></polyline>
+              <polyline points="3 21 3 16 8 16"></polyline>
+            </svg>
+          </button>
+        </div>
+        <div id="weather-body">
+          <div class="weather-current">
+            <div class="weather-skeleton sk-icon"></div>
+            <div class="weather-current-text">
+              <div class="weather-skeleton sk-temp"></div>
+              <div class="weather-skeleton sk-cond"></div>
+            </div>
+          </div>
+          <div class="weather-stats">
+            <div class="weather-skeleton sk-stat"></div>
+            <div class="weather-skeleton sk-stat"></div>
+            <div class="weather-skeleton sk-stat"></div>
+            <div class="weather-skeleton sk-stat"></div>
+          </div>
+          <h3 class="weather-forecast-title" data-i18n="weather_forecast_title">5-day forecast</h3>
+          <div class="weather-forecast">
+            <div class="weather-skeleton sk-day"></div>
+            <div class="weather-skeleton sk-day"></div>
+            <div class="weather-skeleton sk-day"></div>
+            <div class="weather-skeleton sk-day"></div>
+            <div class="weather-skeleton sk-day"></div>
+          </div>
+        </div>
+        <div id="weather-banner" hidden></div>
+      </div>
+
+      <div class="link-stack">
+        <a class="link-btn" href="https://fusion-festival.de/en" target="_blank" rel="noopener noreferrer" data-i18n="home_website_btn">Official website</a>
+        <a class="link-btn" href="https://tickets.fusion-festival.de" target="_blank" rel="noopener noreferrer" data-i18n="home_tickets_btn">Ticket portal</a>
+      </div>
+    </section>
+    <section id="tab-info">
+      <div class="accordion open" data-acc>
+        <button class="accordion-header" type="button" aria-expanded="true">
+          <span data-i18n="info_entry_title">Festival Entry &amp; Controls</span>
+          <span class="chev" aria-hidden="true"></span>
+        </button>
+        <div class="accordion-body">
+          <p class="multi-line" data-i18n="info_entry_body">Arrive early — queues build up quickly.
+Have your ticket and ID ready at the gate.
+Vehicle check: bring your registration and be prepared for a boot inspection.
+Pack respectfully — glass and single-use plastics are not allowed on site.</p>
+          <h3 class="section-title" data-i18n="info_police_title">Police controls &amp; your rights</h3>
+          <div class="rights-accent">
+            <p class="multi-line" data-i18n="info_police_body">Expect routine police and drug-detection checks on roads near Lärz. Stay calm and polite.
+You have the right to remain silent. You are not required to answer questions beyond confirming your identity.
+You do not have to open bags or your vehicle for a search without a warrant or a concrete suspicion — ask politely what the legal basis is.
+Fusion provides on-site legal advice — ask at the Info point.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion" data-acc>
+        <button class="accordion-header" type="button" aria-expanded="false">
+          <span data-i18n="info_packing_title">Packing List</span>
+          <span class="chev" aria-hidden="true"></span>
+        </button>
+        <div class="accordion-body">
+          <div class="filter-chips" role="tablist">
+            <button class="chip active" data-filter="all" data-i18n="info_packing_filter_all">All</button>
+            <button class="chip" data-filter="camping" data-i18n="info_packing_filter_camping">Camping</button>
+            <button class="chip" data-filter="festival" data-i18n="info_packing_filter_festival">Festival</button>
+            <button class="chip" data-filter="clothing" data-i18n="info_packing_filter_clothing">Clothing</button>
+            <button class="chip" data-filter="docs" data-i18n="info_packing_filter_docs">Documents</button>
+          </div>
+          <div class="packing-progress">
+            <div class="bar"><div class="fill" id="packing-fill"></div></div>
+            <div class="label" id="packing-progress-label">0 of 0 items packed</div>
+          </div>
+          <ul class="packing-list" id="packing-list"></ul>
+        </div>
+      </div>
+
+      <div class="accordion" data-acc>
+        <button class="accordion-header" type="button" aria-expanded="false">
+          <span data-i18n="info_kulturkosmos_title">Kulturkosmos</span>
+          <span class="chev" aria-hidden="true"></span>
+        </button>
+        <div class="accordion-body">
+          <p class="multi-line" data-i18n="info_kulturkosmos_body">Kulturkosmos Lärz e.V. grew out of a collective project in the early 1990s and took over the former Soviet airfield in Lärz, Mecklenburg. The first Fusion festival followed in 1997 on the same runways and hangars that still shape the site today.
+
+Fusion is organised on a non-commercial, community-funded basis. Instead of corporate sponsors, the festival is supported by sympathisers who contribute to the year-round cultural work of Kulturkosmos.
+
+The programme is carried by dozens of crews and bars from across Europe. Each bar, stage and decoration is built by a collective — the network of crews is what makes the site feel like a city of its own.</p>
+          <a class="forum-link" href="https://fusion-festival.de/forum" target="_blank" rel="noopener noreferrer" data-i18n="info_forum_link">Visit the forum</a>
+        </div>
+      </div>
+
+      <div class="accordion" data-acc>
+        <button class="accordion-header" type="button" aria-expanded="false">
+          <span data-i18n="info_rules_title">Rules &amp; Etiquette</span>
+          <span class="chev" aria-hidden="true"></span>
+        </button>
+        <div class="accordion-body">
+          <p class="rules-intro" data-i18n="info_rules_body">A handful of principles that keep the site what it is. Not rules to enforce — agreements we make with each other.</p>
+          <ul class="rules-list">
+            <li><span class="kw" data-i18n="rules_no_photo_kw">No cameras</span><span data-i18n="rules_no_photo_body">The lens stays at home. No commercial photography or filming — we protect everyone's visual sovereignty so people can really let go.</span></li>
+            <li><span class="kw" data-i18n="rules_cash_kw">Cash only</span><span data-i18n="rules_cash_body">No card terminals and no ATMs on site. Bring enough for four days of food, drinks and crew love.</span></li>
+            <li><span class="kw" data-i18n="rules_lnt_kw">Leave no trace</span><span data-i18n="rules_lnt_body">Pack in, pack out. Whatever arrives with you leaves with you — the airfield is borrowed, not taken.</span></li>
+            <li><span class="kw" data-i18n="rules_quiet_kw">Quiet hours</span><span data-i18n="rules_quiet_body">Sleep zones have posted quiet hours. Keep voices, music and engines low where people are resting.</span></li>
+            <li><span class="kw" data-i18n="rules_consent_kw">Consent</span><span data-i18n="rules_consent_body">Ask first — for touch, for photos of each other, for anything. A yes is a yes; anything else is a no.</span></li>
+            <li><span class="kw" data-i18n="rules_selforg_kw">Self-organised</span><span data-i18n="rules_selforg_body">No security staff patrolling you. We look out for each other — if something feels off, step up or find the Awareness crew.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="accordion" data-acc>
+        <button class="accordion-header" type="button" aria-expanded="false">
+          <span data-i18n="info_emergency_title">Emergency Contacts</span>
+          <span class="chev" aria-hidden="true"></span>
+        </button>
+        <div class="accordion-body">
+          <div class="emergency-list">
+            <div class="emergency-item medical" data-i18n="info_emergency_medical">Medical tent — [TODO: add location]</div>
+            <div class="emergency-item legal" data-i18n="info_emergency_legal">On-site legal aid — ask at the Info point</div>
+            <div class="emergency-item buddy" data-i18n="info_emergency_buddy">Check in with your camp buddy every evening</div>
+            <a class="emergency-item call" href="tel:112" data-i18n="info_emergency_112">General emergency — 112</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion" data-acc>
+        <button class="accordion-header" type="button" aria-expanded="false">
+          <span data-i18n="info_schedule_title">Program &amp; Schedule</span>
+          <span class="chev" aria-hidden="true"></span>
+        </button>
+        <div class="accordion-body">
+          <p class="schedule-note" data-i18n="info_schedule_note">Full program published closer to the event.</p>
+          <a class="link-btn" href="https://fusion-festival.de/en/program" target="_blank" rel="noopener noreferrer" data-i18n="info_schedule_link">Official program</a>
+          <h3 class="schedule-sub-title" data-i18n="schedule_camp_title">Camp meetups</h3>
+          <label class="schedule-input-label" for="schedule-input" data-i18n="schedule_input_label">Meetup or shared meal</label>
+          <div class="schedule-add">
+            <input type="text" id="schedule-input" autocomplete="off">
+            <button type="button" id="schedule-add-btn" data-i18n="schedule_add">Add</button>
+          </div>
+          <ul class="schedule-list" id="schedule-list"></ul>
+          <p class="schedule-empty" id="schedule-empty" data-i18n="schedule_empty" hidden>No entries yet — add your first camp meetup above.</p>
+        </div>
+      </div>
+
+      <div class="accordion" data-acc>
+        <button class="accordion-header" type="button" aria-expanded="false">
+          <span data-i18n="map_title">Site Map</span>
+          <span class="chev" aria-hidden="true"></span>
+        </button>
+        <div class="accordion-body">
+          <p class="sitemap-intro" data-i18n="map_intro">Lärz airfield — schematic layout, not to scale.</p>
+          <div class="sitemap-wrap">
+            <svg class="sitemap-svg" id="sitemap-svg" viewBox="0 0 400 300" role="img" aria-label="Festival site map">
+              <!-- Airfield outline (irregular polygon) -->
+              <polygon class="sm-airfield" points="30,50 140,32 260,40 360,70 385,150 370,240 280,275 160,280 70,265 20,190" />
+              <!-- Lake / Seebrücke area -->
+              <path class="sm-lake" d="M360,100 Q395,120 390,170 Q382,215 340,220 Q310,205 315,160 Q322,120 360,100 Z" />
+              <!-- Winding main road -->
+              <path class="sm-road" d="M20,150 Q80,110 140,130 Q200,160 260,130 Q320,105 370,150" />
+              <!-- No-tech zone (dotted circle, not a tappable landmark) -->
+              <circle class="sm-notech" cx="300" cy="230" r="34" />
+
+              <!-- Main entrance (gold diamond) -->
+              <g class="sm-landmark" data-sm-id="entrance" role="button" tabindex="0">
+                <rect class="sm-focus-ring" x="8" y="138" width="24" height="24" rx="3" transform="rotate(45 20 150)" />
+                <rect class="sm-marker" x="12" y="142" width="16" height="16" transform="rotate(45 20 150)" fill="#e8c96a" stroke="#e8c96a" stroke-width="1.5" />
+                <text class="sm-label" x="20" y="175" data-i18n="map_entrance">Main entrance</text>
+              </g>
+
+              <!-- Main stage (Bachstelzen) -->
+              <g class="sm-landmark" data-sm-id="main_stage" role="button" tabindex="0">
+                <circle class="sm-focus-ring" cx="120" cy="100" r="14" />
+                <circle class="sm-marker" cx="120" cy="100" r="8" fill="var(--surface2)" stroke="#e8c96a" stroke-width="1.5" />
+                <text class="sm-label" x="120" y="124" data-i18n="map_main_stage">Bachstelzen</text>
+              </g>
+
+              <!-- Dance floor (Tanzwiese) -->
+              <g class="sm-landmark" data-sm-id="dance_floor" role="button" tabindex="0">
+                <circle class="sm-focus-ring" cx="180" cy="140" r="14" />
+                <circle class="sm-marker" cx="180" cy="140" r="8" fill="var(--surface2)" stroke="#e8c96a" stroke-width="1.5" />
+                <text class="sm-label" x="180" y="164" data-i18n="map_dance_floor">Tanzwiese</text>
+              </g>
+
+              <!-- Bagjo -->
+              <g class="sm-landmark" data-sm-id="bagjo" role="button" tabindex="0">
+                <circle class="sm-focus-ring" cx="90" cy="180" r="14" />
+                <circle class="sm-marker" cx="90" cy="180" r="8" fill="var(--surface2)" stroke="#7a4bc8" stroke-width="1.5" />
+                <text class="sm-label" x="90" y="204" data-i18n="map_bagjo">Bagjo</text>
+              </g>
+
+              <!-- Turmbühne -->
+              <g class="sm-landmark" data-sm-id="turmbuhne" role="button" tabindex="0">
+                <circle class="sm-focus-ring" cx="250" cy="80" r="14" />
+                <circle class="sm-marker" cx="250" cy="80" r="8" fill="var(--surface2)" stroke="#7a4bc8" stroke-width="1.5" />
+                <text class="sm-label" x="250" y="68" data-i18n="map_turmbuhne">Turmbühne</text>
+              </g>
+
+              <!-- Seebrücke -->
+              <g class="sm-landmark" data-sm-id="seebruecke" role="button" tabindex="0">
+                <circle class="sm-focus-ring" cx="330" cy="150" r="14" />
+                <circle class="sm-marker" cx="330" cy="150" r="8" fill="var(--surface2)" stroke="#4bc8a0" stroke-width="1.5" />
+                <text class="sm-label" x="330" y="174" data-i18n="map_seebruecke">Seebrücke</text>
+              </g>
+
+              <!-- Camp zone -->
+              <g class="sm-landmark" data-sm-id="camp_zone" role="button" tabindex="0">
+                <circle class="sm-focus-ring" cx="60" cy="240" r="14" />
+                <circle class="sm-marker" cx="60" cy="240" r="8" fill="var(--surface2)" stroke="#9090b0" stroke-width="1.5" />
+                <text class="sm-label" x="60" y="264" data-i18n="map_camp_zone">Camp zone</text>
+              </g>
+
+              <!-- OUR CAMP (TODO: adjust coordinates once real location known) -->
+              <g class="sm-landmark" data-sm-id="our_camp" role="button" tabindex="0">
+                <circle class="sm-focus-ring" cx="70" cy="230" r="16" />
+                <circle class="sm-marker" cx="70" cy="230" r="10" fill="var(--surface2)" stroke="#c84b6a" stroke-width="1.5" />
+                <text class="sm-label" x="70" y="210" data-i18n="map_our_camp" style="fill: #c84b6a; font-weight: 600;">Our camp</text>
+              </g>
+
+              <!-- Info point -->
+              <g class="sm-landmark" data-sm-id="info_point" role="button" tabindex="0">
+                <circle class="sm-focus-ring" cx="200" cy="200" r="14" />
+                <circle class="sm-marker" cx="200" cy="200" r="8" fill="var(--surface2)" stroke="#e87a3a" stroke-width="1.5" />
+                <text class="sm-label" x="200" y="224" data-i18n="map_info_point">Info</text>
+              </g>
+
+              <!-- Medical -->
+              <g class="sm-landmark" data-sm-id="medical" role="button" tabindex="0">
+                <circle class="sm-focus-ring" cx="230" cy="200" r="14" />
+                <circle class="sm-marker" cx="230" cy="200" r="8" fill="var(--surface2)" stroke="#c84b6a" stroke-width="1.5" />
+                <text class="sm-label" x="235" y="190" data-i18n="map_medical">Medical</text>
+              </g>
+
+              <!-- Toilets -->
+              <g class="sm-landmark" data-sm-id="toilets" role="button" tabindex="0">
+                <circle class="sm-focus-ring" cx="150" cy="220" r="14" />
+                <circle class="sm-marker" cx="150" cy="220" r="8" fill="var(--surface2)" stroke="#9090b0" stroke-width="1.5" />
+                <text class="sm-label" x="150" y="244" data-i18n="map_toilets">Toilets</text>
+              </g>
+
+              <!-- Food stalls -->
+              <g class="sm-landmark" data-sm-id="food" role="button" tabindex="0">
+                <circle class="sm-focus-ring" cx="190" cy="180" r="14" />
+                <circle class="sm-marker" cx="190" cy="180" r="8" fill="var(--surface2)" stroke="#e87a3a" stroke-width="1.5" />
+                <text class="sm-label" x="190" y="170" data-i18n="map_food">Food</text>
+              </g>
+
+              <!-- Parking -->
+              <g class="sm-landmark" data-sm-id="parking" role="button" tabindex="0">
+                <circle class="sm-focus-ring" cx="40" cy="270" r="14" />
+                <circle class="sm-marker" cx="40" cy="270" r="8" fill="var(--surface2)" stroke="#9090b0" stroke-width="1.5" />
+                <text class="sm-label" x="40" y="258" data-i18n="map_parking">Parking</text>
+              </g>
+            </svg>
+            <p class="sitemap-hint" data-i18n="map_tap_hint">Tap a landmark for details</p>
+          </div>
+          <div class="sitemap-card" id="sitemap-card" hidden>
+            <h4 class="sitemap-card-name" id="sitemap-card-name"></h4>
+            <p class="sitemap-card-desc" id="sitemap-card-desc"></p>
+          </div>
+          <div class="sitemap-legend">
+            <p class="sitemap-legend-title" data-i18n="map_legend">Legend</p>
+            <span class="sitemap-legend-item"><span class="sitemap-legend-dot" style="background: #e8c96a;"></span><span data-i18n="map_legend_stages">Main stages</span></span>
+            <span class="sitemap-legend-item"><span class="sitemap-legend-dot" style="background: #7a4bc8;"></span><span data-i18n="map_legend_secondary">Secondary stages</span></span>
+            <span class="sitemap-legend-item"><span class="sitemap-legend-dot" style="background: #4bc8a0;"></span><span data-i18n="map_legend_water">Water / lake</span></span>
+            <span class="sitemap-legend-item"><span class="sitemap-legend-dot" style="background: #c84b6a;"></span><span data-i18n="map_legend_camp_med">Our camp &amp; medical</span></span>
+            <span class="sitemap-legend-item"><span class="sitemap-legend-dot" style="background: #e87a3a;"></span><span data-i18n="map_legend_services">Services</span></span>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="tab-camp">
+      <div class="camp-section">
+        <h2 class="camp-section-title">
+          <span data-i18n="camp_members_title">Camp Members</span>
+          <span class="headcount-badge" id="members-headcount" hidden></span>
+        </h2>
+        <div id="members-error" class="error-banner" hidden></div>
+        <div id="members-skeleton" class="skeleton">
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+        </div>
+        <div id="members-list" class="member-grid" hidden></div>
+      </div>
+
+      <div class="camp-section">
+        <h2 class="camp-section-title" data-i18n="camp_arrival_title">Arrival &amp; Departure</h2>
+        <div class="subtabs" role="tablist">
+          <button type="button" class="subtab active" data-arrival="fusion" data-i18n="camp_arrival_tab_festival">Fusion site</button>
+          <button type="button" class="subtab" data-arrival="berlin" data-i18n="camp_arrival_tab_berlin">Berlin</button>
+        </div>
+        <div id="arrival-error" class="error-banner" hidden></div>
+        <div class="arrival-table-wrap">
+          <table class="arrival-table" id="arrival-table">
+            <thead>
+              <tr>
+                <th data-col="name" data-i18n="camp_arrival_name">Name</th>
+                <th class="sortable" data-col="date" data-i18n="camp_arrival_date">Date</th>
+                <th data-col="time" data-i18n="camp_arrival_time">Time</th>
+                <th data-col="transport" data-i18n="camp_arrival_transport">Transport</th>
+                <th data-col="notes" data-i18n="camp_arrival_notes">Notes</th>
+              </tr>
+            </thead>
+            <tbody id="arrival-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="camp-section">
+        <h2 class="camp-section-title" data-i18n="camp_transport_title">Transportation</h2>
+        <p class="train-note" data-i18n="camp_transport_train_note">Nearest station: Neustrelitz — then bus/taxi to Lärz.</p>
+        <div id="carpool-list" class="carpool-list"></div>
+        <p id="carpool-empty" class="carpool-empty" data-i18n="camp_transport_empty" hidden>No rides yet — be the first to offer a lift.</p>
+        <form class="carpool-form" id="carpool-form" autocomplete="off">
+          <label>
+            <span data-i18n="camp_transport_name">Your name</span>
+            <input type="text" id="carpool-name" required>
+          </label>
+          <label>
+            <span data-i18n="camp_transport_seats">Seats available</span>
+            <input type="number" min="1" max="20" id="carpool-seats" required>
+          </label>
+          <label>
+            <span data-i18n="camp_transport_from">Departure point</span>
+            <input type="text" id="carpool-from" required>
+          </label>
+          <label>
+            <span data-i18n="camp_transport_contact">WhatsApp / phone</span>
+            <input type="text" id="carpool-contact" required>
+          </label>
+          <button type="submit" data-i18n="camp_transport_add">Add ride</button>
+        </form>
+      </div>
+
+      <div class="camp-section">
+        <h2 class="camp-section-title" data-i18n="camp_whatsapp_title">WhatsApp</h2>
+        <a class="whatsapp-btn" id="whatsapp-link" href="#" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16.003 3C9.374 3 4 8.374 4 15.003c0 2.295.648 4.443 1.77 6.263L4 28.5l7.393-1.934a11.94 11.94 0 004.61.92h.001C22.63 27.486 28 22.112 28 15.483 28 12.306 26.773 9.32 24.58 7.126A11.915 11.915 0 0016.003 3zm0 1.978c2.807 0 5.445 1.093 7.432 3.08A10.42 10.42 0 0126.5 15.483c0 5.8-4.72 10.52-10.496 10.52a9.92 9.92 0 01-3.835-.77l-.275-.11-4.391 1.148.98-4.283-.179-.28a9.94 9.94 0 01-1.524-5.3c0-5.8 4.72-10.52 10.222-10.52zm-4.78 5.662c-.22 0-.574.082-.874.41-.3.328-1.15 1.124-1.15 2.74 0 1.617 1.18 3.18 1.343 3.4.164.22 2.283 3.635 5.567 4.95 2.737 1.098 3.295.88 3.89.824.595-.054 1.92-.783 2.19-1.54.27-.755.27-1.402.19-1.539-.082-.137-.3-.22-.63-.384-.329-.164-1.92-.947-2.218-1.056-.3-.11-.521-.164-.74.164-.22.328-.85 1.056-1.042 1.274-.191.22-.383.246-.712.082-.328-.164-1.386-.51-2.642-1.63-.977-.873-1.637-1.95-1.829-2.278-.19-.328-.02-.506.144-.67.148-.147.33-.383.494-.575.164-.193.22-.328.329-.547.11-.22.055-.412-.027-.575-.082-.164-.74-1.785-1.014-2.442-.267-.63-.54-.544-.74-.555l-.63-.011z"/></svg>
+          <span data-i18n="camp_whatsapp_btn">Join our group chat</span>
+        </a>
+      </div>
+
+      <div class="camp-section">
+        <h2 class="camp-section-title" data-i18n="camp_budget_title">Shared Budget</h2>
+        <div class="budget-summary">
+          <div class="stat">
+            <div class="stat-label" data-i18n="camp_budget_total">Total spent</div>
+            <div class="stat-value" id="budget-total">€0.00</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label" data-i18n="camp_budget_per_person">Per person</div>
+            <div class="stat-value" id="budget-per-person">€0.00</div>
+          </div>
+        </div>
+        <div id="budget-list" class="budget-list"></div>
+        <p id="budget-empty" class="carpool-empty" data-i18n="camp_budget_empty" hidden>No expenses yet — start with the first beer run.</p>
+        <form class="budget-form" id="budget-form" autocomplete="off">
+          <label>
+            <span data-i18n="camp_budget_desc">Description</span>
+            <input type="text" id="budget-desc" required>
+          </label>
+          <label>
+            <span data-i18n="camp_budget_amount">Amount (€)</span>
+            <input type="number" id="budget-amount" step="0.01" min="0" required>
+          </label>
+          <label>
+            <span data-i18n="camp_budget_who">Who paid</span>
+            <select id="budget-who" required>
+              <option value="" data-i18n="camp_budget_who_placeholder">Select a camper…</option>
+            </select>
+          </label>
+          <button type="submit" data-i18n="camp_budget_add">Add expense</button>
+        </form>
+        <button type="button" id="budget-export" class="budget-export" data-i18n="camp_budget_export">Copy summary</button>
+      </div>
+
+      <div class="camp-section">
+        <h2 class="camp-section-title">
+          <span data-i18n="camp_equipment_title">Shared Equipment</span>
+          <span class="headcount-badge" id="equip-progress" hidden></span>
+        </h2>
+        <div class="packing-progress">
+          <div class="bar"><div class="fill" id="equip-fill"></div></div>
+          <div class="label" id="equip-progress-label">0 of 0 items confirmed</div>
+        </div>
+        <div id="equip-list" class="equip-list"></div>
+      </div>
+
+      <div class="camp-section">
+        <h2 class="camp-section-title" data-i18n="camp_gps_title">Camp GPS &amp; Meeting Point</h2>
+        <div class="gps-card">
+          <div class="gps-label" data-i18n="camp_gps_coords">GPS coordinates</div>
+          <div class="gps-coords" id="gps-coords">53.3180, 12.7520</div>
+        </div>
+        <div class="gps-buttons">
+          <a id="gps-google" class="gps-btn" href="#" target="_blank" rel="noopener noreferrer" data-i18n="camp_gps_open_google">Open in Google Maps</a>
+          <a id="gps-apple" class="gps-btn" href="#" target="_blank" rel="noopener noreferrer" data-i18n="camp_gps_open_apple">Open in Apple Maps</a>
+        </div>
+        <div class="meeting-card">
+          <p class="meet-desc" id="meeting-desc">[TODO: replace MEETING_POINT_DESCRIPTION]</p>
+          <p class="meet-reassure" id="meeting-reassure" data-i18n="camp_gps_meeting">If lost, head to the meeting point and wait — someone will find you.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <nav class="tab-bar" aria-label="Primary">
+    <button class="tab-btn active" data-tab="tab-home">
+      <svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg>
+      <span data-i18n="nav_home">Home</span>
+    </button>
+    <button class="tab-btn" data-tab="tab-info">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01"/><path d="M11 12h1v5h1"/></svg>
+      <span data-i18n="nav_info">Info</span>
+    </button>
+    <button class="tab-btn" data-tab="tab-camp">
+      <svg viewBox="0 0 24 24"><path d="M3 21L12 4l9 17"/><path d="M3 21h18"/><path d="M12 4v17"/></svg>
+      <span data-i18n="nav_camp">Camp</span>
+    </button>
+  </nav>
+
+  <script>
+    const translations = {
+      en: {
+        nav_home: "Home",
+        nav_info: "Info",
+        nav_camp: "Camp",
+        app_title: "Fusion 2026",
+        app_subtitle: "Festival companion",
+        lang_en: "EN",
+        lang_es: "ES",
+        lang_de: "DE",
+        home_tagline: "Four days on the airfield",
+        home_until: "Fusion is happening NOW!",
+        home_days: "Days",
+        home_hours: "Hours",
+        home_mins: "Mins",
+        home_secs: "Secs",
+        home_dates_label: "Festival dates",
+        home_dates_value: "Wed 24 June – Sun 28 June 2026",
+        home_bourse_label: "Bourse",
+        home_bourse_date: "5 May 2026",
+        home_website_btn: "Official website",
+        home_tickets_btn: "Ticket portal",
+        weather_title: "Weather in Lärz",
+        weather_refresh_aria: "Refresh weather",
+        weather_loading: "Loading weather…",
+        weather_error: "Couldn't fetch weather. Tap refresh to try again.",
+        weather_offline: "Offline — showing last saved forecast.",
+        weather_now: "Now",
+        weather_feels_like: "Feels like",
+        weather_wind: "Wind",
+        weather_humidity: "Humidity",
+        weather_forecast_title: "5-day forecast",
+        weather_day_mon: "Mon",
+        weather_day_tue: "Tue",
+        weather_day_wed: "Wed",
+        weather_day_thu: "Thu",
+        weather_day_fri: "Fri",
+        weather_day_sat: "Sat",
+        weather_day_sun: "Sun",
+        weather_cond_clear: "Clear sky",
+        weather_cond_partly: "Partly cloudy",
+        weather_cond_cloudy: "Cloudy",
+        weather_cond_rain: "Rain",
+        weather_cond_showers: "Heavy showers",
+        weather_cond_thunder: "Thunderstorm",
+        weather_cond_fog: "Fog",
+        weather_cond_snow: "Snow",
+        info_entry_title: "Festival Entry & Controls",
+        info_entry_body: "Arrive early — queues build up quickly.\nHave your ticket and ID ready at the gate.\nVehicle check: bring your registration and be prepared for a boot inspection.\nPack respectfully — glass and single-use plastics are not allowed on site.",
+        info_police_title: "Police controls & your rights",
+        info_police_body: "Expect routine police and drug-detection checks on roads near Lärz. Stay calm and polite.\nYou have the right to remain silent. You are not required to answer questions beyond confirming your identity.\nYou do not have to open bags or your vehicle for a search without a warrant or a concrete suspicion — ask politely what the legal basis is.\nFusion provides on-site legal advice — ask at the Info point.",
+        info_packing_title: "Packing List",
+        info_packing_filter_all: "All",
+        info_packing_filter_camping: "Camping",
+        info_packing_filter_festival: "Festival",
+        info_packing_filter_clothing: "Clothing",
+        info_packing_filter_docs: "Documents",
+        info_kulturkosmos_title: "Kulturkosmos",
+        info_kulturkosmos_body: "Kulturkosmos Lärz e.V. grew out of a collective project in the early 1990s and took over the former Soviet airfield in Lärz, Mecklenburg. The first Fusion festival followed in 1997 on the same runways and hangars that still shape the site today.\n\nFusion is organised on a non-commercial, community-funded basis. Instead of corporate sponsors, the festival is supported by sympathisers who contribute to the year-round cultural work of Kulturkosmos.\n\nThe programme is carried by dozens of crews and bars from across Europe. Each bar, stage and decoration is built by a collective — the network of crews is what makes the site feel like a city of its own.",
+        info_forum_link: "Visit the forum",
+        pack_progress: "{done} of {total} items packed",
+        pack_tent: "Tent",
+        pack_sleeping_bag: "Sleeping bag",
+        pack_sleeping_mat: "Sleeping mat",
+        pack_tarp: "Tarp",
+        pack_rope: "Rope",
+        pack_pegs: "Tent pegs & mallet",
+        pack_headtorch: "Head torch + batteries",
+        pack_repair_kit: "Repair kit (duct tape, cable ties)",
+        pack_earplugs: "Earplugs",
+        pack_cash: "Cash (no cards on site!)",
+        pack_reusable_cup: "Reusable cup",
+        pack_sunscreen: "Sunscreen",
+        pack_rain_poncho: "Rain poncho",
+        pack_portable_charger: "Portable charger",
+        pack_locker_lock: "Lock for locker",
+        pack_water_bottle: "Reusable water bottle",
+        pack_layers: "Layers for cold nights",
+        pack_swimwear: "Swimwear",
+        pack_sturdy_shoes: "Sturdy shoes",
+        pack_warm_jacket: "Warm jacket",
+        pack_hat: "Hat",
+        pack_sunglasses: "Sunglasses",
+        pack_socks_extra: "Extra socks",
+        pack_scarf: "Scarf / bandana",
+        pack_ticket: "Ticket (printed + digital)",
+        pack_id: "ID / passport",
+        pack_vehicle_docs: "Vehicle docs (if driving)",
+        pack_health_card: "Health insurance card",
+        pack_emergency_contacts: "Emergency contacts list",
+        pack_insurance_card: "Travel insurance info",
+        pack_booking_confirmation: "Booking confirmation",
+        pack_cash_reserve: "Emergency cash reserve",
+        info_rules_title: "Rules & Etiquette",
+        info_rules_body: "A handful of principles that keep the site what it is. Not rules to enforce — agreements we make with each other.",
+        rules_no_photo_kw: "No cameras",
+        rules_no_photo_body: "The lens stays at home. No commercial photography or filming — we protect everyone's visual sovereignty so people can really let go.",
+        rules_cash_kw: "Cash only",
+        rules_cash_body: "No card terminals and no ATMs on site. Bring enough for four days of food, drinks and crew love.",
+        rules_lnt_kw: "Leave no trace",
+        rules_lnt_body: "Pack in, pack out. Whatever arrives with you leaves with you — the airfield is borrowed, not taken.",
+        rules_quiet_kw: "Quiet hours",
+        rules_quiet_body: "Sleep zones have posted quiet hours. Keep voices, music and engines low where people are resting.",
+        rules_consent_kw: "Consent",
+        rules_consent_body: "Ask first — for touch, for photos of each other, for anything. A yes is a yes; anything else is a no.",
+        rules_selforg_kw: "Self-organised",
+        rules_selforg_body: "No security staff patrolling you. We look out for each other — if something feels off, step up or find the Awareness crew.",
+        info_emergency_title: "Emergency Contacts",
+        info_emergency_medical: "Medical tent — [TODO: add location]",
+        info_emergency_legal: "On-site legal aid — ask at the Info point",
+        info_emergency_buddy: "Check in with your camp buddy every evening",
+        info_emergency_112: "General emergency — 112",
+        info_schedule_title: "Program & Schedule",
+        info_schedule_link: "Official program",
+        info_schedule_note: "Full program published closer to the event.",
+        schedule_camp_title: "Camp meetups",
+        schedule_input_label: "Meetup or shared meal",
+        schedule_add: "Add",
+        schedule_empty: "No entries yet — add your first camp meetup above.",
+        map_title: "Site Map",
+        map_intro: "Lärz airfield — schematic layout, not to scale.",
+        map_legend: "Legend",
+        map_tap_hint: "Tap a landmark for details",
+        map_legend_stages: "Main stages",
+        map_legend_secondary: "Secondary stages",
+        map_legend_water: "Water / lake",
+        map_legend_camp_med: "Our camp & medical",
+        map_legend_services: "Services",
+        map_main_stage: "Bachstelzen",
+        map_main_stage_desc: "The biggest stage — techno until sunrise.",
+        map_dance_floor: "Tanzwiese",
+        map_dance_floor_desc: "Open-air dance meadow — daytime grooves and sunset sets.",
+        map_bagjo: "Bagjo",
+        map_bagjo_desc: "Downtempo & world music stage.",
+        map_turmbuhne: "Turmbühne",
+        map_turmbuhne_desc: "Tower stage with eclectic live acts.",
+        map_seebruecke: "Seebrücke",
+        map_seebruecke_desc: "Lakeside stage and chill-out.",
+        map_camp_zone: "Camp zone",
+        map_camp_zone_desc: "Main camping area — pitch your tent here.",
+        map_info_point: "Info point",
+        map_info_point_desc: "General info, lost & found, legal advice.",
+        map_medical: "Medical",
+        map_medical_desc: "First aid & medical tent.",
+        map_toilets: "Toilets",
+        map_toilets_desc: "Compost toilets — bring your own paper.",
+        map_food: "Food stalls",
+        map_food_desc: "Food court — vegetarian and vegan options.",
+        map_parking: "Parking",
+        map_parking_desc: "Main parking area — arrive early to get close.",
+        map_entrance: "Main entrance",
+        map_entrance_desc: "Ticket check and vehicle control at the gate.",
+        map_our_camp: "Our camp",
+        map_our_camp_desc: "Our Fusion 2026 camp — final spot TBD, coordinates will be updated closer to the festival.",
+        camp_members_title: "Camp Members",
+        camp_members_total: "{count} campers",
+        camp_members_load_error: "Couldn't reach the roster — showing the last version we had.",
+        camp_members_offline: "Offline — no cached roster yet. Connect once to sync.",
+        camp_members_empty: "No campers signed up yet.",
+        camp_arrival_title: "Arrival & Departure",
+        camp_arrival_tab_festival: "Fusion site",
+        camp_arrival_tab_berlin: "Berlin",
+        camp_arrival_name: "Name",
+        camp_arrival_date: "Date",
+        camp_arrival_time: "Time",
+        camp_arrival_transport: "Transport",
+        camp_arrival_notes: "Notes",
+        camp_arrival_empty: "No arrivals on file yet.",
+        camp_arrival_load_error: "Couldn't load arrivals — showing the last version.",
+        camp_transport_title: "Transportation",
+        camp_transport_train_note: "Nearest station: Neustrelitz — then bus or taxi to Lärz.",
+        camp_transport_seats: "Seats available",
+        camp_transport_seats_label: "{count} seats",
+        camp_transport_contact: "WhatsApp / phone",
+        camp_transport_add: "Add ride",
+        camp_transport_name: "Your name",
+        camp_transport_from: "Departure point",
+        camp_transport_empty: "No rides yet — be the first to offer a lift.",
+        camp_whatsapp_title: "Group chat",
+        camp_whatsapp_btn: "Join our group chat",
+        camp_budget_title: "Shared Budget",
+        camp_budget_add: "Add expense",
+        camp_budget_desc: "Description",
+        camp_budget_amount: "Amount (€)",
+        camp_budget_who: "Who paid",
+        camp_budget_who_placeholder: "Select a camper…",
+        camp_budget_total: "Total spent",
+        camp_budget_per_person: "Per person",
+        camp_budget_export: "Copy summary",
+        camp_budget_empty: "No expenses yet — start with the first beer run.",
+        camp_budget_copied: "Copied!",
+        camp_budget_summary_header: "Camp budget — Fusion 2026",
+        camp_budget_no_members: "Add camp members to split expenses.",
+        camp_equipment_title: "Shared Equipment",
+        camp_equipment_who: "Assigned",
+        camp_equipment_item: "Item",
+        camp_equipment_status: "Status",
+        camp_equipment_progress: "{done} of {total} items confirmed",
+        camp_equipment_who_ph: "Who's bringing it?",
+        equip_gas_stove: "Gas stove",
+        equip_first_aid: "First-aid kit",
+        equip_tarp: "Tarp",
+        equip_water_containers: "Water containers",
+        equip_rope_pegs: "Rope & pegs",
+        equip_tools: "Tools (hammer, knife)",
+        equip_cooler: "Shared cooler",
+        equip_solar_charger: "Solar charger",
+        equip_rug: "Chill-out rug",
+        equip_lighting: "Camp lighting",
+        camp_gps_title: "Camp GPS & Meeting Point",
+        camp_gps_coords: "GPS coordinates",
+        camp_gps_meeting: "If lost, head to {location} and wait — someone will find you.",
+        camp_gps_open_google: "Open in Google Maps",
+        camp_gps_open_apple: "Open in Apple Maps"
+      },
+      es: {
+        nav_home: "Inicio",
+        nav_info: "Info",
+        nav_camp: "Camping",
+        app_title: "Fusion 2026",
+        app_subtitle: "Compañero del festival",
+        lang_en: "EN",
+        lang_es: "ES",
+        lang_de: "DE",
+        home_tagline: "Cuatro días en el aeródromo",
+        home_until: "¡Fusion está sucediendo AHORA!",
+        home_days: "Días",
+        home_hours: "Horas",
+        home_mins: "Min",
+        home_secs: "Seg",
+        home_dates_label: "Fechas del festival",
+        home_dates_value: "Mié 24 junio – Dom 28 junio 2026",
+        home_bourse_label: "Bolsa",
+        home_bourse_date: "5 mayo 2026",
+        home_website_btn: "Web oficial",
+        home_tickets_btn: "Portal de entradas",
+        weather_title: "Tiempo en Lärz",
+        weather_refresh_aria: "Actualizar tiempo",
+        weather_loading: "Cargando tiempo…",
+        weather_error: "No se pudo obtener el tiempo. Toca actualizar para reintentar.",
+        weather_offline: "Sin conexión — mostrando el último pronóstico guardado.",
+        weather_now: "Ahora",
+        weather_feels_like: "Sensación",
+        weather_wind: "Viento",
+        weather_humidity: "Humedad",
+        weather_forecast_title: "Pronóstico de 5 días",
+        weather_day_mon: "Lun",
+        weather_day_tue: "Mar",
+        weather_day_wed: "Mié",
+        weather_day_thu: "Jue",
+        weather_day_fri: "Vie",
+        weather_day_sat: "Sáb",
+        weather_day_sun: "Dom",
+        weather_cond_clear: "Cielo despejado",
+        weather_cond_partly: "Parcialmente nublado",
+        weather_cond_cloudy: "Nublado",
+        weather_cond_rain: "Lluvia",
+        weather_cond_showers: "Chubascos fuertes",
+        weather_cond_thunder: "Tormenta",
+        weather_cond_fog: "Niebla",
+        weather_cond_snow: "Nieve",
+        info_entry_title: "Entrada al festival y controles",
+        info_entry_body: "Llega pronto — las colas se forman rápido.\nTen la entrada y el DNI listos en la puerta.\nControl de vehículo: lleva la documentación y prepárate para una inspección del maletero.\nEmpaca con respeto — no se permiten vidrio ni plásticos de un solo uso.",
+        info_police_title: "Controles policiales y tus derechos",
+        info_police_body: "Habrá controles policiales y de drogas rutinarios en las carreteras cercanas a Lärz. Mantén la calma y sé educado.\nTienes derecho a guardar silencio. No estás obligado a responder más allá de identificarte.\nNo tienes que abrir bolsas ni el vehículo sin una orden o una sospecha concreta — pregunta con educación cuál es la base legal.\nFusion ofrece asesoramiento legal en el recinto — pregunta en el punto de información.",
+        info_packing_title: "Lista de equipaje",
+        info_packing_filter_all: "Todo",
+        info_packing_filter_camping: "Camping",
+        info_packing_filter_festival: "Festival",
+        info_packing_filter_clothing: "Ropa",
+        info_packing_filter_docs: "Documentos",
+        info_kulturkosmos_title: "Kulturkosmos",
+        info_kulturkosmos_body: "Kulturkosmos Lärz e.V. surgió de un proyecto colectivo a principios de los 90 y tomó el antiguo aeródromo soviético de Lärz, Mecklemburgo. El primer festival Fusion se celebró en 1997 en las mismas pistas y hangares que siguen dando forma al recinto.\n\nFusion se organiza sin fines comerciales, financiado por la comunidad. En lugar de patrocinadores corporativos, lo sostienen simpatizantes que apoyan la labor cultural de Kulturkosmos durante todo el año.\n\nEl programa lo llevan docenas de crews y bares de toda Europa. Cada bar, escenario y decoración los construye un colectivo — la red de crews es lo que convierte el recinto en una ciudad propia.",
+        info_forum_link: "Visita el foro",
+        pack_progress: "{done} de {total} artículos listos",
+        pack_tent: "Tienda de campaña",
+        pack_sleeping_bag: "Saco de dormir",
+        pack_sleeping_mat: "Esterilla",
+        pack_tarp: "Lona",
+        pack_rope: "Cuerda",
+        pack_pegs: "Piquetas y martillo",
+        pack_headtorch: "Linterna frontal + pilas",
+        pack_repair_kit: "Kit de reparación (cinta, bridas)",
+        pack_earplugs: "Tapones para los oídos",
+        pack_cash: "Efectivo (¡no hay tarjetas en el recinto!)",
+        pack_reusable_cup: "Vaso reutilizable",
+        pack_sunscreen: "Protector solar",
+        pack_rain_poncho: "Poncho de lluvia",
+        pack_portable_charger: "Batería externa",
+        pack_locker_lock: "Candado para la taquilla",
+        pack_water_bottle: "Botella reutilizable",
+        pack_layers: "Capas para noches frías",
+        pack_swimwear: "Bañador",
+        pack_sturdy_shoes: "Calzado resistente",
+        pack_warm_jacket: "Chaqueta de abrigo",
+        pack_hat: "Gorra o sombrero",
+        pack_sunglasses: "Gafas de sol",
+        pack_socks_extra: "Calcetines extra",
+        pack_scarf: "Pañuelo / bandana",
+        pack_ticket: "Entrada (impresa + digital)",
+        pack_id: "DNI / pasaporte",
+        pack_vehicle_docs: "Documentación del vehículo",
+        pack_health_card: "Tarjeta sanitaria",
+        pack_emergency_contacts: "Lista de contactos de emergencia",
+        pack_insurance_card: "Seguro de viaje",
+        pack_booking_confirmation: "Confirmación de reserva",
+        pack_cash_reserve: "Reserva de efectivo de emergencia",
+        info_rules_title: "Normas y etiqueta",
+        info_rules_body: "Unos principios que mantienen el recinto como es. No son normas a imponer — son acuerdos que hacemos entre nosotros.",
+        rules_no_photo_kw: "Sin cámaras",
+        rules_no_photo_body: "La cámara se queda en casa. Nada de fotografía o grabación comercial — protegemos la soberanía visual de cada persona para que todo el mundo pueda soltarse de verdad.",
+        rules_cash_kw: "Solo efectivo",
+        rules_cash_body: "Ni datáfonos ni cajeros en el recinto. Trae suficiente para cuatro días de comida, bebida y cariño de crew.",
+        rules_lnt_kw: "No dejes rastro",
+        rules_lnt_body: "Lo que entra contigo, sale contigo. El aeródromo está prestado, no regalado.",
+        rules_quiet_kw: "Horas de silencio",
+        rules_quiet_body: "Las zonas de descanso tienen horas de silencio marcadas. Baja voces, música y motores donde la gente descansa.",
+        rules_consent_kw: "Consentimiento",
+        rules_consent_body: "Pregunta primero — para el contacto, para las fotos, para todo. Un sí es un sí; cualquier otra cosa es un no.",
+        rules_selforg_kw: "Autoorganizado",
+        rules_selforg_body: "No hay seguridad patrullando. Nos cuidamos entre nosotros — si algo no va bien, interviene o busca al equipo Awareness.",
+        info_emergency_title: "Contactos de emergencia",
+        info_emergency_medical: "Carpa médica — [TODO: añadir ubicación]",
+        info_emergency_legal: "Asesoría legal en el recinto — pregunta en el punto de información",
+        info_emergency_buddy: "Consulta con tu compañero de camping cada noche",
+        info_emergency_112: "Emergencia general — 112",
+        info_schedule_title: "Programa y horario",
+        info_schedule_link: "Programa oficial",
+        info_schedule_note: "El programa completo se publica cerca del evento.",
+        schedule_camp_title: "Encuentros del camping",
+        schedule_input_label: "Encuentro o comida compartida",
+        schedule_add: "Añadir",
+        schedule_empty: "Sin entradas aún — añade tu primer encuentro arriba.",
+        map_title: "Plano del recinto",
+        map_intro: "Aeródromo de Lärz — esquema, no a escala.",
+        map_legend: "Leyenda",
+        map_tap_hint: "Toca un punto para ver detalles",
+        map_legend_stages: "Escenarios principales",
+        map_legend_secondary: "Escenarios secundarios",
+        map_legend_water: "Agua / lago",
+        map_legend_camp_med: "Nuestro camp y sanitarios",
+        map_legend_services: "Servicios",
+        map_main_stage: "Bachstelzen",
+        map_main_stage_desc: "El escenario más grande — techno hasta el amanecer.",
+        map_dance_floor: "Tanzwiese",
+        map_dance_floor_desc: "Pista al aire libre — grooves de día y sesiones al atardecer.",
+        map_bagjo: "Bagjo",
+        map_bagjo_desc: "Escenario de downtempo y músicas del mundo.",
+        map_turmbuhne: "Turmbühne",
+        map_turmbuhne_desc: "Escenario torre con actuaciones eclécticas en vivo.",
+        map_seebruecke: "Seebrücke",
+        map_seebruecke_desc: "Escenario junto al lago y zona chill-out.",
+        map_camp_zone: "Zona de camping",
+        map_camp_zone_desc: "Zona principal de acampada — monta aquí tu tienda.",
+        map_info_point: "Punto de información",
+        map_info_point_desc: "Información general, objetos perdidos, asesoramiento legal.",
+        map_medical: "Sanitario",
+        map_medical_desc: "Primeros auxilios y carpa médica.",
+        map_toilets: "Aseos",
+        map_toilets_desc: "Baños de compostaje — trae tu propio papel.",
+        map_food: "Comida",
+        map_food_desc: "Zona de comida — opciones vegetarianas y veganas.",
+        map_parking: "Parking",
+        map_parking_desc: "Aparcamiento principal — llega pronto para quedar cerca.",
+        map_entrance: "Entrada principal",
+        map_entrance_desc: "Control de entrada y de vehículos en la puerta.",
+        map_our_camp: "Nuestro camp",
+        map_our_camp_desc: "Nuestro camp Fusion 2026 — ubicación final por confirmar, actualizaremos cerca del festival.",
+        camp_members_title: "Miembros del camping",
+        camp_members_total: "{count} personas",
+        camp_members_load_error: "No se pudo cargar la lista — mostrando la última versión guardada.",
+        camp_members_offline: "Sin conexión — aún no hay lista en caché. Conéctate una vez para sincronizar.",
+        camp_members_empty: "Aún nadie se ha apuntado.",
+        camp_arrival_title: "Llegada y salida",
+        camp_arrival_tab_festival: "Recinto Fusion",
+        camp_arrival_tab_berlin: "Berlín",
+        camp_arrival_name: "Nombre",
+        camp_arrival_date: "Fecha",
+        camp_arrival_time: "Hora",
+        camp_arrival_transport: "Transporte",
+        camp_arrival_notes: "Notas",
+        camp_arrival_empty: "Aún no hay llegadas registradas.",
+        camp_arrival_load_error: "No se pudieron cargar las llegadas — mostrando la última versión.",
+        camp_transport_title: "Transporte",
+        camp_transport_train_note: "Estación más cercana: Neustrelitz — después autobús o taxi a Lärz.",
+        camp_transport_seats: "Plazas disponibles",
+        camp_transport_seats_label: "{count} plazas",
+        camp_transport_contact: "WhatsApp / teléfono",
+        camp_transport_add: "Añadir viaje",
+        camp_transport_name: "Tu nombre",
+        camp_transport_from: "Punto de salida",
+        camp_transport_empty: "Aún no hay viajes — sé el primero en ofrecer uno.",
+        camp_whatsapp_title: "Chat de grupo",
+        camp_whatsapp_btn: "Únete al chat del grupo",
+        camp_budget_title: "Caja común",
+        camp_budget_add: "Añadir gasto",
+        camp_budget_desc: "Descripción",
+        camp_budget_amount: "Importe (€)",
+        camp_budget_who: "Quién pagó",
+        camp_budget_who_placeholder: "Elige a alguien…",
+        camp_budget_total: "Total gastado",
+        camp_budget_per_person: "Por persona",
+        camp_budget_export: "Copiar resumen",
+        camp_budget_empty: "Sin gastos aún — empieza con la primera ronda.",
+        camp_budget_copied: "¡Copiado!",
+        camp_budget_summary_header: "Caja común del camp — Fusion 2026",
+        camp_budget_no_members: "Añade personas al camp para poder dividir los gastos.",
+        camp_equipment_title: "Equipo compartido",
+        camp_equipment_who: "Asignado a",
+        camp_equipment_item: "Artículo",
+        camp_equipment_status: "Estado",
+        camp_equipment_progress: "{done} de {total} artículos confirmados",
+        camp_equipment_who_ph: "¿Quién lo trae?",
+        equip_gas_stove: "Hornillo de gas",
+        equip_first_aid: "Botiquín",
+        equip_tarp: "Lona",
+        equip_water_containers: "Garrafas de agua",
+        equip_rope_pegs: "Cuerda y piquetas",
+        equip_tools: "Herramientas (martillo, navaja)",
+        equip_cooler: "Nevera portátil",
+        equip_solar_charger: "Cargador solar",
+        equip_rug: "Alfombra chill-out",
+        equip_lighting: "Iluminación del camp",
+        camp_gps_title: "GPS del camp y punto de encuentro",
+        camp_gps_coords: "Coordenadas GPS",
+        camp_gps_meeting: "Si te pierdes, ve a {location} y espera — alguien te encontrará.",
+        camp_gps_open_google: "Abrir en Google Maps",
+        camp_gps_open_apple: "Abrir en Apple Maps"
+      },
+      de: {
+        nav_home: "Start",
+        nav_info: "Info",
+        nav_camp: "Camp",
+        app_title: "Fusion 2026",
+        app_subtitle: "Festival-Begleiter",
+        lang_en: "EN",
+        lang_es: "ES",
+        lang_de: "DE",
+        home_tagline: "Vier Tage auf dem Flugplatz",
+        home_until: "Fusion läuft JETZT!",
+        home_days: "Tage",
+        home_hours: "Std",
+        home_mins: "Min",
+        home_secs: "Sek",
+        home_dates_label: "Festivaltermine",
+        home_dates_value: "Mi 24. Juni – So 28. Juni 2026",
+        home_bourse_label: "Börse",
+        home_bourse_date: "5. Mai 2026",
+        home_website_btn: "Offizielle Website",
+        home_tickets_btn: "Ticketportal",
+        weather_title: "Wetter in Lärz",
+        weather_refresh_aria: "Wetter aktualisieren",
+        weather_loading: "Wetter wird geladen…",
+        weather_error: "Wetter konnte nicht geladen werden. Tippe auf Aktualisieren.",
+        weather_offline: "Offline — zeige zuletzt gespeicherte Vorhersage.",
+        weather_now: "Jetzt",
+        weather_feels_like: "Gefühlt",
+        weather_wind: "Wind",
+        weather_humidity: "Luftfeuchte",
+        weather_forecast_title: "5-Tage-Vorhersage",
+        weather_day_mon: "Mo",
+        weather_day_tue: "Di",
+        weather_day_wed: "Mi",
+        weather_day_thu: "Do",
+        weather_day_fri: "Fr",
+        weather_day_sat: "Sa",
+        weather_day_sun: "So",
+        weather_cond_clear: "Klarer Himmel",
+        weather_cond_partly: "Teils bewölkt",
+        weather_cond_cloudy: "Bewölkt",
+        weather_cond_rain: "Regen",
+        weather_cond_showers: "Starke Schauer",
+        weather_cond_thunder: "Gewitter",
+        weather_cond_fog: "Nebel",
+        weather_cond_snow: "Schnee",
+        info_entry_title: "Einlass & Kontrollen",
+        info_entry_body: "Früh anreisen — die Schlangen werden schnell lang.\nTicket und Ausweis am Einlass bereithalten.\nFahrzeugkontrolle: Fahrzeugschein mitführen und auf eine Kofferraumkontrolle einstellen.\nRespektvoll packen — Glas und Einwegplastik sind auf dem Gelände nicht erlaubt.",
+        info_police_title: "Polizeikontrollen & deine Rechte",
+        info_police_body: "Auf den Straßen rund um Lärz sind routinemäßige Polizei- und Drogenkontrollen zu erwarten. Bleib ruhig und höflich.\nDu hast das Recht zu schweigen. Über die Identitätsfeststellung hinaus musst du keine Fragen beantworten.\nOhne Durchsuchungsbeschluss oder konkreten Verdacht musst du weder Taschen noch dein Fahrzeug öffnen — frage höflich nach der Rechtsgrundlage.\nDie Fusion bietet vor Ort Rechtsberatung an — frag am Infopunkt.",
+        info_packing_title: "Packliste",
+        info_packing_filter_all: "Alle",
+        info_packing_filter_camping: "Camping",
+        info_packing_filter_festival: "Festival",
+        info_packing_filter_clothing: "Kleidung",
+        info_packing_filter_docs: "Dokumente",
+        info_kulturkosmos_title: "Kulturkosmos",
+        info_kulturkosmos_body: "Der Kulturkosmos Lärz e.V. entstand Anfang der 1990er aus einem kollektiven Projekt und übernahm den ehemaligen sowjetischen Flugplatz in Lärz in Mecklenburg. 1997 fand auf denselben Start- und Landebahnen und in den Hangars die erste Fusion statt — sie prägen das Gelände bis heute.\n\nDie Fusion ist nicht-kommerziell organisiert und wird von der Community getragen. Statt Konzernsponsoring tragen Sympathisant*innen die ganzjährige Kulturarbeit des Kulturkosmos mit.\n\nDas Programm stemmen Dutzende Crews und Bars aus ganz Europa. Jede Bar, Bühne und Dekoration wird von einem Kollektiv gebaut — das Netzwerk der Crews macht aus dem Gelände eine eigene Stadt.",
+        info_forum_link: "Zum Forum",
+        pack_progress: "{done} von {total} Sachen gepackt",
+        pack_tent: "Zelt",
+        pack_sleeping_bag: "Schlafsack",
+        pack_sleeping_mat: "Isomatte",
+        pack_tarp: "Plane",
+        pack_rope: "Seil",
+        pack_pegs: "Heringe & Hammer",
+        pack_headtorch: "Stirnlampe + Batterien",
+        pack_repair_kit: "Reparaturset (Panzertape, Kabelbinder)",
+        pack_earplugs: "Ohrstöpsel",
+        pack_cash: "Bargeld (keine Karten auf dem Gelände!)",
+        pack_reusable_cup: "Mehrwegbecher",
+        pack_sunscreen: "Sonnencreme",
+        pack_rain_poncho: "Regenponcho",
+        pack_portable_charger: "Powerbank",
+        pack_locker_lock: "Schloss fürs Schließfach",
+        pack_water_bottle: "Trinkflasche",
+        pack_layers: "Kleidung in Schichten für kalte Nächte",
+        pack_swimwear: "Badesachen",
+        pack_sturdy_shoes: "Festes Schuhwerk",
+        pack_warm_jacket: "Warme Jacke",
+        pack_hat: "Mütze / Hut",
+        pack_sunglasses: "Sonnenbrille",
+        pack_socks_extra: "Socken im Überfluss",
+        pack_scarf: "Tuch / Bandana",
+        pack_ticket: "Ticket (gedruckt + digital)",
+        pack_id: "Personalausweis / Reisepass",
+        pack_vehicle_docs: "Fahrzeugpapiere (falls Auto)",
+        pack_health_card: "Krankenversicherungskarte",
+        pack_emergency_contacts: "Notfallkontakte",
+        pack_insurance_card: "Reiseversicherung",
+        pack_booking_confirmation: "Buchungsbestätigung",
+        pack_cash_reserve: "Notgroschen",
+        info_rules_title: "Regeln & Etikette",
+        info_rules_body: "Ein paar Prinzipien, die das Gelände zu dem machen, was es ist. Keine Regeln zum Durchsetzen — Vereinbarungen, die wir miteinander treffen.",
+        rules_no_photo_kw: "Keine Kameras",
+        rules_no_photo_body: "Die Linse bleibt zu Hause. Keine kommerzielle Foto- oder Filmaufnahme — wir schützen die visuelle Selbstbestimmung aller, damit sich wirklich loslassen lässt.",
+        rules_cash_kw: "Nur Bargeld",
+        rules_cash_body: "Keine Kartenterminals und keine Automaten auf dem Gelände. Bring genug für vier Tage Essen, Getränke und Crew-Liebe mit.",
+        rules_lnt_kw: "Keine Spuren",
+        rules_lnt_body: "Mitgebracht heißt mitgenommen. Der Flugplatz ist geborgt, nicht übernommen.",
+        rules_quiet_kw: "Ruhezeiten",
+        rules_quiet_body: "Schlafzonen haben ausgeschilderte Ruhezeiten. Stimmen, Musik und Motoren leise halten, wo geschlafen wird.",
+        rules_consent_kw: "Konsens",
+        rules_consent_body: "Frag zuerst — bei Berührung, bei Fotos voneinander, bei allem. Ein Ja ist ein Ja; alles andere ist ein Nein.",
+        rules_selforg_kw: "Selbstorganisiert",
+        rules_selforg_body: "Kein Sicherheitspersonal patrouilliert. Wir passen aufeinander auf — wenn etwas komisch ist, greif ein oder such die Awareness-Crew.",
+        info_emergency_title: "Notfallkontakte",
+        info_emergency_medical: "Sanitätszelt — [TODO: Standort eintragen]",
+        info_emergency_legal: "Rechtsberatung vor Ort — am Infopunkt fragen",
+        info_emergency_buddy: "Jeden Abend bei deinem Camp-Buddy einchecken",
+        info_emergency_112: "Notruf — 112",
+        info_schedule_title: "Programm & Zeitplan",
+        info_schedule_link: "Offizielles Programm",
+        info_schedule_note: "Das vollständige Programm erscheint näher am Festival.",
+        schedule_camp_title: "Camp-Treffen",
+        schedule_input_label: "Treffen oder gemeinsames Essen",
+        schedule_add: "Hinzufügen",
+        schedule_empty: "Noch keine Einträge — füg oben dein erstes Camp-Treffen hinzu.",
+        map_title: "Geländeplan",
+        map_intro: "Flugplatz Lärz — schematische Darstellung, nicht maßstabsgetreu.",
+        map_legend: "Legende",
+        map_tap_hint: "Tippe auf einen Ort für Details",
+        map_legend_stages: "Hauptbühnen",
+        map_legend_secondary: "Nebenbühnen",
+        map_legend_water: "Wasser / See",
+        map_legend_camp_med: "Unser Camp & Sanitäter",
+        map_legend_services: "Service",
+        map_main_stage: "Bachstelzen",
+        map_main_stage_desc: "Die größte Bühne — Techno bis Sonnenaufgang.",
+        map_dance_floor: "Tanzwiese",
+        map_dance_floor_desc: "Open-Air-Tanzwiese — Tagesgrooves und Sonnenuntergangs-Sets.",
+        map_bagjo: "Bagjo",
+        map_bagjo_desc: "Downtempo- und Weltmusik-Bühne.",
+        map_turmbuhne: "Turmbühne",
+        map_turmbuhne_desc: "Turmbühne mit vielseitigen Live-Acts.",
+        map_seebruecke: "Seebrücke",
+        map_seebruecke_desc: "Bühne am See und Chill-out.",
+        map_camp_zone: "Campzone",
+        map_camp_zone_desc: "Haupt-Campbereich — schlag hier dein Zelt auf.",
+        map_info_point: "Infopunkt",
+        map_info_point_desc: "Allgemeine Infos, Fundbüro, Rechtsberatung.",
+        map_medical: "Sanitäter",
+        map_medical_desc: "Erste Hilfe & Sanitäterzelt.",
+        map_toilets: "Toiletten",
+        map_toilets_desc: "Komposttoiletten — eigenes Papier mitbringen.",
+        map_food: "Essenstände",
+        map_food_desc: "Foodcourt — vegetarische und vegane Optionen.",
+        map_parking: "Parkplatz",
+        map_parking_desc: "Hauptparkplatz — früh anreisen für gute Plätze.",
+        map_entrance: "Haupteingang",
+        map_entrance_desc: "Ticketkontrolle und Fahrzeugkontrolle am Tor.",
+        map_our_camp: "Unser Camp",
+        map_our_camp_desc: "Unser Fusion-2026-Camp — genauer Standort folgt, wird kurz vor dem Festival aktualisiert.",
+        camp_members_title: "Camp-Mitglieder",
+        camp_members_total: "{count} Leute im Camp",
+        camp_members_load_error: "Liste nicht erreichbar — zeige die letzte gespeicherte Version.",
+        camp_members_offline: "Offline — noch keine Liste gespeichert. Einmal online gehen zum Synchronisieren.",
+        camp_members_empty: "Noch niemand eingetragen.",
+        camp_arrival_title: "An- & Abreise",
+        camp_arrival_tab_festival: "Festivalgelände",
+        camp_arrival_tab_berlin: "Berlin",
+        camp_arrival_name: "Name",
+        camp_arrival_date: "Datum",
+        camp_arrival_time: "Uhrzeit",
+        camp_arrival_transport: "Verkehrsmittel",
+        camp_arrival_notes: "Notizen",
+        camp_arrival_empty: "Noch keine Anreisen eingetragen.",
+        camp_arrival_load_error: "Anreisen konnten nicht geladen werden — zeige die letzte Version.",
+        camp_transport_title: "Mitfahrten",
+        camp_transport_train_note: "Nächster Bahnhof: Neustrelitz — dann Bus oder Taxi nach Lärz.",
+        camp_transport_seats: "Freie Plätze",
+        camp_transport_seats_label: "{count} Plätze",
+        camp_transport_contact: "WhatsApp / Telefon",
+        camp_transport_add: "Mitfahrt anbieten",
+        camp_transport_name: "Dein Name",
+        camp_transport_from: "Abfahrtsort",
+        camp_transport_empty: "Noch keine Mitfahrten — biete als Erste*r einen Platz an.",
+        camp_whatsapp_title: "Gruppenchat",
+        camp_whatsapp_btn: "Dem Gruppenchat beitreten",
+        camp_budget_title: "Gemeinsame Kasse",
+        camp_budget_add: "Ausgabe eintragen",
+        camp_budget_desc: "Beschreibung",
+        camp_budget_amount: "Betrag (€)",
+        camp_budget_who: "Wer hat bezahlt",
+        camp_budget_who_placeholder: "Person wählen…",
+        camp_budget_total: "Gesamt",
+        camp_budget_per_person: "Pro Person",
+        camp_budget_export: "Übersicht kopieren",
+        camp_budget_empty: "Noch keine Ausgaben — fang mit der ersten Runde an.",
+        camp_budget_copied: "Kopiert!",
+        camp_budget_summary_header: "Camp-Kasse — Fusion 2026",
+        camp_budget_no_members: "Trag erst Camp-Leute ein, um die Kosten zu teilen.",
+        camp_equipment_title: "Gemeinsame Ausrüstung",
+        camp_equipment_who: "Wer bringt's",
+        camp_equipment_item: "Gegenstand",
+        camp_equipment_status: "Status",
+        camp_equipment_progress: "{done} von {total} bestätigt",
+        camp_equipment_who_ph: "Wer bringt das mit?",
+        equip_gas_stove: "Gaskocher",
+        equip_first_aid: "Erste-Hilfe-Set",
+        equip_tarp: "Plane",
+        equip_water_containers: "Wasserkanister",
+        equip_rope_pegs: "Seil & Heringe",
+        equip_tools: "Werkzeug (Hammer, Messer)",
+        equip_cooler: "Gemeinsame Kühlbox",
+        equip_solar_charger: "Solarladegerät",
+        equip_rug: "Chill-out-Teppich",
+        equip_lighting: "Camp-Beleuchtung",
+        camp_gps_title: "Camp-GPS & Treffpunkt",
+        camp_gps_coords: "GPS-Koordinaten",
+        camp_gps_meeting: "Wenn du dich verläufst, geh zu {location} und warte — jemand findet dich.",
+        camp_gps_open_google: "In Google Maps öffnen",
+        camp_gps_open_apple: "In Apple Maps öffnen"
+      }
+    };
+
+    function applyLang(lang) {
+      const dict = translations[lang] || translations.en;
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (dict[key] !== undefined) el.textContent = dict[key];
+      });
+      document.documentElement.lang = lang;
+      document.querySelectorAll('.lang-btn').forEach(b => {
+        b.classList.toggle('active', b.dataset.lang === lang);
+      });
+      localStorage.setItem('lang', lang);
+    }
+
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', () => applyLang(btn.dataset.lang));
+    });
+
+    const storedLang = localStorage.getItem('lang') || 'en';
+    applyLang(storedLang);
+
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.dataset.tab;
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b === btn));
+        document.querySelectorAll('section[id^="tab-"]').forEach(s => {
+          s.classList.toggle('active', s.id === target);
+        });
+      });
+    });
+
+    // Fusion 2026 starts 24 June 2026 08:00 Europe/Berlin (CEST = UTC+2)
+    const FUSION_START = Date.UTC(2026, 5, 24, 6, 0, 0);
+    const cdEl = document.getElementById('countdown');
+    const cdLive = document.getElementById('countdown-live');
+    const cdDays = document.getElementById('cd-days');
+    const cdHours = document.getElementById('cd-hours');
+    const cdMins = document.getElementById('cd-mins');
+    const cdSecs = document.getElementById('cd-secs');
+    const pad = n => String(n).padStart(2, '0');
+
+    function tickCountdown() {
+      const diff = FUSION_START - Date.now();
+      if (diff <= 0) {
+        cdEl.hidden = true;
+        cdLive.hidden = false;
+        return;
+      }
+      const s = Math.floor(diff / 1000);
+      cdDays.textContent = pad(Math.floor(s / 86400));
+      cdHours.textContent = pad(Math.floor((s % 86400) / 3600));
+      cdMins.textContent = pad(Math.floor((s % 3600) / 60));
+      cdSecs.textContent = pad(s % 60);
+    }
+    tickCountdown();
+    setInterval(tickCountdown, 1000);
+
+    // Accordions
+    document.querySelectorAll('[data-acc] .accordion-header').forEach(hdr => {
+      hdr.addEventListener('click', () => {
+        const acc = hdr.closest('[data-acc]');
+        const open = acc.classList.toggle('open');
+        hdr.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+    });
+
+    // Packing list
+    const packingItems = [
+      { id: 'tent', cat: 'camping', key: 'pack_tent' },
+      { id: 'sleeping_bag', cat: 'camping', key: 'pack_sleeping_bag' },
+      { id: 'sleeping_mat', cat: 'camping', key: 'pack_sleeping_mat' },
+      { id: 'tarp', cat: 'camping', key: 'pack_tarp' },
+      { id: 'rope', cat: 'camping', key: 'pack_rope' },
+      { id: 'pegs', cat: 'camping', key: 'pack_pegs' },
+      { id: 'headtorch', cat: 'camping', key: 'pack_headtorch' },
+      { id: 'repair_kit', cat: 'camping', key: 'pack_repair_kit' },
+      { id: 'earplugs', cat: 'festival', key: 'pack_earplugs' },
+      { id: 'cash', cat: 'festival', key: 'pack_cash' },
+      { id: 'reusable_cup', cat: 'festival', key: 'pack_reusable_cup' },
+      { id: 'sunscreen', cat: 'festival', key: 'pack_sunscreen' },
+      { id: 'rain_poncho', cat: 'festival', key: 'pack_rain_poncho' },
+      { id: 'portable_charger', cat: 'festival', key: 'pack_portable_charger' },
+      { id: 'locker_lock', cat: 'festival', key: 'pack_locker_lock' },
+      { id: 'water_bottle', cat: 'festival', key: 'pack_water_bottle' },
+      { id: 'layers', cat: 'clothing', key: 'pack_layers' },
+      { id: 'swimwear', cat: 'clothing', key: 'pack_swimwear' },
+      { id: 'sturdy_shoes', cat: 'clothing', key: 'pack_sturdy_shoes' },
+      { id: 'warm_jacket', cat: 'clothing', key: 'pack_warm_jacket' },
+      { id: 'hat', cat: 'clothing', key: 'pack_hat' },
+      { id: 'sunglasses', cat: 'clothing', key: 'pack_sunglasses' },
+      { id: 'socks_extra', cat: 'clothing', key: 'pack_socks_extra' },
+      { id: 'scarf', cat: 'clothing', key: 'pack_scarf' },
+      { id: 'ticket', cat: 'docs', key: 'pack_ticket' },
+      { id: 'id', cat: 'docs', key: 'pack_id' },
+      { id: 'vehicle_docs', cat: 'docs', key: 'pack_vehicle_docs' },
+      { id: 'health_card', cat: 'docs', key: 'pack_health_card' },
+      { id: 'emergency_contacts', cat: 'docs', key: 'pack_emergency_contacts' },
+      { id: 'insurance_card', cat: 'docs', key: 'pack_insurance_card' },
+      { id: 'booking_confirmation', cat: 'docs', key: 'pack_booking_confirmation' },
+      { id: 'cash_reserve', cat: 'docs', key: 'pack_cash_reserve' }
+    ];
+
+    const PACK_KEY = 'fusion_packing_checked';
+    const packList = document.getElementById('packing-list');
+    const packFill = document.getElementById('packing-fill');
+    const packLabel = document.getElementById('packing-progress-label');
+    let packFilter = 'all';
+
+    function loadPack() {
+      try { return JSON.parse(localStorage.getItem(PACK_KEY) || '{}'); } catch { return {}; }
+    }
+    function savePack(state) { localStorage.setItem(PACK_KEY, JSON.stringify(state)); }
+
+    const packState = loadPack();
+
+    packingItems.forEach(item => {
+      const li = document.createElement('li');
+      li.className = 'packing-item';
+      li.dataset.cat = item.cat;
+      li.dataset.id = item.id;
+      const cb = document.createElement('input');
+      cb.type = 'checkbox';
+      cb.id = 'pack-' + item.id;
+      cb.checked = !!packState[item.id];
+      if (cb.checked) li.classList.add('checked');
+      const lbl = document.createElement('label');
+      lbl.className = 'packing-label';
+      lbl.setAttribute('for', cb.id);
+      lbl.setAttribute('data-i18n', item.key);
+      lbl.textContent = item.key;
+      li.append(cb, lbl);
+      cb.addEventListener('change', () => {
+        packState[item.id] = cb.checked;
+        li.classList.toggle('checked', cb.checked);
+        savePack(packState);
+        updatePackProgress();
+      });
+      packList.appendChild(li);
+    });
+
+    function applyPackFilter() {
+      document.querySelectorAll('.packing-item').forEach(li => {
+        li.hidden = !(packFilter === 'all' || li.dataset.cat === packFilter);
+      });
+    }
+
+    function updatePackProgress() {
+      const lang = document.documentElement.lang || 'en';
+      const dict = translations[lang] || translations.en;
+      const visible = packingItems.filter(i => packFilter === 'all' || i.cat === packFilter);
+      const done = visible.filter(i => packState[i.id]).length;
+      const total = visible.length;
+      const pct = total ? (done / total) * 100 : 0;
+      packFill.style.width = pct + '%';
+      const tmpl = dict.pack_progress || '{done} of {total} items packed';
+      packLabel.textContent = tmpl.replace('{done}', done).replace('{total}', total);
+    }
+
+    document.querySelectorAll('.chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        packFilter = chip.dataset.filter;
+        document.querySelectorAll('.chip').forEach(c => c.classList.toggle('active', c === chip));
+        applyPackFilter();
+        updatePackProgress();
+      });
+    });
+
+    // Re-translate packing items and refresh progress label on language change
+    const origApplyLang = applyLang;
+    window.applyLang = function(lang) {
+      origApplyLang(lang);
+      updatePackProgress();
+    };
+    applyPackFilter();
+    // Refresh labels now that items exist
+    origApplyLang(document.documentElement.lang || storedLang);
+    updatePackProgress();
+
+    // Camp meetup schedule (editable, localStorage)
+    const SCHEDULE_KEY = 'fusion_camp_schedule';
+    const scheduleList = document.getElementById('schedule-list');
+    const scheduleInput = document.getElementById('schedule-input');
+    const scheduleAddBtn = document.getElementById('schedule-add-btn');
+    const scheduleEmpty = document.getElementById('schedule-empty');
+
+    function loadSchedule() {
+      try { return JSON.parse(localStorage.getItem(SCHEDULE_KEY) || '[]'); } catch { return []; }
+    }
+    function saveSchedule(arr) { localStorage.setItem(SCHEDULE_KEY, JSON.stringify(arr)); }
+
+    function renderSchedule() {
+      const items = loadSchedule();
+      scheduleList.innerHTML = '';
+      items.forEach((text, idx) => {
+        const li = document.createElement('li');
+        const span = document.createElement('span');
+        span.textContent = text;
+        const del = document.createElement('button');
+        del.type = 'button';
+        del.className = 'del';
+        del.textContent = '×';
+        del.setAttribute('aria-label', 'Remove');
+        del.addEventListener('click', () => {
+          const cur = loadSchedule();
+          cur.splice(idx, 1);
+          saveSchedule(cur);
+          renderSchedule();
+        });
+        li.append(span, del);
+        scheduleList.appendChild(li);
+      });
+      scheduleEmpty.hidden = items.length > 0;
+    }
+
+    function addScheduleEntry() {
+      const val = scheduleInput.value.trim();
+      if (!val) return;
+      const cur = loadSchedule();
+      cur.push(val);
+      saveSchedule(cur);
+      scheduleInput.value = '';
+      renderSchedule();
+    }
+
+    scheduleAddBtn.addEventListener('click', addScheduleEntry);
+    scheduleInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') { e.preventDefault(); addScheduleEntry(); }
+    });
+    renderSchedule();
+
+    // Camp tab — external data sources
+    const SHEET_URL_MEMBERS = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vShnEGQeSb6vuVKcI3-QHQMotSKFZGdfC2BZBcl-iWTBMOQvJZNCoi0y_FoAkZcpYmdFlWYFWieiWJf/pub?gid=0&single=true&output=csv';
+    const SHEET_URL_ARRIVAL_FUSION = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vShnEGQeSb6vuVKcI3-QHQMotSKFZGdfC2BZBcl-iWTBMOQvJZNCoi0y_FoAkZcpYmdFlWYFWieiWJf/pub?gid=0&single=true&output=csv';
+    const SHEET_URL_ARRIVAL_BERLIN = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vShnEGQeSb6vuVKcI3-QHQMotSKFZGdfC2BZBcl-iWTBMOQvJZNCoi0y_FoAkZcpYmdFlWYFWieiWJf/pub?gid=0&single=true&output=csv';
+    const WHATSAPP_URL = 'TODO_REPLACE_WHATSAPP_INVITE_URL';
+
+    document.getElementById('whatsapp-link').href = WHATSAPP_URL;
+
+    function tr(key, vars) {
+      const lang = document.documentElement.lang || 'en';
+      const dict = translations[lang] || translations.en;
+      let s = dict[key] || key;
+      if (vars) Object.keys(vars).forEach(k => { s = s.replace('{' + k + '}', vars[k]); });
+      return s;
+    }
+
+    function parseCSV(text) {
+      if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
+      const rows = []; let row = [], field = '', inQ = false, i = 0;
+      while (i < text.length) {
+        const c = text[i];
+        if (inQ) {
+          if (c === '"') {
+            if (text[i + 1] === '"') { field += '"'; i += 2; continue; }
+            inQ = false; i++; continue;
+          }
+          field += c; i++; continue;
+        }
+        if (c === '"') { inQ = true; i++; continue; }
+        if (c === ',') { row.push(field); field = ''; i++; continue; }
+        if (c === '\r') { i++; continue; }
+        if (c === '\n') { row.push(field); rows.push(row); row = []; field = ''; i++; continue; }
+        field += c; i++;
+      }
+      if (field.length || row.length) { row.push(field); rows.push(row); }
+      return rows.filter(r => r.some(c => c && c.trim().length));
+    }
+
+    function csvToObjects(rows) {
+      if (!rows.length) return [];
+      const headers = rows[0].map(h => h.trim().toLowerCase());
+      return rows.slice(1).map(r => {
+        const o = {};
+        headers.forEach((h, i) => { o[h] = (r[i] || '').trim(); });
+        return o;
+      });
+    }
+
+    async function fetchCSV(url) {
+      const cacheKey = 'csvcache::' + url;
+      try {
+        if (!url || url.startsWith('TODO_')) throw new Error('URL not configured');
+        const resp = await fetch(url, { cache: 'no-store' });
+        if (!resp.ok) throw new Error('HTTP ' + resp.status);
+        const text = await resp.text();
+        localStorage.setItem(cacheKey, text);
+        return { data: csvToObjects(parseCSV(text)), fromCache: false };
+      } catch (err) {
+        const cached = localStorage.getItem(cacheKey);
+        if (cached) return { data: csvToObjects(parseCSV(cached)), fromCache: true, error: err };
+        return { data: null, fromCache: false, error: err };
+      }
+    }
+
+    function formatArrivalLabel(iso) {
+      if (!iso) return '';
+      const d = new Date(iso);
+      if (isNaN(d)) return iso;
+      const lang = document.documentElement.lang || 'en';
+      const locale = { en: 'en-GB', es: 'es-ES', de: 'de-DE' }[lang] || 'en-GB';
+      return d.toLocaleDateString(locale, { weekday: 'short', day: 'numeric', month: 'short' });
+    }
+
+    // Members section
+    const membersSkeleton = document.getElementById('members-skeleton');
+    const membersList = document.getElementById('members-list');
+    const membersError = document.getElementById('members-error');
+    const membersHeadcount = document.getElementById('members-headcount');
+
+    function renderMembers(rows) {
+      membersList.innerHTML = '';
+      if (!rows || !rows.length) {
+        const p = document.createElement('p');
+        p.className = 'carpool-empty';
+        p.textContent = tr('camp_members_empty');
+        membersList.appendChild(p);
+        membersHeadcount.hidden = true;
+        return;
+      }
+      rows.forEach(r => {
+        const card = document.createElement('div');
+        card.className = 'member-card';
+        const main = document.createElement('div');
+        main.className = 'member-main';
+        const nm = document.createElement('div');
+        nm.className = 'member-name';
+        nm.textContent = r.name || r.member || '—';
+        main.appendChild(nm);
+        const arrivalRaw = r.arrival || r.arrival_date || r.date || '';
+        if (arrivalRaw) {
+          const ar = document.createElement('span');
+          ar.className = 'member-arrival';
+          ar.textContent = formatArrivalLabel(arrivalRaw);
+          main.appendChild(ar);
+        }
+        card.appendChild(main);
+        if (r.notes && r.notes.trim()) {
+          const badge = document.createElement('span');
+          badge.className = 'member-note-badge';
+          badge.textContent = r.notes.trim();
+          card.appendChild(badge);
+        }
+        membersList.appendChild(card);
+      });
+      membersHeadcount.textContent = tr('camp_members_total', { count: rows.length });
+      membersHeadcount.hidden = false;
+    }
+
+    async function loadMembers() {
+      membersError.hidden = true;
+      membersSkeleton.hidden = false;
+      membersList.hidden = true;
+      const { data, fromCache, error } = await fetchCSV(SHEET_URL_MEMBERS);
+      membersSkeleton.hidden = true;
+      membersList.hidden = false;
+      if (data) {
+        renderMembers(data);
+        if (fromCache) {
+          membersError.textContent = tr('camp_members_load_error');
+          membersError.hidden = false;
+        }
+      } else {
+        renderMembers([]);
+        membersError.textContent = tr('camp_members_offline');
+        membersError.hidden = false;
+      }
+    }
+
+    // Arrival section
+    const arrivalBody = document.getElementById('arrival-body');
+    const arrivalError = document.getElementById('arrival-error');
+    const arrivalDateHeader = document.querySelector('.arrival-table thead th[data-col="date"]');
+    let arrivalCurrent = 'fusion';
+    let arrivalSortDir = null; // 'asc' | 'desc' | null
+    const arrivalDataCache = { fusion: [], berlin: [] };
+
+    function renderArrivals() {
+      const rows = arrivalDataCache[arrivalCurrent] || [];
+      const sorted = rows.slice();
+      if (arrivalSortDir) {
+        sorted.sort((a, b) => {
+          const av = a.date || ''; const bv = b.date || '';
+          const ad = new Date(av).getTime(); const bd = new Date(bv).getTime();
+          const x = isNaN(ad) ? av : ad;
+          const y = isNaN(bd) ? bv : bd;
+          if (x < y) return arrivalSortDir === 'asc' ? -1 : 1;
+          if (x > y) return arrivalSortDir === 'asc' ? 1 : -1;
+          return 0;
+        });
+      }
+      arrivalBody.innerHTML = '';
+      if (!sorted.length) {
+        const row = document.createElement('tr');
+        const td = document.createElement('td');
+        td.colSpan = 5;
+        td.className = 'arrival-empty';
+        td.textContent = tr('camp_arrival_empty');
+        row.appendChild(td);
+        arrivalBody.appendChild(row);
+        return;
+      }
+      sorted.forEach(r => {
+        const row = document.createElement('tr');
+        ['name', 'date', 'time', 'transport', 'notes'].forEach(col => {
+          const td = document.createElement('td');
+          let val = r[col] || '';
+          if (col === 'date' && val) val = formatArrivalLabel(val);
+          td.textContent = val;
+          row.appendChild(td);
+        });
+        arrivalBody.appendChild(row);
+      });
+    }
+
+    async function loadArrivals(which) {
+      arrivalCurrent = which;
+      arrivalError.hidden = true;
+      arrivalBody.innerHTML = '<tr><td colspan="5" class="arrival-empty">…</td></tr>';
+      const url = which === 'berlin' ? SHEET_URL_ARRIVAL_BERLIN : SHEET_URL_ARRIVAL_FUSION;
+      const { data, fromCache, error } = await fetchCSV(url);
+      arrivalDataCache[which] = data || [];
+      renderArrivals();
+      if (data && fromCache) {
+        arrivalError.textContent = tr('camp_arrival_load_error');
+        arrivalError.hidden = false;
+      } else if (!data) {
+        arrivalError.textContent = tr('camp_arrival_load_error');
+        arrivalError.hidden = false;
+      }
+    }
+
+    document.querySelectorAll('.subtab').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.subtab').forEach(b => b.classList.toggle('active', b === btn));
+        loadArrivals(btn.dataset.arrival);
+      });
+    });
+
+    arrivalDateHeader.addEventListener('click', () => {
+      arrivalSortDir = arrivalSortDir === 'asc' ? 'desc' : 'asc';
+      document.querySelectorAll('.arrival-table thead th').forEach(th => {
+        th.classList.remove('sort-asc', 'sort-desc');
+      });
+      arrivalDateHeader.classList.add(arrivalSortDir === 'asc' ? 'sort-asc' : 'sort-desc');
+      renderArrivals();
+    });
+
+    // Carpool board
+    const CARPOOL_KEY = 'fusion_carpool_rides';
+    const carpoolList = document.getElementById('carpool-list');
+    const carpoolEmpty = document.getElementById('carpool-empty');
+    const carpoolForm = document.getElementById('carpool-form');
+
+    function loadCarpool() {
+      try { return JSON.parse(localStorage.getItem(CARPOOL_KEY) || '[]'); } catch { return []; }
+    }
+    function saveCarpool(arr) { localStorage.setItem(CARPOOL_KEY, JSON.stringify(arr)); }
+
+    function renderCarpool() {
+      const items = loadCarpool();
+      carpoolList.innerHTML = '';
+      carpoolEmpty.hidden = items.length > 0;
+      items.forEach((r, idx) => {
+        const card = document.createElement('div');
+        card.className = 'carpool-card';
+        const row = document.createElement('div');
+        row.className = 'row';
+        const nm = document.createElement('span');
+        nm.className = 'name';
+        nm.textContent = r.name;
+        const seats = document.createElement('span');
+        seats.className = 'seats-badge';
+        seats.textContent = tr('camp_transport_seats_label', { count: r.seats });
+        row.append(nm, seats);
+        const from = document.createElement('div');
+        from.className = 'meta';
+        from.textContent = r.from;
+        const contact = document.createElement('a');
+        contact.className = 'contact';
+        contact.textContent = r.contact;
+        const digits = r.contact.replace(/[^\d+]/g, '');
+        contact.href = digits ? ('tel:' + digits) : '#';
+        const del = document.createElement('button');
+        del.type = 'button';
+        del.className = 'del';
+        del.textContent = '×';
+        del.setAttribute('aria-label', 'Remove');
+        del.addEventListener('click', () => {
+          const cur = loadCarpool();
+          cur.splice(idx, 1);
+          saveCarpool(cur);
+          renderCarpool();
+        });
+        card.append(row, from, contact, del);
+        carpoolList.appendChild(card);
+      });
+    }
+
+    carpoolForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const entry = {
+        name: document.getElementById('carpool-name').value.trim(),
+        seats: parseInt(document.getElementById('carpool-seats').value, 10) || 1,
+        from: document.getElementById('carpool-from').value.trim(),
+        contact: document.getElementById('carpool-contact').value.trim()
+      };
+      if (!entry.name || !entry.from || !entry.contact) return;
+      const cur = loadCarpool();
+      cur.push(entry);
+      saveCarpool(cur);
+      carpoolForm.reset();
+      renderCarpool();
+    });
+
+    // Re-render camp content on language change (badges, table empty text, seat labels)
+    const prevApplyLang2 = window.applyLang;
+    window.applyLang = function(lang) {
+      prevApplyLang2(lang);
+      if (membersHeadcount && !membersHeadcount.hidden) {
+        const count = membersList.querySelectorAll('.member-card').length;
+        membersHeadcount.textContent = tr('camp_members_total', { count });
+      }
+      renderArrivals();
+      renderCarpool();
+    };
+
+    renderCarpool();
+    loadMembers();
+    loadArrivals('fusion');
+
+    // Stage 5 — Budget, Equipment, GPS
+
+    // GPS constants (TODO: replace with real values)
+    const CAMP_LAT = 53.3180;
+    const CAMP_LON = 12.7520;
+    const MEETING_POINT_DESCRIPTION = '[TODO: replace MEETING_POINT_DESCRIPTION — e.g. the big painted compass at the edge of our camp, next to the oak tree]';
+
+    document.getElementById('gps-coords').textContent = CAMP_LAT.toFixed(4) + ', ' + CAMP_LON.toFixed(4);
+    document.getElementById('gps-google').href = 'https://maps.google.com/?q=' + CAMP_LAT + ',' + CAMP_LON;
+    document.getElementById('gps-apple').href = 'https://maps.apple.com/?q=' + CAMP_LAT + ',' + CAMP_LON;
+    document.getElementById('meeting-desc').textContent = MEETING_POINT_DESCRIPTION;
+
+    function renderMeetingReassure() {
+      const el = document.getElementById('meeting-reassure');
+      el.textContent = tr('camp_gps_meeting', { location: MEETING_POINT_DESCRIPTION });
+    }
+
+    // Track members for budget dropdown — wrap the existing renderMembers
+    let campMembersList = [];
+    const _origRenderMembers = renderMembers;
+    renderMembers = function(rows) {
+      _origRenderMembers(rows);
+      campMembersList = (rows || []).map(r => (r.name || r.member || '').trim()).filter(Boolean);
+      updateBudgetWhoOptions();
+      updateBudgetSummary();
+    };
+
+    // Budget tracker
+    const BUDGET_KEY = 'fusion_budget';
+    const budgetList = document.getElementById('budget-list');
+    const budgetEmpty = document.getElementById('budget-empty');
+    const budgetForm = document.getElementById('budget-form');
+    const budgetWho = document.getElementById('budget-who');
+    const budgetTotalEl = document.getElementById('budget-total');
+    const budgetPerPersonEl = document.getElementById('budget-per-person');
+    const budgetExport = document.getElementById('budget-export');
+
+    function loadBudget() {
+      try { return JSON.parse(localStorage.getItem(BUDGET_KEY) || '[]'); } catch { return []; }
+    }
+    function saveBudget(arr) { localStorage.setItem(BUDGET_KEY, JSON.stringify(arr)); }
+
+    function formatEuro(n) {
+      const lang = document.documentElement.lang || 'en';
+      const locale = { en: 'en-IE', es: 'es-ES', de: 'de-DE' }[lang] || 'en-IE';
+      try {
+        return new Intl.NumberFormat(locale, { style: 'currency', currency: 'EUR' }).format(n);
+      } catch {
+        return '€' + n.toFixed(2);
+      }
+    }
+
+    function updateBudgetWhoOptions() {
+      const current = budgetWho.value;
+      const placeholder = budgetWho.querySelector('option[value=""]');
+      budgetWho.innerHTML = '';
+      if (placeholder) budgetWho.appendChild(placeholder);
+      campMembersList.forEach(name => {
+        const opt = document.createElement('option');
+        opt.value = name;
+        opt.textContent = name;
+        budgetWho.appendChild(opt);
+      });
+      // keep selection if still valid
+      if (current && campMembersList.includes(current)) budgetWho.value = current;
+    }
+
+    function updateBudgetSummary() {
+      const items = loadBudget();
+      const total = items.reduce((s, it) => s + (parseFloat(it.amount) || 0), 0);
+      budgetTotalEl.textContent = formatEuro(total);
+      const n = campMembersList.length;
+      budgetPerPersonEl.textContent = n > 0 ? formatEuro(total / n) : formatEuro(total);
+    }
+
+    function renderBudget() {
+      const items = loadBudget();
+      budgetList.innerHTML = '';
+      budgetEmpty.hidden = items.length > 0;
+      items.forEach((it, idx) => {
+        const row = document.createElement('div');
+        row.className = 'budget-item';
+        const main = document.createElement('div');
+        const desc = document.createElement('div');
+        desc.className = 'desc';
+        desc.textContent = it.desc;
+        const who = document.createElement('span');
+        who.className = 'who';
+        who.textContent = it.who || '—';
+        main.append(desc, who);
+        const amt = document.createElement('span');
+        amt.className = 'amt';
+        amt.textContent = formatEuro(parseFloat(it.amount) || 0);
+        const del = document.createElement('button');
+        del.type = 'button';
+        del.className = 'del';
+        del.textContent = '×';
+        del.setAttribute('aria-label', 'Remove');
+        del.addEventListener('click', () => {
+          const cur = loadBudget();
+          cur.splice(idx, 1);
+          saveBudget(cur);
+          renderBudget();
+        });
+        row.append(main, amt, del);
+        budgetList.appendChild(row);
+      });
+      updateBudgetSummary();
+    }
+
+    budgetForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const entry = {
+        desc: document.getElementById('budget-desc').value.trim(),
+        amount: parseFloat(document.getElementById('budget-amount').value) || 0,
+        who: budgetWho.value.trim()
+      };
+      if (!entry.desc || !entry.amount || !entry.who) return;
+      const cur = loadBudget();
+      cur.push(entry);
+      saveBudget(cur);
+      budgetForm.reset();
+      renderBudget();
+    });
+
+    function buildBudgetSummary() {
+      const items = loadBudget();
+      const total = items.reduce((s, it) => s + (parseFloat(it.amount) || 0), 0);
+      const n = campMembersList.length;
+      const lines = [];
+      lines.push(tr('camp_budget_summary_header'));
+      lines.push('');
+      items.forEach(it => {
+        lines.push('- ' + it.desc + ' — ' + formatEuro(parseFloat(it.amount) || 0) + ' (' + (it.who || '—') + ')');
+      });
+      if (!items.length) lines.push(tr('camp_budget_empty'));
+      lines.push('');
+      lines.push(tr('camp_budget_total') + ': ' + formatEuro(total));
+      lines.push(tr('camp_budget_per_person') + ': ' + (n > 0 ? formatEuro(total / n) : tr('camp_budget_no_members')));
+      return lines.join('\n');
+    }
+
+    async function copyBudget() {
+      const text = buildBudgetSummary();
+      let ok = false;
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          await navigator.clipboard.writeText(text);
+          ok = true;
+        }
+      } catch { ok = false; }
+      if (!ok) {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.top = '-1000px';
+        document.body.appendChild(ta);
+        ta.focus(); ta.select();
+        try { ok = document.execCommand('copy'); } catch { ok = false; }
+        document.body.removeChild(ta);
+      }
+      if (ok) {
+        const orig = budgetExport.textContent;
+        budgetExport.textContent = tr('camp_budget_copied');
+        budgetExport.classList.add('copied');
+        setTimeout(() => {
+          budgetExport.classList.remove('copied');
+          budgetExport.textContent = tr('camp_budget_export');
+        }, 1400);
+      } else {
+        prompt(tr('camp_budget_export'), text);
+      }
+    }
+    budgetExport.addEventListener('click', copyBudget);
+
+    // Equipment list
+    const EQUIP_KEY = 'fusion_equipment';
+    const equipItemsDef = [
+      { id: 'gas_stove', key: 'equip_gas_stove' },
+      { id: 'first_aid', key: 'equip_first_aid' },
+      { id: 'tarp', key: 'equip_tarp' },
+      { id: 'water_containers', key: 'equip_water_containers' },
+      { id: 'rope_pegs', key: 'equip_rope_pegs' },
+      { id: 'tools', key: 'equip_tools' },
+      { id: 'cooler', key: 'equip_cooler' },
+      { id: 'solar_charger', key: 'equip_solar_charger' },
+      { id: 'rug', key: 'equip_rug' },
+      { id: 'lighting', key: 'equip_lighting' }
+    ];
+    const equipList = document.getElementById('equip-list');
+    const equipFill = document.getElementById('equip-fill');
+    const equipProgressLabel = document.getElementById('equip-progress-label');
+
+    function loadEquip() {
+      try { return JSON.parse(localStorage.getItem(EQUIP_KEY) || '{}'); } catch { return {}; }
+    }
+    function saveEquip(state) { localStorage.setItem(EQUIP_KEY, JSON.stringify(state)); }
+
+    const equipState = loadEquip();
+
+    function updateEquipProgress() {
+      const done = equipItemsDef.filter(i => equipState[i.id] && equipState[i.id].done).length;
+      const total = equipItemsDef.length;
+      equipFill.style.width = (total ? (done / total) * 100 : 0) + '%';
+      equipProgressLabel.textContent = tr('camp_equipment_progress', { done, total });
+    }
+
+    equipItemsDef.forEach(item => {
+      const state = equipState[item.id] || { done: false, who: '' };
+      const row = document.createElement('div');
+      row.className = 'equip-item' + (state.done ? ' done' : '');
+      const cb = document.createElement('input');
+      cb.type = 'checkbox';
+      cb.id = 'equip-' + item.id;
+      cb.checked = !!state.done;
+      const main = document.createElement('div');
+      main.className = 'equip-main';
+      const name = document.createElement('label');
+      name.className = 'equip-name';
+      name.setAttribute('for', cb.id);
+      name.setAttribute('data-i18n', item.key);
+      name.textContent = item.key;
+      const sub = document.createElement('div');
+      sub.className = 'equip-sub';
+      const subLabel = document.createElement('span');
+      subLabel.className = 'equip-who-label';
+      subLabel.setAttribute('data-i18n', 'camp_equipment_who');
+      subLabel.textContent = 'Assigned';
+      const who = document.createElement('input');
+      who.type = 'text';
+      who.value = state.who || '';
+      who.setAttribute('data-i18n-ph', 'camp_equipment_who_ph');
+      who.placeholder = tr('camp_equipment_who_ph');
+      who.addEventListener('input', () => {
+        const cur = loadEquip();
+        cur[item.id] = Object.assign({ done: cb.checked, who: '' }, cur[item.id] || {}, { who: who.value });
+        saveEquip(cur);
+        equipState[item.id] = cur[item.id];
+      });
+      sub.append(subLabel, who);
+      main.append(name, sub);
+      cb.addEventListener('change', () => {
+        const cur = loadEquip();
+        cur[item.id] = Object.assign({ done: false, who: '' }, cur[item.id] || {}, { done: cb.checked });
+        saveEquip(cur);
+        equipState[item.id] = cur[item.id];
+        row.classList.toggle('done', cb.checked);
+        updateEquipProgress();
+      });
+      row.append(cb, main);
+      equipList.appendChild(row);
+    });
+
+    function refreshEquipPlaceholders() {
+      equipList.querySelectorAll('input[type="text"][data-i18n-ph]').forEach(inp => {
+        inp.placeholder = tr(inp.getAttribute('data-i18n-ph'));
+      });
+    }
+
+    // Wrap applyLang once more to refresh stage-5 UI strings
+    const prevApplyLang3 = window.applyLang;
+    window.applyLang = function(lang) {
+      prevApplyLang3(lang);
+      updateBudgetSummary();
+      renderBudget();
+      updateEquipProgress();
+      refreshEquipPlaceholders();
+      renderMeetingReassure();
+    };
+
+    renderBudget();
+    updateEquipProgress();
+    refreshEquipPlaceholders();
+    renderMeetingReassure();
+
+    // ===== Stage 7: Weather (Open-Meteo, Lärz) =====
+    const WEATHER_LAT = 53.3180;
+    const WEATHER_LON = 12.7520;
+    const WEATHER_CACHE_KEY = 'fusion_weather_cache';
+    const WEATHER_URL = 'https://api.open-meteo.com/v1/forecast?latitude=' + WEATHER_LAT +
+      '&longitude=' + WEATHER_LON +
+      '&current=temperature_2m,apparent_temperature,relative_humidity_2m,wind_speed_10m,weather_code' +
+      '&daily=weather_code,temperature_2m_max,temperature_2m_min' +
+      '&timezone=Europe%2FBerlin&forecast_days=6';
+
+    function codeToCategory(code) {
+      if (code === 0) return 'clear';
+      if (code === 1 || code === 2) return 'partly';
+      if (code === 3) return 'cloudy';
+      if (code === 45 || code === 48) return 'fog';
+      if (code === 51 || code === 53 || code === 55 || code === 56 || code === 57 ||
+          code === 61 || code === 63 || code === 66 || code === 80 || code === 81) return 'rain';
+      if (code === 65 || code === 67 || code === 82) return 'showers';
+      if (code === 71 || code === 73 || code === 75 || code === 77 || code === 85 || code === 86) return 'snow';
+      if (code >= 95 && code <= 99) return 'thunder';
+      return 'cloudy';
+    }
+
+    function weatherIcon(cat, size) {
+      const s = size || 48;
+      const GOLD = '#e8c96a', TEAL = '#4bc8a0', MAG = '#c84b6a', MUTED = '#9090b0', WHITE = '#f0ece0';
+      const open = '<svg class="weather-icon" viewBox="0 0 64 64" width="' + s + '" height="' + s + '" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">';
+      const close = '</svg>';
+      const sun = function(cx, cy, r, rays) {
+        let g = '<circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" fill="' + GOLD + '"/>';
+        if (rays) {
+          for (let i = 0; i < 8; i++) {
+            const a = (i * Math.PI) / 4;
+            const x1 = cx + Math.cos(a) * (r + 3);
+            const y1 = cy + Math.sin(a) * (r + 3);
+            const x2 = cx + Math.cos(a) * (r + 9);
+            const y2 = cy + Math.sin(a) * (r + 9);
+            g += '<line x1="' + x1.toFixed(1) + '" y1="' + y1.toFixed(1) + '" x2="' + x2.toFixed(1) + '" y2="' + y2.toFixed(1) + '" stroke="' + GOLD + '" stroke-width="3" stroke-linecap="round"/>';
+          }
+        }
+        return g;
+      };
+      const cloud = function(fill) {
+        return '<path d="M18 42 Q12 42 12 36 Q12 30 18 30 Q19 24 26 24 Q33 24 35 30 Q42 30 42 36 Q42 42 36 42 Z" fill="' + fill + '"/>';
+      };
+      if (cat === 'clear') {
+        return open + sun(32, 32, 10, true) + close;
+      }
+      if (cat === 'partly') {
+        return open + sun(42, 22, 7, true) + cloud(MUTED) + close;
+      }
+      if (cat === 'cloudy') {
+        return open + '<path d="M18 44 Q10 44 10 36 Q10 28 18 28 Q19 20 28 20 Q37 20 39 28 Q48 28 48 36 Q48 44 40 44 Z" fill="' + MUTED + '"/>' + close;
+      }
+      if (cat === 'rain') {
+        return open + cloud(MUTED) +
+          '<line x1="20" y1="46" x2="18" y2="54" stroke="' + TEAL + '" stroke-width="3" stroke-linecap="round"/>' +
+          '<line x1="28" y1="46" x2="26" y2="54" stroke="' + TEAL + '" stroke-width="3" stroke-linecap="round"/>' +
+          '<line x1="36" y1="46" x2="34" y2="54" stroke="' + TEAL + '" stroke-width="3" stroke-linecap="round"/>' +
+          close;
+      }
+      if (cat === 'showers') {
+        return open + cloud(MUTED) +
+          '<line x1="22" y1="46" x2="19" y2="58" stroke="' + TEAL + '" stroke-width="4" stroke-linecap="round"/>' +
+          '<line x1="34" y1="46" x2="31" y2="58" stroke="' + TEAL + '" stroke-width="4" stroke-linecap="round"/>' +
+          close;
+      }
+      if (cat === 'thunder') {
+        return open + cloud(MUTED) +
+          '<polygon points="30,44 24,56 29,56 26,62 36,50 31,50 34,44" fill="' + MAG + '"/>' +
+          close;
+      }
+      if (cat === 'fog') {
+        return open +
+          '<line x1="10" y1="24" x2="54" y2="24" stroke="' + MUTED + '" stroke-width="3" stroke-linecap="round"/>' +
+          '<line x1="14" y1="34" x2="50" y2="34" stroke="' + MUTED + '" stroke-width="3" stroke-linecap="round"/>' +
+          '<line x1="10" y1="44" x2="54" y2="44" stroke="' + MUTED + '" stroke-width="3" stroke-linecap="round"/>' +
+          close;
+      }
+      if (cat === 'snow') {
+        return open + cloud(MUTED) +
+          '<circle cx="20" cy="50" r="2.5" fill="' + WHITE + '"/>' +
+          '<circle cx="30" cy="54" r="2.5" fill="' + WHITE + '"/>' +
+          '<circle cx="40" cy="50" r="2.5" fill="' + WHITE + '"/>' +
+          close;
+      }
+      return open + cloud(MUTED) + close;
+    }
+
+    const DAY_KEYS = ['weather_day_sun','weather_day_mon','weather_day_tue','weather_day_wed','weather_day_thu','weather_day_fri','weather_day_sat'];
+
+    let weatherState = { data: null, offline: false, error: false };
+
+    function renderWeather() {
+      const body = document.getElementById('weather-body');
+      const banner = document.getElementById('weather-banner');
+      if (!body || !banner) return;
+      banner.hidden = true;
+      banner.className = '';
+      const data = weatherState.data;
+
+      if (!data) {
+        if (weatherState.error) {
+          body.innerHTML = '';
+          banner.hidden = false;
+          banner.className = 'weather-banner wx-error';
+          banner.textContent = tr('weather_error');
+        }
+        return;
+      }
+
+      const cur = data.current;
+      const daily = data.daily;
+      const curCat = codeToCategory(cur.weather_code);
+      const curCondKey = 'weather_cond_' + curCat;
+      const temp = Math.round(cur.temperature_2m);
+      const feels = Math.round(cur.apparent_temperature);
+      const wind = Math.round(cur.wind_speed_10m);
+      const hum = Math.round(cur.relative_humidity_2m);
+
+      let html = '';
+      html += '<div class="weather-current">';
+      html += weatherIcon(curCat, 48);
+      html += '<div class="weather-current-text">';
+      html += '<div class="weather-temp">' + temp + '°</div>';
+      html += '<div class="weather-condition" data-wx-cond>' + tr(curCondKey) + '</div>';
+      html += '</div></div>';
+
+      html += '<div class="weather-stats">';
+      html += '<div class="weather-stat"><div class="weather-stat-label" data-wx-label="weather_feels_like">' + tr('weather_feels_like') + '</div><div class="weather-stat-value">' + feels + '°</div></div>';
+      html += '<div class="weather-stat"><div class="weather-stat-label" data-wx-label="weather_wind">' + tr('weather_wind') + '</div><div class="weather-stat-value">' + wind + ' km/h</div></div>';
+      html += '<div class="weather-stat"><div class="weather-stat-label" data-wx-label="weather_humidity">' + tr('weather_humidity') + '</div><div class="weather-stat-value">' + hum + '%</div></div>';
+      html += '<div class="weather-stat"><div class="weather-stat-label" data-wx-label="weather_now">' + tr('weather_now') + '</div><div class="weather-stat-value">' + temp + '°</div></div>';
+      html += '</div>';
+
+      html += '<h3 class="weather-forecast-title" data-i18n="weather_forecast_title">' + tr('weather_forecast_title') + '</h3>';
+      html += '<div class="weather-forecast">';
+      const times = daily.time || [];
+      for (let i = 1; i < times.length && i <= 5; i++) {
+        const d = new Date(times[i] + 'T00:00:00');
+        const dayKey = DAY_KEYS[d.getDay()];
+        const cat = codeToCategory(daily.weather_code[i]);
+        const hi = Math.round(daily.temperature_2m_max[i]);
+        const lo = Math.round(daily.temperature_2m_min[i]);
+        html += '<div class="weather-day">';
+        html += '<div class="weather-day-label" data-wx-day="' + dayKey + '">' + tr(dayKey) + '</div>';
+        const dayIcon = weatherIcon(cat, 28).replace('class="weather-icon"', 'class="weather-day-icon"');
+        html += dayIcon;
+        html += '<div class="weather-day-temps"><span class="wx-hi">' + hi + '°</span><span class="wx-sep">/</span><span class="wx-lo">' + lo + '°</span></div>';
+        html += '</div>';
+      }
+      html += '</div>';
+
+      body.innerHTML = html;
+
+      if (weatherState.offline) {
+        banner.hidden = false;
+        banner.className = 'weather-banner wx-offline';
+        banner.textContent = tr('weather_offline');
+      }
+    }
+
+    async function loadWeather(force) {
+      const btn = document.getElementById('weather-refresh');
+      if (btn) btn.classList.add('wx-loading');
+
+      let cached = null;
+      try {
+        const raw = localStorage.getItem(WEATHER_CACHE_KEY);
+        if (raw) cached = JSON.parse(raw);
+      } catch (_) {}
+
+      const fresh = cached && (Date.now() - cached.timestamp) < 10 * 60 * 1000;
+      if (cached && !force) {
+        weatherState.data = cached.data;
+        weatherState.offline = false;
+        weatherState.error = false;
+        renderWeather();
+        if (fresh) {
+          if (btn) btn.classList.remove('wx-loading');
+          return;
+        }
+      }
+
+      try {
+        const res = await fetch(WEATHER_URL);
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const json = await res.json();
+        weatherState.data = json;
+        weatherState.offline = false;
+        weatherState.error = false;
+        try {
+          localStorage.setItem(WEATHER_CACHE_KEY, JSON.stringify({ timestamp: Date.now(), data: json }));
+        } catch (_) {}
+        renderWeather();
+      } catch (err) {
+        if (cached) {
+          weatherState.data = cached.data;
+          weatherState.offline = true;
+          weatherState.error = false;
+          renderWeather();
+        } else {
+          weatherState.data = null;
+          weatherState.offline = false;
+          weatherState.error = true;
+          renderWeather();
+        }
+      } finally {
+        if (btn) btn.classList.remove('wx-loading');
+      }
+    }
+
+    const weatherRefreshBtn = document.getElementById('weather-refresh');
+    if (weatherRefreshBtn) {
+      weatherRefreshBtn.addEventListener('click', function() { loadWeather(true); });
+    }
+
+    const prevApplyLang4 = window.applyLang;
+    window.applyLang = function(lang) {
+      prevApplyLang4(lang);
+      const btn = document.getElementById('weather-refresh');
+      if (btn) btn.setAttribute('aria-label', tr('weather_refresh_aria'));
+      if (weatherState.data) {
+        renderWeather();
+      } else if (weatherState.error) {
+        const banner = document.getElementById('weather-banner');
+        if (banner && !banner.hidden) banner.textContent = tr('weather_error');
+      }
+    };
+
+    if (weatherRefreshBtn) {
+      weatherRefreshBtn.setAttribute('aria-label', tr('weather_refresh_aria'));
+    }
+    loadWeather(false);
+
+    // ===== Stage 8: Site Map =====
+    const sitemapSvg = document.getElementById('sitemap-svg');
+    const sitemapCard = document.getElementById('sitemap-card');
+    const sitemapCardName = document.getElementById('sitemap-card-name');
+    const sitemapCardDesc = document.getElementById('sitemap-card-desc');
+    let activeLandmarkId = null;
+
+    function closeSitemapCard() {
+      activeLandmarkId = null;
+      if (sitemapSvg) {
+        sitemapSvg.querySelectorAll('.sm-landmark.sm-active').forEach(el => el.classList.remove('sm-active'));
+      }
+      if (sitemapCard) {
+        sitemapCard.classList.remove('open');
+        setTimeout(() => {
+          if (!sitemapCard.classList.contains('open')) sitemapCard.hidden = true;
+        }, 260);
+      }
+    }
+
+    function openSitemapCard(id, groupEl) {
+      activeLandmarkId = id;
+      if (sitemapSvg) {
+        sitemapSvg.querySelectorAll('.sm-landmark.sm-active').forEach(el => el.classList.remove('sm-active'));
+      }
+      if (groupEl) groupEl.classList.add('sm-active');
+      if (sitemapCard && sitemapCardName && sitemapCardDesc) {
+        sitemapCardName.textContent = tr('map_' + id);
+        sitemapCardDesc.textContent = tr('map_' + id + '_desc');
+        sitemapCard.hidden = false;
+        requestAnimationFrame(() => sitemapCard.classList.add('open'));
+      }
+    }
+
+    if (sitemapSvg) {
+      sitemapSvg.querySelectorAll('.sm-landmark').forEach(group => {
+        const id = group.getAttribute('data-sm-id');
+        group.setAttribute('aria-label', tr('map_' + id));
+        const activate = (ev) => {
+          ev.preventDefault();
+          ev.stopPropagation();
+          if (activeLandmarkId === id) {
+            closeSitemapCard();
+          } else {
+            openSitemapCard(id, group);
+          }
+        };
+        group.addEventListener('click', activate);
+        group.addEventListener('keydown', (ev) => {
+          if (ev.key === 'Enter' || ev.key === ' ') {
+            activate(ev);
+          } else if (ev.key === 'Escape' && activeLandmarkId) {
+            closeSitemapCard();
+          }
+        });
+      });
+      sitemapSvg.addEventListener('click', (ev) => {
+        if (!ev.target.closest('.sm-landmark') && activeLandmarkId) {
+          closeSitemapCard();
+        }
+      });
+    }
+
+    const prevApplyLang5 = window.applyLang;
+    window.applyLang = function(lang) {
+      prevApplyLang5(lang);
+      if (sitemapSvg) {
+        sitemapSvg.querySelectorAll('.sm-landmark').forEach(group => {
+          const id = group.getAttribute('data-sm-id');
+          group.setAttribute('aria-label', tr('map_' + id));
+        });
+      }
+      if (activeLandmarkId && sitemapCardName && sitemapCardDesc) {
+        sitemapCardName.textContent = tr('map_' + activeLandmarkId);
+        sitemapCardDesc.textContent = tr('map_' + activeLandmarkId + '_desc');
+      }
+    };
+
+    const manifest = {
+      name: "Fusion 2026",
+      short_name: "Fusion",
+      theme_color: "#0f0f1e",
+      background_color: "#0f0f1e",
+      display: "standalone",
+      start_url: "."
+    };
+    const manifestBlob = new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' });
+    document.getElementById('manifest-link').href = URL.createObjectURL(manifestBlob);
+
+    if ('serviceWorker' in navigator) {
+      const swSource = `
+        const CACHE = 'fusion-2026-v1';
+        const PAGE = self.location.origin + self.registration.scope;
+        self.addEventListener('install', (e) => {
+          e.waitUntil(caches.open(CACHE).then(c => c.add(PAGE)).catch(() => {}));
+          self.skipWaiting();
+        });
+        self.addEventListener('activate', (e) => {
+          e.waitUntil(self.clients.claim());
+        });
+        self.addEventListener('fetch', (e) => {
+          if (e.request.method !== 'GET') return;
+          e.respondWith(
+            caches.match(e.request).then(hit => hit || fetch(e.request).then(res => {
+              const copy = res.clone();
+              caches.open(CACHE).then(c => c.put(e.request, copy)).catch(() => {});
+              return res;
+            }).catch(() => caches.match(PAGE)))
+          );
+        });
+      `;
+      const swBlob = new Blob([swSource], { type: 'application/javascript' });
+      const swUrl = URL.createObjectURL(swBlob);
+      navigator.serviceWorker.register(swUrl).catch(() => {});
+    }
+  </script>
+</body>
+</html>
