@@ -1960,8 +1960,8 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
             <thead>
               <tr>
                 <th data-col="name" data-i18n="camp_arrival_name">Name</th>
-                <th class="sortable" data-col="date" data-i18n="camp_arrival_date">Date</th>
-                <th data-col="time" data-i18n="camp_arrival_time">Time</th>
+                <th class="sortable" data-col="arrival" data-i18n="camp_arrival_arrival">Arrival</th>
+                <th data-col="departure" data-i18n="camp_arrival_departure">Departure</th>
                 <th data-col="transport" data-i18n="camp_arrival_transport">Transport</th>
                 <th data-col="notes" data-i18n="camp_arrival_notes">Notes</th>
               </tr>
@@ -2250,6 +2250,8 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         camp_arrival_name: "Name",
         camp_arrival_date: "Date",
         camp_arrival_time: "Time",
+        camp_arrival_arrival: "Arrival",
+        camp_arrival_departure: "Departure",
         camp_arrival_transport: "Transport",
         camp_arrival_notes: "Notes",
         camp_arrival_empty: "No arrivals on file yet.",
@@ -2464,6 +2466,8 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         camp_arrival_name: "Nombre",
         camp_arrival_date: "Fecha",
         camp_arrival_time: "Hora",
+        camp_arrival_arrival: "Llegada",
+        camp_arrival_departure: "Salida",
         camp_arrival_transport: "Transporte",
         camp_arrival_notes: "Notas",
         camp_arrival_empty: "Aún no hay llegadas registradas.",
@@ -2678,6 +2682,8 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         camp_arrival_name: "Name",
         camp_arrival_date: "Datum",
         camp_arrival_time: "Uhrzeit",
+        camp_arrival_arrival: "Ankunft",
+        camp_arrival_departure: "Abreise",
         camp_arrival_transport: "Verkehrsmittel",
         camp_arrival_notes: "Notizen",
         camp_arrival_empty: "Noch keine Anreisen eingetragen.",
@@ -2960,9 +2966,16 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
     renderSchedule();
 
     // Camp tab — external data sources
-    const SHEET_URL_MEMBERS = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vShnEGQeSb6vuVKcI3-QHQMotSKFZGdfC2BZBcl-iWTBMOQvJZNCoi0y_FoAkZcpYmdFlWYFWieiWJf/pub?gid=0&single=true&output=csv';
-    const SHEET_URL_ARRIVAL_FUSION = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vShnEGQeSb6vuVKcI3-QHQMotSKFZGdfC2BZBcl-iWTBMOQvJZNCoi0y_FoAkZcpYmdFlWYFWieiWJf/pub?gid=0&single=true&output=csv';
-    const SHEET_URL_ARRIVAL_BERLIN = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vShnEGQeSb6vuVKcI3-QHQMotSKFZGdfC2BZBcl-iWTBMOQvJZNCoi0y_FoAkZcpYmdFlWYFWieiWJf/pub?gid=0&single=true&output=csv';
+    // All three datasets (members, arrival Fusion, arrival Berlin) come from the
+    // same single tab of the published Google Sheet. Expected column headers
+    // (case-insensitive): members | arrival fusion | departure fusion |
+    // transport | arrival berlin | departure berlin | notes.
+    // To rotate the sheet: File → Share → Publish to web → (CSV) → Publish,
+    // and paste the new URL below.
+    const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vShnEGQeSb6vuVKcI3-QHQMotSKFZGdfC2BZBcl-iWTBMOQvJZNCoi0y_FoAkZcpYmdFlWYFWieiWJf/pub?gid=0&single=true&output=csv';
+    const SHEET_URL_MEMBERS = SHEET_URL;
+    const SHEET_URL_ARRIVAL_FUSION = SHEET_URL;
+    const SHEET_URL_ARRIVAL_BERLIN = SHEET_URL;
     const WHATSAPP_URL = 'TODO_REPLACE_WHATSAPP_INVITE_URL';
 
     document.getElementById('whatsapp-link').href = WHATSAPP_URL;
@@ -3038,9 +3051,14 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
     const membersError = document.getElementById('members-error');
     const membersHeadcount = document.getElementById('members-headcount');
 
+    function memberName(r) {
+      return (r.name || r.member || r.members || '').trim();
+    }
+
     function renderMembers(rows) {
+      const visible = (rows || []).filter(r => memberName(r));
       membersList.innerHTML = '';
-      if (!rows || !rows.length) {
+      if (!visible.length) {
         const p = document.createElement('p');
         p.className = 'carpool-empty';
         p.textContent = tr('camp_members_empty');
@@ -3048,16 +3066,16 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         membersHeadcount.hidden = true;
         return;
       }
-      rows.forEach(r => {
+      visible.forEach(r => {
         const card = document.createElement('div');
         card.className = 'member-card';
         const main = document.createElement('div');
         main.className = 'member-main';
         const nm = document.createElement('div');
         nm.className = 'member-name';
-        nm.textContent = r.name || r.member || '—';
+        nm.textContent = memberName(r) || '—';
         main.appendChild(nm);
-        const arrivalRaw = r.arrival || r.arrival_date || r.date || '';
+        const arrivalRaw = (r.arrival || r.arrival_date || r.date || r['arrival fusion'] || '').trim();
         if (arrivalRaw) {
           const ar = document.createElement('span');
           ar.className = 'member-arrival';
@@ -3073,8 +3091,20 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         }
         membersList.appendChild(card);
       });
-      membersHeadcount.textContent = tr('camp_members_total', { count: rows.length });
+      membersHeadcount.textContent = tr('camp_members_total', { count: visible.length });
       membersHeadcount.hidden = false;
+    }
+
+    function setBannerWithDebug(el, message, error) {
+      el.textContent = '';
+      el.appendChild(document.createTextNode(message));
+      if (error && error.message) {
+        const code = document.createElement('code');
+        code.style.cssText = 'display:block;margin-top:4px;font-size:11px;opacity:0.7;';
+        code.textContent = '(' + error.message + ')';
+        el.appendChild(code);
+      }
+      el.hidden = false;
     }
 
     async function loadMembers() {
@@ -3087,35 +3117,40 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
       if (data) {
         renderMembers(data);
         if (fromCache) {
-          membersError.textContent = tr('camp_members_load_error');
-          membersError.hidden = false;
+          setBannerWithDebug(membersError, tr('camp_members_load_error'), error);
         }
       } else {
         renderMembers([]);
-        membersError.textContent = tr('camp_members_offline');
-        membersError.hidden = false;
+        setBannerWithDebug(membersError, tr('camp_members_offline'), error);
       }
     }
 
     // Arrival section
     const arrivalBody = document.getElementById('arrival-body');
     const arrivalError = document.getElementById('arrival-error');
-    const arrivalDateHeader = document.querySelector('.arrival-table thead th[data-col="date"]');
+    const arrivalDateHeader = document.querySelector('.arrival-table thead th[data-col="arrival"]');
     let arrivalCurrent = 'fusion';
     let arrivalSortDir = null; // 'asc' | 'desc' | null
     const arrivalDataCache = { fusion: [], berlin: [] };
 
+    function arrivalColMap(which) {
+      return which === 'berlin'
+        ? { name: 'members', arrival: 'arrival berlin', departure: 'departure berlin', transport: 'transport', notes: 'notes' }
+        : { name: 'members', arrival: 'arrival fusion', departure: 'departure fusion', transport: 'transport', notes: 'notes' };
+    }
+
     function renderArrivals() {
-      const rows = arrivalDataCache[arrivalCurrent] || [];
+      const cols = arrivalColMap(arrivalCurrent);
+      const rows = (arrivalDataCache[arrivalCurrent] || []).filter(r => (r[cols.name] || r.name || '').trim());
       const sorted = rows.slice();
       if (arrivalSortDir) {
         sorted.sort((a, b) => {
-          const av = a.date || ''; const bv = b.date || '';
-          const ad = new Date(av).getTime(); const bd = new Date(bv).getTime();
-          const x = isNaN(ad) ? av : ad;
-          const y = isNaN(bd) ? bv : bd;
-          if (x < y) return arrivalSortDir === 'asc' ? -1 : 1;
-          if (x > y) return arrivalSortDir === 'asc' ? 1 : -1;
+          const av = (a[cols.arrival] || '').trim();
+          const bv = (b[cols.arrival] || '').trim();
+          if (!av && bv) return 1;
+          if (av && !bv) return -1;
+          if (av < bv) return arrivalSortDir === 'asc' ? -1 : 1;
+          if (av > bv) return arrivalSortDir === 'asc' ? 1 : -1;
           return 0;
         });
       }
@@ -3132,11 +3167,9 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
       }
       sorted.forEach(r => {
         const row = document.createElement('tr');
-        ['name', 'date', 'time', 'transport', 'notes'].forEach(col => {
+        ['name', 'arrival', 'departure', 'transport', 'notes'].forEach(col => {
           const td = document.createElement('td');
-          let val = r[col] || '';
-          if (col === 'date' && val) val = formatArrivalLabel(val);
-          td.textContent = val;
+          td.textContent = (r[cols[col]] || '').trim();
           row.appendChild(td);
         });
         arrivalBody.appendChild(row);
@@ -3152,11 +3185,9 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
       arrivalDataCache[which] = data || [];
       renderArrivals();
       if (data && fromCache) {
-        arrivalError.textContent = tr('camp_arrival_load_error');
-        arrivalError.hidden = false;
+        setBannerWithDebug(arrivalError, tr('camp_arrival_load_error'), error);
       } else if (!data) {
-        arrivalError.textContent = tr('camp_arrival_load_error');
-        arrivalError.hidden = false;
+        setBannerWithDebug(arrivalError, tr('camp_arrival_load_error'), error);
       }
     }
 
@@ -3258,6 +3289,15 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
     renderCarpool();
     loadMembers();
     loadArrivals('fusion');
+
+    // Refresh roster every time the Camp tab is opened so sheet edits appear
+    // without requiring a full page reload.
+    document.querySelectorAll('.tab-btn[data-tab="tab-camp"]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        loadMembers();
+        loadArrivals(arrivalCurrent || 'fusion');
+      });
+    });
 
     // Stage 5 — Budget, Equipment, GPS
 
@@ -3860,17 +3900,35 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
 
     if ('serviceWorker' in navigator) {
       const swSource = `
-        const CACHE = 'fusion-2026-v1';
+        const CACHE = 'fusion-2026-v2';
         const PAGE = self.location.origin + self.registration.scope;
         self.addEventListener('install', (e) => {
           e.waitUntil(caches.open(CACHE).then(c => c.add(PAGE)).catch(() => {}));
           self.skipWaiting();
         });
         self.addEventListener('activate', (e) => {
-          e.waitUntil(self.clients.claim());
+          e.waitUntil(
+            caches.keys().then(keys => Promise.all(
+              keys.filter(k => k !== CACHE).map(k => caches.delete(k))
+            )).then(() => self.clients.claim())
+          );
         });
         self.addEventListener('fetch', (e) => {
           if (e.request.method !== 'GET') return;
+          let url;
+          try { url = new URL(e.request.url); } catch (_) { return; }
+          const isSheets = url.hostname === 'docs.google.com' || url.hostname === 'sheets.googleapis.com';
+          if (isSheets) {
+            // Network-first for Google Sheets so CSV edits appear immediately.
+            e.respondWith(
+              fetch(e.request).then(res => {
+                const copy = res.clone();
+                caches.open(CACHE).then(c => c.put(e.request, copy)).catch(() => {});
+                return res;
+              }).catch(() => caches.match(e.request))
+            );
+            return;
+          }
           e.respondWith(
             caches.match(e.request).then(hit => hit || fetch(e.request).then(res => {
               const copy = res.clone();
