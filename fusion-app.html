@@ -572,51 +572,6 @@
       margin-right: 6px;
     }
 
-    .emergency-list {
-      display: grid;
-      gap: 10px;
-      margin-top: 4px;
-    }
-
-    .emergency-item {
-      display: flex;
-      align-items: center;
-      min-height: 56px;
-      padding: 14px 16px;
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 13px;
-      color: var(--text);
-      font-size: 17px;
-      font-weight: 500;
-      line-height: 1.35;
-      text-decoration: none;
-      letter-spacing: 0.3px;
-    }
-
-    .emergency-item.medical {
-      border-left: 5px solid var(--magenta);
-      background: #201428;
-      color: #fff;
-      font-size: 19px;
-      border-radius: 11px 13px 13px 11px;
-    }
-
-    .emergency-item.legal { border-left: 5px solid var(--gold); }
-    .emergency-item.buddy { border-left: 5px solid var(--teal); }
-
-    .emergency-item.call {
-      background: var(--magenta);
-      color: #fff;
-      font-size: 22px;
-      font-weight: 500;
-      border-color: var(--magenta);
-      justify-content: center;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      min-height: 64px;
-    }
-
     .schedule-note {
       color: var(--muted);
       font-size: 14px;
@@ -1469,127 +1424,29 @@
       color: var(--muted);
     }
 
-    .sitemap-intro { margin: 0 0 8px; color: var(--muted); font-size: 14px; line-height: 1.5; }
+    .sitemap-intro { margin: 0 0 10px; color: var(--muted); font-size: 14px; line-height: 1.5; }
     .sitemap-wrap {
-      background: var(--surface);
+      background: var(--surface2);
       border: 1px solid var(--border);
       border-radius: 13px;
-      padding: 10px;
       overflow: hidden;
     }
-    .sitemap-svg {
+    .sitemap-frame {
       display: block;
       width: 100%;
-      height: auto;
-      max-height: 340px;
-      border-radius: 11px;
-      background-color: var(--surface2);
-      background-image: radial-gradient(rgba(144, 144, 176, 0.18) 1px, transparent 1px);
-      background-size: 12px 12px;
+      height: 440px;
+      border: 0;
+      background: var(--surface2);
     }
-    .sitemap-hint {
-      margin: 8px 0 0;
-      color: var(--muted);
-      font-size: 12px;
-      font-style: italic;
+    .sitemap-fallback {
+      padding: 24px 16px;
       text-align: center;
-    }
-    .sitemap-svg .sm-landmark { cursor: pointer; outline: none; }
-    .sitemap-svg .sm-landmark:focus-visible .sm-marker,
-    .sitemap-svg .sm-landmark:focus .sm-focus-ring {
-      stroke: var(--gold);
-      stroke-dasharray: 3 3;
-      stroke-width: 2;
-    }
-    .sitemap-svg .sm-focus-ring { fill: none; stroke: transparent; pointer-events: none; }
-    .sitemap-svg .sm-landmark:focus-visible .sm-focus-ring { stroke: var(--gold); stroke-dasharray: 3 3; stroke-width: 2; }
-    .sitemap-svg .sm-landmark .sm-marker { transition: r 0.2s ease, fill 0.2s ease; }
-    .sitemap-svg .sm-landmark.sm-active .sm-marker { fill: var(--gold); }
-    .sitemap-svg .sm-label {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 9px;
-      fill: var(--text);
-      pointer-events: none;
-      text-anchor: middle;
-      letter-spacing: 0.03em;
-    }
-    .sitemap-svg .sm-airfield { fill: var(--bg); stroke: var(--muted); stroke-width: 1.5; }
-    .sitemap-svg .sm-lake { fill: var(--teal); opacity: 0.3; }
-    .sitemap-svg .sm-road {
-      fill: none;
-      stroke: var(--gold);
-      stroke-width: 2;
-      stroke-dasharray: 6 4;
-      opacity: 0.7;
-    }
-    .sitemap-svg .sm-notech {
-      fill: none;
-      stroke: var(--violet);
-      stroke-width: 1.5;
-      stroke-dasharray: 2 3;
-      opacity: 0.6;
-    }
-    .sitemap-card {
-      margin-top: 10px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-left: 1.5px solid var(--gold);
-      border-radius: 11px;
-      padding: 12px;
-      opacity: 0;
-      transform: translateY(-6px);
-      max-height: 0;
-      overflow: hidden;
-      transition: opacity 0.25s ease, transform 0.25s ease, max-height 0.25s ease, padding 0.25s ease, margin-top 0.25s ease;
-      padding-top: 0;
-      padding-bottom: 0;
-      margin-top: 0;
-    }
-    .sitemap-card.open {
-      opacity: 1;
-      transform: translateY(0);
-      max-height: 200px;
-      padding-top: 12px;
-      padding-bottom: 12px;
-      margin-top: 10px;
-    }
-    .sitemap-card-name {
-      margin: 0 0 4px;
-      color: var(--gold);
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 16px;
-      font-weight: 600;
-    }
-    .sitemap-card-desc { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.5; }
-    .sitemap-legend {
-      margin-top: 12px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px 14px;
-    }
-    .sitemap-legend-title {
-      width: 100%;
-      margin: 0 0 2px;
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 11px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
       color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
     }
-    .sitemap-legend-item {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 13px;
-      color: var(--text);
-    }
-    .sitemap-legend-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      display: inline-block;
-      flex-shrink: 0;
-    }
+    .sitemap-fallback p { margin: 0; }
+    .sitemap-open { margin-top: 10px; }
   </style>
 </head>
 <body>
@@ -1775,21 +1632,6 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
 
       <div class="accordion" data-acc>
         <button class="accordion-header" type="button" aria-expanded="false">
-          <span data-i18n="info_emergency_title">Emergency Contacts</span>
-          <span class="chev" aria-hidden="true"></span>
-        </button>
-        <div class="accordion-body">
-          <div class="emergency-list">
-            <div class="emergency-item medical" data-i18n="info_emergency_medical">Medical tent — [TODO: add location]</div>
-            <div class="emergency-item legal" data-i18n="info_emergency_legal">On-site legal aid — ask at the Info point</div>
-            <div class="emergency-item buddy" data-i18n="info_emergency_buddy">Check in with your camp buddy every evening</div>
-            <a class="emergency-item call" href="tel:112" data-i18n="info_emergency_112">General emergency — 112</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="accordion" data-acc>
-        <button class="accordion-header" type="button" aria-expanded="false">
           <span data-i18n="info_schedule_title">Program &amp; Schedule</span>
           <span class="chev" aria-hidden="true"></span>
         </button>
@@ -1813,123 +1655,21 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
           <span class="chev" aria-hidden="true"></span>
         </button>
         <div class="accordion-body">
-          <p class="sitemap-intro" data-i18n="map_intro">Lärz airfield — schematic layout, not to scale.</p>
+          <p class="sitemap-intro" data-i18n="map_intro">The official Fusion festival site map, live from timetable.fusion-festival.de.</p>
           <div class="sitemap-wrap">
-            <svg class="sitemap-svg" id="sitemap-svg" viewBox="0 0 400 300" role="img" aria-label="Festival site map">
-              <!-- Airfield outline (irregular polygon) -->
-              <polygon class="sm-airfield" points="30,50 140,32 260,40 360,70 385,150 370,240 280,275 160,280 70,265 20,190" />
-              <!-- Lake / Seebrücke area -->
-              <path class="sm-lake" d="M360,100 Q395,120 390,170 Q382,215 340,220 Q310,205 315,160 Q322,120 360,100 Z" />
-              <!-- Winding main road -->
-              <path class="sm-road" d="M20,150 Q80,110 140,130 Q200,160 260,130 Q320,105 370,150" />
-              <!-- No-tech zone (dotted circle, not a tappable landmark) -->
-              <circle class="sm-notech" cx="300" cy="230" r="34" />
-
-              <!-- Main entrance (gold diamond) -->
-              <g class="sm-landmark" data-sm-id="entrance" role="button" tabindex="0">
-                <rect class="sm-focus-ring" x="8" y="138" width="24" height="24" rx="3" transform="rotate(45 20 150)" />
-                <rect class="sm-marker" x="12" y="142" width="16" height="16" transform="rotate(45 20 150)" fill="#e8c96a" stroke="#e8c96a" stroke-width="1.5" />
-                <text class="sm-label" x="20" y="175" data-i18n="map_entrance">Main entrance</text>
-              </g>
-
-              <!-- Main stage (Bachstelzen) -->
-              <g class="sm-landmark" data-sm-id="main_stage" role="button" tabindex="0">
-                <circle class="sm-focus-ring" cx="120" cy="100" r="14" />
-                <circle class="sm-marker" cx="120" cy="100" r="8" fill="var(--surface2)" stroke="#e8c96a" stroke-width="1.5" />
-                <text class="sm-label" x="120" y="124" data-i18n="map_main_stage">Bachstelzen</text>
-              </g>
-
-              <!-- Dance floor (Tanzwiese) -->
-              <g class="sm-landmark" data-sm-id="dance_floor" role="button" tabindex="0">
-                <circle class="sm-focus-ring" cx="180" cy="140" r="14" />
-                <circle class="sm-marker" cx="180" cy="140" r="8" fill="var(--surface2)" stroke="#e8c96a" stroke-width="1.5" />
-                <text class="sm-label" x="180" y="164" data-i18n="map_dance_floor">Tanzwiese</text>
-              </g>
-
-              <!-- Bagjo -->
-              <g class="sm-landmark" data-sm-id="bagjo" role="button" tabindex="0">
-                <circle class="sm-focus-ring" cx="90" cy="180" r="14" />
-                <circle class="sm-marker" cx="90" cy="180" r="8" fill="var(--surface2)" stroke="#7a4bc8" stroke-width="1.5" />
-                <text class="sm-label" x="90" y="204" data-i18n="map_bagjo">Bagjo</text>
-              </g>
-
-              <!-- Turmbühne -->
-              <g class="sm-landmark" data-sm-id="turmbuhne" role="button" tabindex="0">
-                <circle class="sm-focus-ring" cx="250" cy="80" r="14" />
-                <circle class="sm-marker" cx="250" cy="80" r="8" fill="var(--surface2)" stroke="#7a4bc8" stroke-width="1.5" />
-                <text class="sm-label" x="250" y="68" data-i18n="map_turmbuhne">Turmbühne</text>
-              </g>
-
-              <!-- Seebrücke -->
-              <g class="sm-landmark" data-sm-id="seebruecke" role="button" tabindex="0">
-                <circle class="sm-focus-ring" cx="330" cy="150" r="14" />
-                <circle class="sm-marker" cx="330" cy="150" r="8" fill="var(--surface2)" stroke="#4bc8a0" stroke-width="1.5" />
-                <text class="sm-label" x="330" y="174" data-i18n="map_seebruecke">Seebrücke</text>
-              </g>
-
-              <!-- Camp zone -->
-              <g class="sm-landmark" data-sm-id="camp_zone" role="button" tabindex="0">
-                <circle class="sm-focus-ring" cx="60" cy="240" r="14" />
-                <circle class="sm-marker" cx="60" cy="240" r="8" fill="var(--surface2)" stroke="#9090b0" stroke-width="1.5" />
-                <text class="sm-label" x="60" y="264" data-i18n="map_camp_zone">Camp zone</text>
-              </g>
-
-              <!-- OUR CAMP (TODO: adjust coordinates once real location known) -->
-              <g class="sm-landmark" data-sm-id="our_camp" role="button" tabindex="0">
-                <circle class="sm-focus-ring" cx="70" cy="230" r="16" />
-                <circle class="sm-marker" cx="70" cy="230" r="10" fill="var(--surface2)" stroke="#c84b6a" stroke-width="1.5" />
-                <text class="sm-label" x="70" y="210" data-i18n="map_our_camp" style="fill: #c84b6a; font-weight: 600;">Our camp</text>
-              </g>
-
-              <!-- Info point -->
-              <g class="sm-landmark" data-sm-id="info_point" role="button" tabindex="0">
-                <circle class="sm-focus-ring" cx="200" cy="200" r="14" />
-                <circle class="sm-marker" cx="200" cy="200" r="8" fill="var(--surface2)" stroke="#e87a3a" stroke-width="1.5" />
-                <text class="sm-label" x="200" y="224" data-i18n="map_info_point">Info</text>
-              </g>
-
-              <!-- Medical -->
-              <g class="sm-landmark" data-sm-id="medical" role="button" tabindex="0">
-                <circle class="sm-focus-ring" cx="230" cy="200" r="14" />
-                <circle class="sm-marker" cx="230" cy="200" r="8" fill="var(--surface2)" stroke="#c84b6a" stroke-width="1.5" />
-                <text class="sm-label" x="235" y="190" data-i18n="map_medical">Medical</text>
-              </g>
-
-              <!-- Toilets -->
-              <g class="sm-landmark" data-sm-id="toilets" role="button" tabindex="0">
-                <circle class="sm-focus-ring" cx="150" cy="220" r="14" />
-                <circle class="sm-marker" cx="150" cy="220" r="8" fill="var(--surface2)" stroke="#9090b0" stroke-width="1.5" />
-                <text class="sm-label" x="150" y="244" data-i18n="map_toilets">Toilets</text>
-              </g>
-
-              <!-- Food stalls -->
-              <g class="sm-landmark" data-sm-id="food" role="button" tabindex="0">
-                <circle class="sm-focus-ring" cx="190" cy="180" r="14" />
-                <circle class="sm-marker" cx="190" cy="180" r="8" fill="var(--surface2)" stroke="#e87a3a" stroke-width="1.5" />
-                <text class="sm-label" x="190" y="170" data-i18n="map_food">Food</text>
-              </g>
-
-              <!-- Parking -->
-              <g class="sm-landmark" data-sm-id="parking" role="button" tabindex="0">
-                <circle class="sm-focus-ring" cx="40" cy="270" r="14" />
-                <circle class="sm-marker" cx="40" cy="270" r="8" fill="var(--surface2)" stroke="#9090b0" stroke-width="1.5" />
-                <text class="sm-label" x="40" y="258" data-i18n="map_parking">Parking</text>
-              </g>
-            </svg>
-            <p class="sitemap-hint" data-i18n="map_tap_hint">Tap a landmark for details</p>
+            <iframe
+              id="official-map-frame"
+              class="sitemap-frame"
+              src="https://timetable.fusion-festival.de/#/map"
+              title="Fusion festival official site map"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              allow="fullscreen; geolocation"></iframe>
+            <div class="sitemap-fallback" id="sitemap-fallback" hidden>
+              <p data-i18n="map_blocked_note">Couldn't load the embedded map. Open it in a new tab instead.</p>
+            </div>
           </div>
-          <div class="sitemap-card" id="sitemap-card" hidden>
-            <h4 class="sitemap-card-name" id="sitemap-card-name"></h4>
-            <p class="sitemap-card-desc" id="sitemap-card-desc"></p>
-          </div>
-          <div class="sitemap-legend">
-            <p class="sitemap-legend-title" data-i18n="map_legend">Legend</p>
-            <span class="sitemap-legend-item"><span class="sitemap-legend-dot" style="background: #e8c96a;"></span><span data-i18n="map_legend_stages">Main stages</span></span>
-            <span class="sitemap-legend-item"><span class="sitemap-legend-dot" style="background: #7a4bc8;"></span><span data-i18n="map_legend_secondary">Secondary stages</span></span>
-            <span class="sitemap-legend-item"><span class="sitemap-legend-dot" style="background: #4bc8a0;"></span><span data-i18n="map_legend_water">Water / lake</span></span>
-            <span class="sitemap-legend-item"><span class="sitemap-legend-dot" style="background: #c84b6a;"></span><span data-i18n="map_legend_camp_med">Our camp &amp; medical</span></span>
-            <span class="sitemap-legend-item"><span class="sitemap-legend-dot" style="background: #e87a3a;"></span><span data-i18n="map_legend_services">Services</span></span>
-          </div>
+          <a class="link-btn sitemap-open" href="https://timetable.fusion-festival.de/#/map" target="_blank" rel="noopener noreferrer" data-i18n="map_open_official">Open official map</a>
         </div>
       </div>
     </section>
@@ -2192,11 +1932,6 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         rules_consent_body: "Ask first — for touch, for photos of each other, for anything. A yes is a yes; anything else is a no.",
         rules_selforg_kw: "Self-organised",
         rules_selforg_body: "No security staff patrolling you. We look out for each other — if something feels off, step up or find the Awareness crew.",
-        info_emergency_title: "Emergency Contacts",
-        info_emergency_medical: "Medical tent — [TODO: add location]",
-        info_emergency_legal: "On-site legal aid — ask at the Info point",
-        info_emergency_buddy: "Check in with your camp buddy every evening",
-        info_emergency_112: "General emergency — 112",
         info_schedule_title: "Program & Schedule",
         info_schedule_link: "Official program",
         info_schedule_note: "Full program published closer to the event.",
@@ -2205,40 +1940,9 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         schedule_add: "Add",
         schedule_empty: "No entries yet — add your first camp meetup above.",
         map_title: "Site Map",
-        map_intro: "Lärz airfield — schematic layout, not to scale.",
-        map_legend: "Legend",
-        map_tap_hint: "Tap a landmark for details",
-        map_legend_stages: "Main stages",
-        map_legend_secondary: "Secondary stages",
-        map_legend_water: "Water / lake",
-        map_legend_camp_med: "Our camp & medical",
-        map_legend_services: "Services",
-        map_main_stage: "Bachstelzen",
-        map_main_stage_desc: "The biggest stage — techno until sunrise.",
-        map_dance_floor: "Tanzwiese",
-        map_dance_floor_desc: "Open-air dance meadow — daytime grooves and sunset sets.",
-        map_bagjo: "Bagjo",
-        map_bagjo_desc: "Downtempo & world music stage.",
-        map_turmbuhne: "Turmbühne",
-        map_turmbuhne_desc: "Tower stage with eclectic live acts.",
-        map_seebruecke: "Seebrücke",
-        map_seebruecke_desc: "Lakeside stage and chill-out.",
-        map_camp_zone: "Camp zone",
-        map_camp_zone_desc: "Main camping area — pitch your tent here.",
-        map_info_point: "Info point",
-        map_info_point_desc: "General info, lost & found, legal advice.",
-        map_medical: "Medical",
-        map_medical_desc: "First aid & medical tent.",
-        map_toilets: "Toilets",
-        map_toilets_desc: "Compost toilets — bring your own paper.",
-        map_food: "Food stalls",
-        map_food_desc: "Food court — vegetarian and vegan options.",
-        map_parking: "Parking",
-        map_parking_desc: "Main parking area — arrive early to get close.",
-        map_entrance: "Main entrance",
-        map_entrance_desc: "Ticket check and vehicle control at the gate.",
-        map_our_camp: "Our camp",
-        map_our_camp_desc: "Our Fusion 2026 camp — final spot TBD, coordinates will be updated closer to the festival.",
+        map_intro: "The official Fusion festival site map, live from timetable.fusion-festival.de.",
+        map_open_official: "Open official map",
+        map_blocked_note: "Couldn't load the embedded map. Open it in a new tab instead.",
         camp_members_title: "Camp Members",
         camp_members_total: "{count} campers",
         camp_members_load_error: "Couldn't reach the roster — showing the last version we had.",
@@ -2408,11 +2112,6 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         rules_consent_body: "Pregunta primero — para el contacto, para las fotos, para todo. Un sí es un sí; cualquier otra cosa es un no.",
         rules_selforg_kw: "Autoorganizado",
         rules_selforg_body: "No hay seguridad patrullando. Nos cuidamos entre nosotros — si algo no va bien, interviene o busca al equipo Awareness.",
-        info_emergency_title: "Contactos de emergencia",
-        info_emergency_medical: "Carpa médica — [TODO: añadir ubicación]",
-        info_emergency_legal: "Asesoría legal en el recinto — pregunta en el punto de información",
-        info_emergency_buddy: "Consulta con tu compañero de camping cada noche",
-        info_emergency_112: "Emergencia general — 112",
         info_schedule_title: "Programa y horario",
         info_schedule_link: "Programa oficial",
         info_schedule_note: "El programa completo se publica cerca del evento.",
@@ -2421,40 +2120,9 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         schedule_add: "Añadir",
         schedule_empty: "Sin entradas aún — añade tu primer encuentro arriba.",
         map_title: "Plano del recinto",
-        map_intro: "Aeródromo de Lärz — esquema, no a escala.",
-        map_legend: "Leyenda",
-        map_tap_hint: "Toca un punto para ver detalles",
-        map_legend_stages: "Escenarios principales",
-        map_legend_secondary: "Escenarios secundarios",
-        map_legend_water: "Agua / lago",
-        map_legend_camp_med: "Nuestro camp y sanitarios",
-        map_legend_services: "Servicios",
-        map_main_stage: "Bachstelzen",
-        map_main_stage_desc: "El escenario más grande — techno hasta el amanecer.",
-        map_dance_floor: "Tanzwiese",
-        map_dance_floor_desc: "Pista al aire libre — grooves de día y sesiones al atardecer.",
-        map_bagjo: "Bagjo",
-        map_bagjo_desc: "Escenario de downtempo y músicas del mundo.",
-        map_turmbuhne: "Turmbühne",
-        map_turmbuhne_desc: "Escenario torre con actuaciones eclécticas en vivo.",
-        map_seebruecke: "Seebrücke",
-        map_seebruecke_desc: "Escenario junto al lago y zona chill-out.",
-        map_camp_zone: "Zona de camping",
-        map_camp_zone_desc: "Zona principal de acampada — monta aquí tu tienda.",
-        map_info_point: "Punto de información",
-        map_info_point_desc: "Información general, objetos perdidos, asesoramiento legal.",
-        map_medical: "Sanitario",
-        map_medical_desc: "Primeros auxilios y carpa médica.",
-        map_toilets: "Aseos",
-        map_toilets_desc: "Baños de compostaje — trae tu propio papel.",
-        map_food: "Comida",
-        map_food_desc: "Zona de comida — opciones vegetarianas y veganas.",
-        map_parking: "Parking",
-        map_parking_desc: "Aparcamiento principal — llega pronto para quedar cerca.",
-        map_entrance: "Entrada principal",
-        map_entrance_desc: "Control de entrada y de vehículos en la puerta.",
-        map_our_camp: "Nuestro camp",
-        map_our_camp_desc: "Nuestro camp Fusion 2026 — ubicación final por confirmar, actualizaremos cerca del festival.",
+        map_intro: "El plano oficial del festival Fusion, en directo desde timetable.fusion-festival.de.",
+        map_open_official: "Abrir plano oficial",
+        map_blocked_note: "No se pudo cargar el plano incrustado. Ábrelo en una pestaña nueva.",
         camp_members_title: "Miembros del camping",
         camp_members_total: "{count} personas",
         camp_members_load_error: "No se pudo cargar la lista — mostrando la última versión guardada.",
@@ -2624,11 +2292,6 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         rules_consent_body: "Frag zuerst — bei Berührung, bei Fotos voneinander, bei allem. Ein Ja ist ein Ja; alles andere ist ein Nein.",
         rules_selforg_kw: "Selbstorganisiert",
         rules_selforg_body: "Kein Sicherheitspersonal patrouilliert. Wir passen aufeinander auf — wenn etwas komisch ist, greif ein oder such die Awareness-Crew.",
-        info_emergency_title: "Notfallkontakte",
-        info_emergency_medical: "Sanitätszelt — [TODO: Standort eintragen]",
-        info_emergency_legal: "Rechtsberatung vor Ort — am Infopunkt fragen",
-        info_emergency_buddy: "Jeden Abend bei deinem Camp-Buddy einchecken",
-        info_emergency_112: "Notruf — 112",
         info_schedule_title: "Programm & Zeitplan",
         info_schedule_link: "Offizielles Programm",
         info_schedule_note: "Das vollständige Programm erscheint näher am Festival.",
@@ -2637,40 +2300,9 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         schedule_add: "Hinzufügen",
         schedule_empty: "Noch keine Einträge — füg oben dein erstes Camp-Treffen hinzu.",
         map_title: "Geländeplan",
-        map_intro: "Flugplatz Lärz — schematische Darstellung, nicht maßstabsgetreu.",
-        map_legend: "Legende",
-        map_tap_hint: "Tippe auf einen Ort für Details",
-        map_legend_stages: "Hauptbühnen",
-        map_legend_secondary: "Nebenbühnen",
-        map_legend_water: "Wasser / See",
-        map_legend_camp_med: "Unser Camp & Sanitäter",
-        map_legend_services: "Service",
-        map_main_stage: "Bachstelzen",
-        map_main_stage_desc: "Die größte Bühne — Techno bis Sonnenaufgang.",
-        map_dance_floor: "Tanzwiese",
-        map_dance_floor_desc: "Open-Air-Tanzwiese — Tagesgrooves und Sonnenuntergangs-Sets.",
-        map_bagjo: "Bagjo",
-        map_bagjo_desc: "Downtempo- und Weltmusik-Bühne.",
-        map_turmbuhne: "Turmbühne",
-        map_turmbuhne_desc: "Turmbühne mit vielseitigen Live-Acts.",
-        map_seebruecke: "Seebrücke",
-        map_seebruecke_desc: "Bühne am See und Chill-out.",
-        map_camp_zone: "Campzone",
-        map_camp_zone_desc: "Haupt-Campbereich — schlag hier dein Zelt auf.",
-        map_info_point: "Infopunkt",
-        map_info_point_desc: "Allgemeine Infos, Fundbüro, Rechtsberatung.",
-        map_medical: "Sanitäter",
-        map_medical_desc: "Erste Hilfe & Sanitäterzelt.",
-        map_toilets: "Toiletten",
-        map_toilets_desc: "Komposttoiletten — eigenes Papier mitbringen.",
-        map_food: "Essenstände",
-        map_food_desc: "Foodcourt — vegetarische und vegane Optionen.",
-        map_parking: "Parkplatz",
-        map_parking_desc: "Hauptparkplatz — früh anreisen für gute Plätze.",
-        map_entrance: "Haupteingang",
-        map_entrance_desc: "Ticketkontrolle und Fahrzeugkontrolle am Tor.",
-        map_our_camp: "Unser Camp",
-        map_our_camp_desc: "Unser Fusion-2026-Camp — genauer Standort folgt, wird kurz vor dem Festival aktualisiert.",
+        map_intro: "Der offizielle Fusion-Geländeplan, live von timetable.fusion-festival.de.",
+        map_open_official: "Offiziellen Plan öffnen",
+        map_blocked_note: "Eingebetteter Plan konnte nicht geladen werden. In neuem Tab öffnen.",
         camp_members_title: "Camp-Mitglieder",
         camp_members_total: "{count} Leute im Camp",
         camp_members_load_error: "Liste nicht erreichbar — zeige die letzte gespeicherte Version.",
@@ -3051,8 +2683,15 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
     const membersError = document.getElementById('members-error');
     const membersHeadcount = document.getElementById('members-headcount');
 
+    // Strip zero-width / BOM characters that Google Sheets copy-paste can
+    // sneak into otherwise-blank cells. .trim() alone doesn't catch these,
+    // which causes empty-looking rows to pass truthy filters.
+    function cleanCell(s) {
+      return (s || '').replace(/[​‌‍⁠﻿]/g, '').trim();
+    }
+
     function memberName(r) {
-      return (r.name || r.member || r.members || '').trim();
+      return cleanCell(r.name || r.member || r.members);
     }
 
     function renderMembers(rows) {
@@ -3141,7 +2780,7 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
 
     function renderArrivals() {
       const cols = arrivalColMap(arrivalCurrent);
-      const rows = (arrivalDataCache[arrivalCurrent] || []).filter(r => (r[cols.name] || r.name || '').trim());
+      const rows = (arrivalDataCache[arrivalCurrent] || []).filter(r => cleanCell(r[cols.name] || r.name));
       const sorted = rows.slice();
       if (arrivalSortDir) {
         sorted.sort((a, b) => {
@@ -3169,7 +2808,7 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         const row = document.createElement('tr');
         ['name', 'arrival', 'departure', 'transport', 'notes'].forEach(col => {
           const td = document.createElement('td');
-          td.textContent = (r[cols[col]] || '').trim();
+          td.textContent = cleanCell(r[cols[col]]);
           row.appendChild(td);
         });
         arrivalBody.appendChild(row);
@@ -3321,7 +2960,7 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
     const _origRenderMembers = renderMembers;
     renderMembers = function(rows) {
       _origRenderMembers(rows);
-      campMembersList = (rows || []).map(r => (r.name || r.member || '').trim()).filter(Boolean);
+      campMembersList = (rows || []).map(r => memberName(r)).filter(Boolean);
       updateBudgetWhoOptions();
       updateBudgetSummary();
     };
@@ -3809,83 +3448,22 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
     }
     loadWeather(false);
 
-    // ===== Stage 8: Site Map =====
-    const sitemapSvg = document.getElementById('sitemap-svg');
-    const sitemapCard = document.getElementById('sitemap-card');
-    const sitemapCardName = document.getElementById('sitemap-card-name');
-    const sitemapCardDesc = document.getElementById('sitemap-card-desc');
-    let activeLandmarkId = null;
-
-    function closeSitemapCard() {
-      activeLandmarkId = null;
-      if (sitemapSvg) {
-        sitemapSvg.querySelectorAll('.sm-landmark.sm-active').forEach(el => el.classList.remove('sm-active'));
-      }
-      if (sitemapCard) {
-        sitemapCard.classList.remove('open');
-        setTimeout(() => {
-          if (!sitemapCard.classList.contains('open')) sitemapCard.hidden = true;
-        }, 260);
-      }
-    }
-
-    function openSitemapCard(id, groupEl) {
-      activeLandmarkId = id;
-      if (sitemapSvg) {
-        sitemapSvg.querySelectorAll('.sm-landmark.sm-active').forEach(el => el.classList.remove('sm-active'));
-      }
-      if (groupEl) groupEl.classList.add('sm-active');
-      if (sitemapCard && sitemapCardName && sitemapCardDesc) {
-        sitemapCardName.textContent = tr('map_' + id);
-        sitemapCardDesc.textContent = tr('map_' + id + '_desc');
-        sitemapCard.hidden = false;
-        requestAnimationFrame(() => sitemapCard.classList.add('open'));
-      }
-    }
-
-    if (sitemapSvg) {
-      sitemapSvg.querySelectorAll('.sm-landmark').forEach(group => {
-        const id = group.getAttribute('data-sm-id');
-        group.setAttribute('aria-label', tr('map_' + id));
-        const activate = (ev) => {
-          ev.preventDefault();
-          ev.stopPropagation();
-          if (activeLandmarkId === id) {
-            closeSitemapCard();
-          } else {
-            openSitemapCard(id, group);
-          }
-        };
-        group.addEventListener('click', activate);
-        group.addEventListener('keydown', (ev) => {
-          if (ev.key === 'Enter' || ev.key === ' ') {
-            activate(ev);
-          } else if (ev.key === 'Escape' && activeLandmarkId) {
-            closeSitemapCard();
-          }
-        });
-      });
-      sitemapSvg.addEventListener('click', (ev) => {
-        if (!ev.target.closest('.sm-landmark') && activeLandmarkId) {
-          closeSitemapCard();
+    // ===== Site map — official iframe with fallback link =====
+    // If the iframe doesn't fire load within 6s, assume the host sent
+    // X-Frame-Options / frame-ancestors and reveal the fallback link.
+    (function() {
+      const frame = document.getElementById('official-map-frame');
+      const fallback = document.getElementById('sitemap-fallback');
+      if (!frame || !fallback) return;
+      let loaded = false;
+      frame.addEventListener('load', () => { loaded = true; });
+      setTimeout(() => {
+        if (!loaded) {
+          frame.hidden = true;
+          fallback.hidden = false;
         }
-      });
-    }
-
-    const prevApplyLang5 = window.applyLang;
-    window.applyLang = function(lang) {
-      prevApplyLang5(lang);
-      if (sitemapSvg) {
-        sitemapSvg.querySelectorAll('.sm-landmark').forEach(group => {
-          const id = group.getAttribute('data-sm-id');
-          group.setAttribute('aria-label', tr('map_' + id));
-        });
-      }
-      if (activeLandmarkId && sitemapCardName && sitemapCardDesc) {
-        sitemapCardName.textContent = tr('map_' + activeLandmarkId);
-        sitemapCardDesc.textContent = tr('map_' + activeLandmarkId + '_desc');
-      }
-    };
+      }, 6000);
+    })();
 
     const manifest = {
       name: "Fusion 2026",
