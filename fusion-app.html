@@ -2683,11 +2683,14 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
     const membersError = document.getElementById('members-error');
     const membersHeadcount = document.getElementById('members-headcount');
 
-    // Strip zero-width / BOM characters that Google Sheets copy-paste can
-    // sneak into otherwise-blank cells. .trim() alone doesn't catch these,
-    // which causes empty-looking rows to pass truthy filters.
+    // Normalise spreadsheet cells: strip Unicode format (Cf) + control (Cc)
+    // chars (ZWSP/ZWNJ/ZWJ/BOM/WJ/soft-hyphen/tag-chars), trim whitespace,
+    // then require at least one visible letter/number/punctuation/symbol
+    // (guards against lone combining marks or variation selectors left behind
+    // by Google Sheets copy-paste).
     function cleanCell(s) {
-      return (s || '').replace(/[​‌‍⁠﻿]/g, '').trim();
+      const stripped = String(s ?? '').replace(/[\p{Cf}\p{Cc}]/gu, '').trim();
+      return /[\p{L}\p{N}\p{P}\p{S}]/u.test(stripped) ? stripped : '';
     }
 
     function memberName(r) {
