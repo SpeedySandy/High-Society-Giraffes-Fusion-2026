@@ -129,6 +129,38 @@
       padding: 16px;
     }
 
+    .tab-hero {
+      position: relative;
+      height: 120px;
+      border-radius: 13px;
+      overflow: hidden;
+      margin-bottom: 16px;
+      background-color: var(--surface);
+      background-size: cover;
+      background-position: center;
+      border: 1px solid var(--border);
+    }
+
+    .tab-hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(15, 15, 30, 0.15) 0%,
+        rgba(15, 15, 30, 0.55) 60%,
+        rgba(15, 15, 30, 0.92) 100%
+      );
+      pointer-events: none;
+    }
+
+    @media (min-width: 640px) {
+      .tab-hero { height: 160px; }
+    }
+
+    .tab-hero-camp { background-image: url('assets/IMG_6814.JPG'); }
+    .tab-hero-info { background-image: url('assets/IMG_4293.JPG'); }
+
     .tab-bar {
       position: fixed;
       bottom: 0;
@@ -216,6 +248,18 @@
 
     .poster-card {
       text-align: center;
+      position: relative;
+      overflow: hidden;
+      background-image:
+        linear-gradient(
+          rgba(15, 15, 30, 0.78) 0%,
+          rgba(15, 15, 30, 0.82) 60%,
+          rgba(15, 15, 30, 0.95) 100%
+        ),
+        url('assets/IMG_4272.JPG');
+      background-size: cover;
+      background-position: center;
+      border-color: rgba(232, 201, 106, 0.18);
     }
 
     .poster-hero {
@@ -1591,6 +1635,7 @@
       </div>
     </section>
     <section id="tab-info">
+      <div class="tab-hero tab-hero-info" aria-hidden="true"></div>
       <div class="accordion open" data-acc>
         <button class="accordion-header" type="button" aria-expanded="true">
           <span data-i18n="info_entry_title">Festival Entry &amp; Controls</span>
@@ -1709,6 +1754,7 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
       </div>
     </section>
     <section id="tab-camp">
+      <div class="tab-hero tab-hero-camp" aria-hidden="true"></div>
       <div class="camp-section">
         <h2 class="camp-section-title">
           <span data-i18n="camp_members_title">Camp Members</span>
