@@ -1837,20 +1837,25 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         </div>
       </div>
 
-      <div class="camp-section">
-        <h2 class="camp-section-title" data-i18n="camp_feedback_title">Questions, Tips, App Feature Requests, Etc.</h2>
-        <p class="train-note" data-i18n="camp_feedback_intro">Got an idea, a fix, or a request? Send it to the crew.</p>
-        <form class="carpool-form" id="feedback-form" autocomplete="off">
-          <label>
-            <span data-i18n="camp_feedback_name">Your name (optional)</span>
-            <input type="text" id="feedback-name">
-          </label>
-          <label>
-            <span data-i18n="camp_feedback_message">Message</span>
-            <textarea id="feedback-message" rows="4" required></textarea>
-          </label>
-          <button type="submit" data-i18n="camp_feedback_send">Send</button>
-        </form>
+      <div class="accordion" data-acc>
+        <button class="accordion-header" type="button" aria-expanded="false">
+          <span data-i18n="camp_feedback_title">Questions, Tips, App Feature Requests, Etc.</span>
+          <span class="chev" aria-hidden="true"></span>
+        </button>
+        <div class="accordion-body">
+          <p class="train-note" data-i18n="camp_feedback_intro">Got an idea, a fix, or a request? Send it to the crew.</p>
+          <form class="carpool-form" id="feedback-form" autocomplete="off">
+            <label>
+              <span data-i18n="camp_feedback_name">Your name (optional)</span>
+              <input type="text" id="feedback-name">
+            </label>
+            <label>
+              <span data-i18n="camp_feedback_message">Message</span>
+              <textarea id="feedback-message" rows="4" required></textarea>
+            </label>
+            <button type="submit" data-i18n="camp_feedback_send">Send</button>
+          </form>
+        </div>
       </div>
 
     </section>
