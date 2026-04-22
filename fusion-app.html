@@ -162,14 +162,18 @@
     .tab-hero-info { background-image: url('assets/Fusion25_Luftschloss_Medium.png'); }
     .tab-hero-map  { background-image: url('assets/Fusion25_firespace_Medium.png'); }
 
-    .home-footer-art {
+    .tab-footer-art {
       display: block;
       width: 100%;
-      height: 160px;
+      height: 120px;
       object-fit: cover;
+      object-position: center bottom;
       border-radius: 13px;
       border: 1px solid var(--border);
       margin-top: 16px;
+    }
+    @media (min-width: 640px) {
+      .tab-footer-art { height: 160px; }
     }
 
     .tab-bar {
@@ -1727,7 +1731,7 @@
         <a class="link-btn" href="https://tickets.fusion-festival.de" target="_blank" rel="noopener noreferrer" data-i18n="home_tickets_btn">Ticket portal</a>
       </div>
 
-      <img class="home-footer-art" src="assets/Fusion25_Palapa_Medium.png" alt="" loading="lazy">
+      <img class="tab-footer-art" src="assets/Fusion25_Trancefloor_nacht_Medium.png" alt="" loading="lazy">
     </section>
     <section id="tab-info">
       <div class="tab-hero tab-hero-info" aria-hidden="true"></div>
@@ -1853,6 +1857,7 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         </form>
       </div>
 
+      <img class="tab-footer-art" src="assets/Fusion25_Luftschloss_Medium.png" alt="" loading="lazy">
     </section>
 
     <section id="tab-map">
@@ -1873,6 +1878,7 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         </div>
       </div>
       <a class="link-btn sitemap-open" href="https://timetable.fusion-festival.de/#/map" target="_blank" rel="noopener noreferrer" data-i18n="map_open_official">Open official Fusion App</a>
+      <img class="tab-footer-art" src="assets/Fusion25_firespace_Medium.png" alt="" loading="lazy">
     </section>
     <section id="tab-camp">
       <div class="tab-hero tab-hero-camp" aria-hidden="true"></div>
@@ -1983,6 +1989,8 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
           <a class="gps-btn" data-gps="apple" href="#" target="_blank" rel="noopener noreferrer" data-i18n="camp_gps_open_apple">Open in Apple Maps</a>
         </div>
       </div>
+
+      <img class="tab-footer-art" src="assets/Fusion25_Turmbuhne_nacht_Medium.png" alt="" loading="lazy">
     </section>
   </main>
 
