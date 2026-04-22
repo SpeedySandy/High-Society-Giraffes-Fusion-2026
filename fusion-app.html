@@ -1275,6 +1275,288 @@
       color: var(--bg);
     }
 
+    /* ===== Budget v2 ===== */
+    .budget-sub-label {
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 8px;
+    }
+    .budget-subheading {
+      color: var(--gold);
+      font-size: 12px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin: 20px 0 10px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    .budget-members-block { margin-bottom: 16px; }
+    .budget-members-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 10px;
+      min-height: 28px;
+    }
+    .budget-member-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 4px 4px 4px 10px;
+      font-size: 13px;
+      color: var(--text);
+    }
+    .budget-member-remove {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1;
+      cursor: pointer;
+      border-radius: 50%;
+      padding: 0;
+    }
+    .budget-member-remove:hover { color: var(--magenta); background: rgba(200, 75, 106, 0.1); }
+    .budget-members-add {
+      display: flex;
+      gap: 6px;
+    }
+    .budget-members-add input {
+      flex: 1;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      font: inherit;
+      font-size: 14px;
+      padding: 8px 10px;
+    }
+    .budget-members-add input:focus { outline: none; border-color: var(--gold); }
+    .budget-members-add button {
+      background: transparent;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      border-radius: 10px;
+      font: inherit;
+      font-size: 13px;
+      padding: 8px 14px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+    .budget-members-add button:hover { background: var(--gold); color: var(--bg); }
+
+    .budget-form-v2 {
+      display: grid;
+      gap: 10px;
+      padding: 14px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      margin-bottom: 14px;
+    }
+    .budget-form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .budget-form-v2 label {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 12px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .budget-form-v2 label span { letter-spacing: 1px; }
+    .budget-form-v2 input,
+    .budget-form-v2 select {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      font: inherit;
+      font-size: 14px;
+      padding: 8px 10px;
+      text-transform: none;
+      letter-spacing: normal;
+    }
+    .budget-form-v2 input:focus,
+    .budget-form-v2 select:focus { outline: none; border-color: var(--gold); }
+    .budget-form-v2 button[type="submit"] {
+      background: var(--gold);
+      color: var(--bg);
+      border: none;
+      border-radius: 11px;
+      font: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 10px 14px;
+      cursor: pointer;
+    }
+    .budget-form-v2 button[type="submit"]:hover { opacity: 0.92; }
+
+    .budget-split-block { margin-top: 2px; }
+    .budget-split-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
+    .budget-split-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 7px 10px;
+      font-size: 13px;
+      color: var(--text);
+      cursor: pointer;
+      text-transform: none;
+      letter-spacing: normal;
+    }
+    .budget-split-option input { accent-color: var(--gold); width: 15px; height: 15px; }
+
+    .budget-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .budget-filter-chip {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      border-radius: 14px;
+      padding: 5px 11px;
+      font: inherit;
+      font-size: 12px;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+    }
+    .budget-filter-chip:hover { color: var(--text); }
+    .budget-filter-chip.active {
+      background: var(--gold);
+      color: var(--bg);
+      border-color: var(--gold);
+      font-weight: 500;
+    }
+
+    .budget-item-v2 {
+      display: grid;
+      grid-template-columns: auto 1fr auto auto;
+      align-items: center;
+      gap: 10px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      padding: 10px 12px;
+    }
+    .budget-item-icon {
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 9px;
+      background: var(--surface2);
+    }
+    .budget-item-main { min-width: 0; }
+    .budget-item-desc {
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.25;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .budget-item-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+    .budget-item-date { opacity: 0.8; }
+    .budget-paid-badge {
+      background: rgba(75, 200, 160, 0.15);
+      border: 1px solid rgba(75, 200, 160, 0.4);
+      color: var(--teal);
+      border-radius: 10px;
+      padding: 1px 7px;
+      font-size: 11px;
+      letter-spacing: 0.3px;
+    }
+    .budget-split-text {
+      font-size: 11px;
+      opacity: 0.85;
+    }
+    .budget-item-amount {
+      color: var(--gold);
+      font-weight: 500;
+      font-size: 14px;
+      font-variant-numeric: tabular-nums;
+    }
+    .budget-item-del {
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      font-size: 18px;
+      cursor: pointer;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+    }
+    .budget-item-del:hover { color: var(--magenta); background: rgba(200, 75, 106, 0.1); }
+    .budget-item-del.confirm {
+      background: var(--magenta);
+      color: var(--bg);
+    }
+
+    .budget-empty {
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+      padding: 20px 10px;
+      margin: 0;
+    }
+
+    .budget-total-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 12px 0 4px;
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+    .budget-total-value {
+      color: var(--gold);
+      font-size: 22px;
+      font-weight: 500;
+      letter-spacing: 0;
+      font-variant-numeric: tabular-nums;
+    }
+
     .equip-list { display: grid; gap: 6px; margin-top: 4px; }
 
     .equip-item {
@@ -1956,37 +2238,83 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
       </div>
 
       <div class="camp-section">
-        <h2 class="camp-section-title" data-i18n="camp_budget_title">Shared Budget</h2>
-        <div class="budget-summary">
-          <div class="stat">
-            <div class="stat-label" data-i18n="camp_budget_total">Total spent</div>
-            <div class="stat-value" id="budget-total">€0.00</div>
+        <h2 class="camp-section-title" data-i18n="budget_title">Shared Budget</h2>
+
+        <!-- Camp members editor (used by the expense form below) -->
+        <div class="budget-members-block">
+          <div class="budget-sub-label" data-i18n="budget_members_label">Camp members</div>
+          <div class="budget-members-list" id="budget-members-list"></div>
+          <form class="budget-members-add" id="budget-members-add" autocomplete="off">
+            <input type="text" id="budget-member-new" data-i18n-ph="budget_member_add_ph" placeholder="Add name…">
+            <button type="submit" data-i18n="budget_member_add">Add</button>
+          </form>
+        </div>
+
+        <!-- Add expense -->
+        <form class="budget-form-v2" id="budget-form" autocomplete="off">
+          <div class="budget-form-grid">
+            <label>
+              <span data-i18n="budget_desc">Description</span>
+              <input type="text" id="budget-desc" required>
+            </label>
+            <label>
+              <span data-i18n="budget_amount">Amount (€)</span>
+              <input type="number" id="budget-amount" step="0.01" min="0" required>
+            </label>
+            <label>
+              <span data-i18n="budget_category">Category</span>
+              <select id="budget-category" required>
+                <option value="transport" data-i18n="budget_cat_transport">Transport</option>
+                <option value="food" data-i18n="budget_cat_food">Food &amp; drink</option>
+                <option value="gear" data-i18n="budget_cat_gear">Gear</option>
+                <option value="camp" data-i18n="budget_cat_camp">Camp fees</option>
+                <option value="other" data-i18n="budget_cat_other">Other</option>
+              </select>
+            </label>
+            <label>
+              <span data-i18n="budget_paid_by">Paid by</span>
+              <select id="budget-paid-by" required></select>
+            </label>
           </div>
-          <div class="stat">
-            <div class="stat-label" data-i18n="camp_budget_per_person">Per person</div>
-            <div class="stat-value" id="budget-per-person">€0.00</div>
+          <div class="budget-split-block">
+            <div class="budget-sub-label" data-i18n="budget_split_between">Split between</div>
+            <div class="budget-split-options" id="budget-split-options"></div>
+          </div>
+          <button type="submit" data-i18n="budget_add_expense">Add expense</button>
+        </form>
+
+        <!-- Filter chips + running total -->
+        <div class="budget-filters" id="budget-filters"></div>
+        <div class="budget-list" id="budget-list"></div>
+        <p class="budget-empty" id="budget-empty" data-i18n="budget_no_expenses" hidden>No expenses yet — start with the first beer run.</p>
+        <div class="budget-total-line">
+          <span data-i18n="budget_total_spent">Total spent</span>
+          <span class="budget-total-value" id="budget-total-value">€0.00</span>
+        </div>
+
+        <!-- Category chart -->
+        <div class="budget-chart" id="budget-chart" hidden>
+          <h3 class="budget-subheading" data-i18n="budget_chart_title">Spend by category</h3>
+          <div id="budget-chart-body"></div>
+        </div>
+
+        <!-- Per-person breakdown -->
+        <div class="budget-breakdown" id="budget-breakdown" hidden>
+          <h3 class="budget-subheading" data-i18n="budget_breakdown_title">Per person</h3>
+          <div class="budget-breakdown-grid" id="budget-breakdown-grid"></div>
+          <div class="budget-share-line">
+            <span data-i18n="budget_per_person_share">Per person fair share</span>
+            <span id="budget-share-value">€0.00</span>
           </div>
         </div>
-        <div id="budget-list" class="budget-list"></div>
-        <p id="budget-empty" class="carpool-empty" data-i18n="camp_budget_empty" hidden>No expenses yet — start with the first beer run.</p>
-        <form class="budget-form" id="budget-form" autocomplete="off">
-          <label>
-            <span data-i18n="camp_budget_desc">Description</span>
-            <input type="text" id="budget-desc" required>
-          </label>
-          <label>
-            <span data-i18n="camp_budget_amount">Amount (€)</span>
-            <input type="number" id="budget-amount" step="0.01" min="0" required>
-          </label>
-          <label>
-            <span data-i18n="camp_budget_who">Who paid</span>
-            <select id="budget-who" required>
-              <option value="" data-i18n="camp_budget_who_placeholder">Select a camper…</option>
-            </select>
-          </label>
-          <button type="submit" data-i18n="camp_budget_add">Add expense</button>
-        </form>
-        <button type="button" id="budget-export" class="budget-export" data-i18n="camp_budget_export">Copy summary</button>
+
+        <!-- Settlement suggestions -->
+        <div class="budget-settlements" id="budget-settlements" hidden>
+          <h3 class="budget-subheading" data-i18n="budget_settlements_title">Settlement</h3>
+          <div id="budget-settlements-body"></div>
+        </div>
+
+        <button type="button" class="budget-export" id="budget-export" data-i18n="budget_export">Copy summary</button>
       </div>
 
       <div class="camp-section">
@@ -2212,6 +2540,36 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         camp_budget_copied: "Copied!",
         camp_budget_summary_header: "Camp budget — Fusion 2026",
         camp_budget_no_members: "Add camp members to split expenses.",
+        budget_title: "Shared Budget",
+        budget_members_label: "Camp members",
+        budget_member_add: "Add",
+        budget_member_add_ph: "Add name…",
+        budget_add_expense: "Add expense",
+        budget_desc: "Description",
+        budget_amount: "Amount (€)",
+        budget_paid_by: "Paid by",
+        budget_split_between: "Split between",
+        budget_split_label: "Split:",
+        budget_category: "Category",
+        budget_cat_transport: "Transport",
+        budget_cat_food: "Food & drink",
+        budget_cat_gear: "Gear",
+        budget_cat_camp: "Camp fees",
+        budget_cat_other: "Other",
+        budget_filter_all: "All",
+        budget_total_spent: "Total spent",
+        budget_per_person_share: "Per person fair share",
+        budget_you_are_owed: "Owed",
+        budget_you_owe: "Owes",
+        budget_settled: "Mark as settled",
+        budget_all_settled: "All settled up!",
+        budget_breakdown_title: "Per person",
+        budget_settlements_title: "Settlement",
+        budget_export: "Copy summary",
+        budget_export_copied: "Copied!",
+        budget_clear_confirm: "Tap again to delete",
+        budget_no_expenses: "No expenses yet — start with the first beer run.",
+        budget_chart_title: "Spend by category",
         camp_equipment_title: "Shared Equipment",
         camp_equipment_who: "Assigned",
         camp_equipment_item: "Item",
@@ -2410,6 +2768,36 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         camp_budget_copied: "¡Copiado!",
         camp_budget_summary_header: "Caja común del camp — Fusion 2026",
         camp_budget_no_members: "Añade personas al camp para poder dividir los gastos.",
+        budget_title: "Caja común",
+        budget_members_label: "Personas del camp",
+        budget_member_add: "Añadir",
+        budget_member_add_ph: "Añadir nombre…",
+        budget_add_expense: "Añadir gasto",
+        budget_desc: "Descripción",
+        budget_amount: "Importe (€)",
+        budget_paid_by: "Pagado por",
+        budget_split_between: "Se divide entre",
+        budget_split_label: "División:",
+        budget_category: "Categoría",
+        budget_cat_transport: "Transporte",
+        budget_cat_food: "Comida y bebida",
+        budget_cat_gear: "Material",
+        budget_cat_camp: "Cuotas del camp",
+        budget_cat_other: "Otros",
+        budget_filter_all: "Todos",
+        budget_total_spent: "Total gastado",
+        budget_per_person_share: "Parte justa por persona",
+        budget_you_are_owed: "Le deben",
+        budget_you_owe: "Debe",
+        budget_settled: "Marcar como pagado",
+        budget_all_settled: "¡Todo saldado!",
+        budget_breakdown_title: "Por persona",
+        budget_settlements_title: "Liquidación",
+        budget_export: "Copiar resumen",
+        budget_export_copied: "¡Copiado!",
+        budget_clear_confirm: "Pulsa otra vez para borrar",
+        budget_no_expenses: "Sin gastos aún — empieza con la primera ronda.",
+        budget_chart_title: "Gasto por categoría",
         camp_equipment_title: "Equipo compartido",
         camp_equipment_who: "Asignado a",
         camp_equipment_item: "Artículo",
@@ -2608,6 +2996,36 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         camp_budget_copied: "Kopiert!",
         camp_budget_summary_header: "Camp-Kasse — Fusion 2026",
         camp_budget_no_members: "Trag erst Camp-Leute ein, um die Kosten zu teilen.",
+        budget_title: "Gemeinsame Kasse",
+        budget_members_label: "Camp-Leute",
+        budget_member_add: "Hinzufügen",
+        budget_member_add_ph: "Name hinzufügen…",
+        budget_add_expense: "Ausgabe eintragen",
+        budget_desc: "Beschreibung",
+        budget_amount: "Betrag (€)",
+        budget_paid_by: "Bezahlt von",
+        budget_split_between: "Geteilt zwischen",
+        budget_split_label: "Aufteilung:",
+        budget_category: "Kategorie",
+        budget_cat_transport: "Transport",
+        budget_cat_food: "Essen & Trinken",
+        budget_cat_gear: "Ausrüstung",
+        budget_cat_camp: "Camp-Beitrag",
+        budget_cat_other: "Sonstiges",
+        budget_filter_all: "Alle",
+        budget_total_spent: "Gesamt ausgegeben",
+        budget_per_person_share: "Fairer Anteil pro Person",
+        budget_you_are_owed: "Bekommt",
+        budget_you_owe: "Schuldet",
+        budget_settled: "Als bezahlt markieren",
+        budget_all_settled: "Alles beglichen!",
+        budget_breakdown_title: "Pro Person",
+        budget_settlements_title: "Abrechnung",
+        budget_export: "Übersicht kopieren",
+        budget_export_copied: "Kopiert!",
+        budget_clear_confirm: "Nochmal tippen zum Löschen",
+        budget_no_expenses: "Noch keine Ausgaben — fang mit der ersten Runde an.",
+        budget_chart_title: "Ausgaben pro Kategorie",
         camp_equipment_title: "Gemeinsame Ausrüstung",
         camp_equipment_who: "Wer bringt's",
         camp_equipment_item: "Gegenstand",
@@ -3204,133 +3622,313 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
     document.querySelectorAll('[data-gps="apple"]').forEach(a => { a.href = appleMapsHref; });
     document.querySelectorAll('[data-gps="w3w"]').forEach(a => { a.href = w3wHref; });
 
-    // Track members for budget dropdown — wrap the existing renderMembers
-    let campMembersList = [];
-    const _origRenderMembers = renderMembers;
-    renderMembers = function(rows) {
-      _origRenderMembers(rows);
-      campMembersList = (rows || []).map(r => memberName(r)).filter(Boolean);
-      updateBudgetWhoOptions();
-      updateBudgetSummary();
-    };
+    // ==================== Budget Tracker v2 (Part A: foundation) ====================
+    // Scope of this PR: editable members list, 5-field add-expense form, expense
+    // list with category icons + delete, filter chips, running total.
+    // Hidden sections for per-person breakdown / settlements / chart stay empty
+    // and will be wired up in follow-up PRs.
+    //
+    // Amounts are stored as integer cents to avoid JS float accumulation bugs.
+    const BUDGET_MEMBERS_KEY = 'fusion_budget_members';
+    const BUDGET_EXPENSES_KEY = 'fusion_budget_expenses';
+    // TODO: replace the placeholder names below with your real camp members
+    // (or edit them inline in the app — they're persisted to localStorage).
+    const BUDGET_DEFAULT_MEMBERS = ['Anna', 'Marc', 'Lucía', 'You'];
 
-    // Budget tracker
-    const BUDGET_KEY = 'fusion_budget';
+    const BUDGET_CATEGORIES = [
+      { id: 'transport', color: '#7a4bc8', iconPath: 'M3 17h15v-3l-1.4-5a2 2 0 0 0-1.9-1.4H6.3a2 2 0 0 0-1.9 1.4L3 14v3zm3 3a1.6 1.6 0 1 1 0-3.2 1.6 1.6 0 0 1 0 3.2zm9 0a1.6 1.6 0 1 1 0-3.2 1.6 1.6 0 0 1 0 3.2z' },
+      { id: 'food',      color: '#4bc8a0', iconPath: 'M6 3v7m0 2v9M10 3v7a2 2 0 0 1-2 2M15 3c-1.5 1.5-1.5 5 0 6.5V21' },
+      { id: 'gear',      color: '#e87a3a', iconPath: 'M12 3l9 5v8l-9 5-9-5V8l9-5zm0 4v10' },
+      { id: 'camp',      color: '#e8c96a', iconPath: 'M12 3l10 17H2L12 3zm0 6v7' },
+      { id: 'other',     color: '#8a8aa0', iconPath: 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zm0 5v5m0 3v.5' }
+    ];
+    function getBudgetCategory(id) {
+      return BUDGET_CATEGORIES.find(c => c.id === id) || BUDGET_CATEGORIES[BUDGET_CATEGORIES.length - 1];
+    }
+
+    // DOM refs
+    const budgetMembersListEl = document.getElementById('budget-members-list');
+    const budgetMembersAddForm = document.getElementById('budget-members-add');
+    const budgetMemberNewInput = document.getElementById('budget-member-new');
+    const budgetForm = document.getElementById('budget-form');
+    const budgetDescInput = document.getElementById('budget-desc');
+    const budgetAmountInput = document.getElementById('budget-amount');
+    const budgetCategorySelect = document.getElementById('budget-category');
+    const budgetPaidBySelect = document.getElementById('budget-paid-by');
+    const budgetSplitOptionsEl = document.getElementById('budget-split-options');
+    const budgetFiltersEl = document.getElementById('budget-filters');
     const budgetList = document.getElementById('budget-list');
     const budgetEmpty = document.getElementById('budget-empty');
-    const budgetForm = document.getElementById('budget-form');
-    const budgetWho = document.getElementById('budget-who');
-    const budgetTotalEl = document.getElementById('budget-total');
-    const budgetPerPersonEl = document.getElementById('budget-per-person');
+    const budgetTotalValueEl = document.getElementById('budget-total-value');
     const budgetExport = document.getElementById('budget-export');
 
-    function loadBudget() {
-      try { return JSON.parse(localStorage.getItem(BUDGET_KEY) || '[]'); } catch { return []; }
-    }
-    function saveBudget(arr) { localStorage.setItem(BUDGET_KEY, JSON.stringify(arr)); }
+    let budgetActiveFilter = 'all';
+    let budgetPendingDeleteId = null; // tap-to-confirm delete
 
-    function formatEuro(n) {
-      const lang = document.documentElement.lang || 'en';
-      const locale = { en: 'en-IE', es: 'es-ES', de: 'de-DE' }[lang] || 'en-IE';
+    // storage helpers
+    function budgetLoadJSON(key, fallback) {
+      try { const v = JSON.parse(localStorage.getItem(key)); return v != null ? v : fallback; }
+      catch { return fallback; }
+    }
+    function budgetSaveJSON(key, val) { localStorage.setItem(key, JSON.stringify(val)); }
+    function loadBudgetMembers() {
+      const m = budgetLoadJSON(BUDGET_MEMBERS_KEY, null);
+      return Array.isArray(m) && m.length ? m : BUDGET_DEFAULT_MEMBERS.slice();
+    }
+    function saveBudgetMembers(m) { budgetSaveJSON(BUDGET_MEMBERS_KEY, m); }
+    function loadBudgetExpenses() { return budgetLoadJSON(BUDGET_EXPENSES_KEY, []) || []; }
+    function saveBudgetExpenses(e) { budgetSaveJSON(BUDGET_EXPENSES_KEY, e); }
+
+    // Money helpers — store as integer cents, display with toFixed(2).
+    function amountToCents(amount) { return Math.round((parseFloat(amount) || 0) * 100); }
+    function formatCents(cents) { return '€' + ((cents || 0) / 100).toFixed(2); }
+
+    function formatExpenseDate(iso) {
       try {
-        return new Intl.NumberFormat(locale, { style: 'currency', currency: 'EUR' }).format(n);
-      } catch {
-        return '€' + n.toFixed(2);
-      }
+        const d = new Date(iso);
+        if (isNaN(d.getTime())) return '';
+        const lang = document.documentElement.lang || 'en';
+        const locale = { en: 'en-GB', es: 'es-ES', de: 'de-DE' }[lang] || 'en-GB';
+        return d.toLocaleDateString(locale, { day: '2-digit', month: 'short' });
+      } catch { return ''; }
     }
 
-    function updateBudgetWhoOptions() {
-      const current = budgetWho.value;
-      const placeholder = budgetWho.querySelector('option[value=""]');
-      budgetWho.innerHTML = '';
-      if (placeholder) budgetWho.appendChild(placeholder);
-      campMembersList.forEach(name => {
-        const opt = document.createElement('option');
-        opt.value = name;
-        opt.textContent = name;
-        budgetWho.appendChild(opt);
-      });
-      // keep selection if still valid
-      if (current && campMembersList.includes(current)) budgetWho.value = current;
-    }
-
-    function updateBudgetSummary() {
-      const items = loadBudget();
-      const total = items.reduce((s, it) => s + (parseFloat(it.amount) || 0), 0);
-      budgetTotalEl.textContent = formatEuro(total);
-      const n = campMembersList.length;
-      budgetPerPersonEl.textContent = n > 0 ? formatEuro(total / n) : formatEuro(total);
-    }
-
-    function renderBudget() {
-      const items = loadBudget();
-      budgetList.innerHTML = '';
-      budgetEmpty.hidden = items.length > 0;
-      items.forEach((it, idx) => {
-        const row = document.createElement('div');
-        row.className = 'budget-item';
-        const main = document.createElement('div');
-        const desc = document.createElement('div');
-        desc.className = 'desc';
-        desc.textContent = it.desc;
-        const who = document.createElement('span');
-        who.className = 'who';
-        who.textContent = it.who || '—';
-        main.append(desc, who);
-        const amt = document.createElement('span');
-        amt.className = 'amt';
-        amt.textContent = formatEuro(parseFloat(it.amount) || 0);
-        const del = document.createElement('button');
-        del.type = 'button';
-        del.className = 'del';
-        del.textContent = '×';
-        del.setAttribute('aria-label', 'Remove');
-        del.addEventListener('click', () => {
-          const cur = loadBudget();
-          cur.splice(idx, 1);
-          saveBudget(cur);
+    // ---------- Members editor ----------
+    function renderBudgetMembersList() {
+      const members = loadBudgetMembers();
+      budgetMembersListEl.innerHTML = '';
+      members.forEach(name => {
+        const chip = document.createElement('span');
+        chip.className = 'budget-member-chip';
+        const label = document.createElement('span');
+        label.textContent = name;
+        chip.appendChild(label);
+        const rm = document.createElement('button');
+        rm.type = 'button';
+        rm.className = 'budget-member-remove';
+        rm.textContent = '×';
+        rm.setAttribute('aria-label', 'Remove ' + name);
+        rm.addEventListener('click', () => {
+          const next = loadBudgetMembers().filter(n => n !== name);
+          saveBudgetMembers(next.length ? next : BUDGET_DEFAULT_MEMBERS.slice());
           renderBudget();
         });
-        row.append(main, amt, del);
-        budgetList.appendChild(row);
+        chip.appendChild(rm);
+        budgetMembersListEl.appendChild(chip);
       });
-      updateBudgetSummary();
     }
 
-    budgetForm.addEventListener('submit', (e) => {
+    budgetMembersAddForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      const entry = {
-        desc: document.getElementById('budget-desc').value.trim(),
-        amount: parseFloat(document.getElementById('budget-amount').value) || 0,
-        who: budgetWho.value.trim()
-      };
-      if (!entry.desc || !entry.amount || !entry.who) return;
-      const cur = loadBudget();
-      cur.push(entry);
-      saveBudget(cur);
-      budgetForm.reset();
+      const n = budgetMemberNewInput.value.trim();
+      if (!n) return;
+      const m = loadBudgetMembers();
+      if (m.some(x => x.toLowerCase() === n.toLowerCase())) {
+        budgetMemberNewInput.value = '';
+        return;
+      }
+      m.push(n);
+      saveBudgetMembers(m);
+      budgetMemberNewInput.value = '';
       renderBudget();
     });
 
-    function buildBudgetSummary() {
-      const items = loadBudget();
-      const total = items.reduce((s, it) => s + (parseFloat(it.amount) || 0), 0);
-      const n = campMembersList.length;
-      const lines = [];
-      lines.push(tr('camp_budget_summary_header'));
-      lines.push('');
-      items.forEach(it => {
-        lines.push('- ' + it.desc + ' — ' + formatEuro(parseFloat(it.amount) || 0) + ' (' + (it.who || '—') + ')');
+    // ---------- Expense form: populate paid-by + split-between from members ----------
+    function renderBudgetFormOptions() {
+      const members = loadBudgetMembers();
+
+      // Paid-by select (preserve selection if still in list)
+      const prevPaid = budgetPaidBySelect.value;
+      budgetPaidBySelect.innerHTML = '';
+      members.forEach(m => {
+        const o = document.createElement('option');
+        o.value = m; o.textContent = m;
+        budgetPaidBySelect.appendChild(o);
       });
-      if (!items.length) lines.push(tr('camp_budget_empty'));
-      lines.push('');
-      lines.push(tr('camp_budget_total') + ': ' + formatEuro(total));
-      lines.push(tr('camp_budget_per_person') + ': ' + (n > 0 ? formatEuro(total / n) : tr('camp_budget_no_members')));
-      return lines.join('\n');
+      if (prevPaid && members.includes(prevPaid)) budgetPaidBySelect.value = prevPaid;
+
+      // Split-between checkboxes: default all checked on first render; preserve
+      // selection across re-renders of the same form instance.
+      const prevChecked = new Set(
+        Array.from(budgetSplitOptionsEl.querySelectorAll('input:checked')).map(i => i.value)
+      );
+      const hadAny = budgetSplitOptionsEl.querySelectorAll('input').length > 0;
+      budgetSplitOptionsEl.innerHTML = '';
+      members.forEach(m => {
+        const lbl = document.createElement('label');
+        lbl.className = 'budget-split-option';
+        const cb = document.createElement('input');
+        cb.type = 'checkbox';
+        cb.value = m;
+        cb.checked = hadAny ? prevChecked.has(m) : true;
+        lbl.appendChild(cb);
+        const s = document.createElement('span');
+        s.textContent = m;
+        lbl.appendChild(s);
+        budgetSplitOptionsEl.appendChild(lbl);
+      });
     }
 
+    // ---------- Add expense ----------
+    budgetForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const description = budgetDescInput.value.trim();
+      const amountCents = amountToCents(budgetAmountInput.value);
+      const category = budgetCategorySelect.value;
+      const paidBy = budgetPaidBySelect.value;
+      const splitBetween = Array.from(budgetSplitOptionsEl.querySelectorAll('input:checked')).map(i => i.value);
+      if (!description || amountCents <= 0 || !paidBy || !splitBetween.length) return;
+      const expenses = loadBudgetExpenses();
+      expenses.unshift({
+        id: 'ex-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+        description,
+        amount: amountCents,
+        category,
+        paidBy,
+        splitBetween,
+        date: new Date().toISOString()
+      });
+      saveBudgetExpenses(expenses);
+      budgetDescInput.value = '';
+      budgetAmountInput.value = '';
+      // preserve category + paidBy + split-between for the next entry (common case)
+      renderBudget();
+    });
+
+    // ---------- Filter chips ----------
+    function renderBudgetFilters() {
+      budgetFiltersEl.innerHTML = '';
+      const chips = [{ id: 'all', i18n: 'budget_filter_all' }]
+        .concat(BUDGET_CATEGORIES.map(c => ({ id: c.id, i18n: 'budget_cat_' + c.id })));
+      chips.forEach(c => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'budget-filter-chip' + (budgetActiveFilter === c.id ? ' active' : '');
+        btn.setAttribute('data-i18n', c.i18n);
+        btn.textContent = tr(c.i18n);
+        btn.addEventListener('click', () => {
+          budgetActiveFilter = c.id;
+          renderBudget();
+        });
+        budgetFiltersEl.appendChild(btn);
+      });
+    }
+
+    // ---------- Expense list ----------
+    function renderBudgetList() {
+      const all = loadBudgetExpenses();
+      const filtered = budgetActiveFilter === 'all'
+        ? all
+        : all.filter(x => x.category === budgetActiveFilter);
+
+      budgetList.innerHTML = '';
+      budgetEmpty.hidden = filtered.length > 0;
+      if (!filtered.length) return;
+
+      filtered.forEach(exp => {
+        const cat = getBudgetCategory(exp.category);
+        const row = document.createElement('div');
+        row.className = 'budget-item-v2';
+
+        // Category icon
+        const iconWrap = document.createElement('div');
+        iconWrap.className = 'budget-item-icon';
+        iconWrap.style.color = cat.color;
+        iconWrap.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="' + cat.iconPath + '"/></svg>';
+
+        // Main: desc + date
+        const main = document.createElement('div');
+        main.className = 'budget-item-main';
+        const desc = document.createElement('div');
+        desc.className = 'budget-item-desc';
+        desc.textContent = exp.description;
+        main.appendChild(desc);
+        const meta = document.createElement('div');
+        meta.className = 'budget-item-meta';
+        const dateStr = formatExpenseDate(exp.date);
+        if (dateStr) {
+          const d = document.createElement('span');
+          d.className = 'budget-item-date';
+          d.textContent = dateStr;
+          meta.appendChild(d);
+        }
+        const paidBadge = document.createElement('span');
+        paidBadge.className = 'budget-paid-badge';
+        paidBadge.textContent = exp.paidBy;
+        meta.appendChild(paidBadge);
+        const splitTxt = document.createElement('span');
+        splitTxt.className = 'budget-split-text';
+        splitTxt.textContent = tr('budget_split_label') + ' ' + (exp.splitBetween || []).join(', ');
+        meta.appendChild(splitTxt);
+        main.appendChild(meta);
+
+        // Amount
+        const amt = document.createElement('span');
+        amt.className = 'budget-item-amount';
+        amt.textContent = formatCents(exp.amount);
+
+        // Delete (tap-to-confirm)
+        const del = document.createElement('button');
+        del.type = 'button';
+        del.className = 'budget-item-del';
+        del.setAttribute('aria-label', 'Remove');
+        const pending = budgetPendingDeleteId === exp.id;
+        del.textContent = pending ? '✓' : '×';
+        if (pending) del.classList.add('confirm');
+        del.addEventListener('click', () => {
+          if (budgetPendingDeleteId === exp.id) {
+            const cur = loadBudgetExpenses().filter(x => x.id !== exp.id);
+            saveBudgetExpenses(cur);
+            budgetPendingDeleteId = null;
+            renderBudget();
+          } else {
+            budgetPendingDeleteId = exp.id;
+            renderBudget();
+            setTimeout(() => {
+              if (budgetPendingDeleteId === exp.id) {
+                budgetPendingDeleteId = null;
+                renderBudget();
+              }
+            }, 2500);
+          }
+        });
+
+        row.append(iconWrap, main, amt, del);
+        budgetList.appendChild(row);
+      });
+    }
+
+    // ---------- Running total ----------
+    function renderBudgetTotal() {
+      const all = loadBudgetExpenses();
+      const filtered = budgetActiveFilter === 'all'
+        ? all
+        : all.filter(x => x.category === budgetActiveFilter);
+      const sumCents = filtered.reduce((s, x) => s + (x.amount || 0), 0);
+      budgetTotalValueEl.textContent = formatCents(sumCents);
+    }
+
+    // ---------- Export (placeholder — will be rewritten in a follow-up PR) ----------
     async function copyBudget() {
-      const text = buildBudgetSummary();
+      const lines = [];
+      lines.push('HIGH SOCIETY GIRAFFES — Fusion 2026');
+      lines.push(tr('budget_title') + ' · ' + new Date().toLocaleString());
+      lines.push('');
+      const all = loadBudgetExpenses();
+      const totalCents = all.reduce((s, x) => s + (x.amount || 0), 0);
+      lines.push(tr('budget_total_spent') + ': ' + formatCents(totalCents));
+      if (!all.length) {
+        lines.push(tr('budget_no_expenses'));
+      } else {
+        lines.push('');
+        all.forEach(exp => {
+          lines.push('- ' + exp.description + '  ' + formatCents(exp.amount) +
+            '  [' + tr('budget_cat_' + exp.category) + ']' +
+            '  ' + tr('budget_paid_by') + ' ' + exp.paidBy +
+            '  ' + tr('budget_split_label') + ' ' + (exp.splitBetween || []).join(', '));
+        });
+      }
+      const text = lines.join('\n');
       let ok = false;
       try {
         if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -3349,18 +3947,26 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         document.body.removeChild(ta);
       }
       if (ok) {
-        const orig = budgetExport.textContent;
-        budgetExport.textContent = tr('camp_budget_copied');
+        budgetExport.textContent = tr('budget_export_copied');
         budgetExport.classList.add('copied');
         setTimeout(() => {
           budgetExport.classList.remove('copied');
-          budgetExport.textContent = tr('camp_budget_export');
+          budgetExport.textContent = tr('budget_export');
         }, 1400);
       } else {
-        prompt(tr('camp_budget_export'), text);
+        prompt(tr('budget_export'), text);
       }
     }
     budgetExport.addEventListener('click', copyBudget);
+
+    // ---------- Master re-render ----------
+    function renderBudget() {
+      renderBudgetMembersList();
+      renderBudgetFormOptions();
+      renderBudgetFilters();
+      renderBudgetList();
+      renderBudgetTotal();
+    }
 
     // Equipment list: user-added items, persisted in localStorage as
     // [{id, name, done, who}]. Anyone can add what they're bringing.
@@ -3473,7 +4079,6 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
     const prevApplyLang3 = window.applyLang;
     window.applyLang = function(lang) {
       prevApplyLang3(lang);
-      updateBudgetSummary();
       renderBudget();
       renderEquip();
       refreshEquipPlaceholders();
