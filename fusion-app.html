@@ -1730,6 +1730,10 @@ You have the right to remain silent. You are not required to answer questions be
 You do not have to open bags or your vehicle for a search without a warrant or a concrete suspicion — ask politely what the legal basis is.
 Fusion provides on-site legal advice — ask at the Info point.</p>
           </div>
+          <div class="gps-buttons">
+            <a class="gps-btn" data-gps="google" href="#" target="_blank" rel="noopener noreferrer" data-i18n="camp_gps_open_google">Open in Google Maps</a>
+            <a class="gps-btn" data-gps="apple" href="#" target="_blank" rel="noopener noreferrer" data-i18n="camp_gps_open_apple">Open in Apple Maps</a>
+          </div>
         </div>
       </div>
 
@@ -1961,8 +1965,8 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
           <div class="gps-coords" id="gps-coords">53.3180, 12.7520</div>
         </div>
         <div class="gps-buttons">
-          <a id="gps-google" class="gps-btn" href="#" target="_blank" rel="noopener noreferrer" data-i18n="camp_gps_open_google">Open in Google Maps</a>
-          <a id="gps-apple" class="gps-btn" href="#" target="_blank" rel="noopener noreferrer" data-i18n="camp_gps_open_apple">Open in Apple Maps</a>
+          <a class="gps-btn" data-gps="google" href="#" target="_blank" rel="noopener noreferrer" data-i18n="camp_gps_open_google">Open in Google Maps</a>
+          <a class="gps-btn" data-gps="apple" href="#" target="_blank" rel="noopener noreferrer" data-i18n="camp_gps_open_apple">Open in Apple Maps</a>
         </div>
       </div>
     </section>
@@ -3155,8 +3159,10 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
     const CAMP_LON = 12.7520;
 
     document.getElementById('gps-coords').textContent = CAMP_LAT.toFixed(4) + ', ' + CAMP_LON.toFixed(4);
-    document.getElementById('gps-google').href = 'https://maps.google.com/?q=' + CAMP_LAT + ',' + CAMP_LON;
-    document.getElementById('gps-apple').href = 'https://maps.apple.com/?q=' + CAMP_LAT + ',' + CAMP_LON;
+    const googleMapsHref = 'https://maps.google.com/?q=' + CAMP_LAT + ',' + CAMP_LON;
+    const appleMapsHref = 'https://maps.apple.com/?q=' + CAMP_LAT + ',' + CAMP_LON;
+    document.querySelectorAll('[data-gps="google"]').forEach(a => { a.href = googleMapsHref; });
+    document.querySelectorAll('[data-gps="apple"]').forEach(a => { a.href = appleMapsHref; });
 
     // Track members for budget dropdown — wrap the existing renderMembers
     let campMembersList = [];
