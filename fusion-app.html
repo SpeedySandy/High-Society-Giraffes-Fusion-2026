@@ -1917,6 +1917,208 @@
     }
     .sitemap-fallback p { margin: 0; }
     .sitemap-open { margin-top: 10px; }
+
+    /* ===== Admin dashboard ===== */
+    .admin-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background: #0f0f1e;
+      overflow: auto;
+    }
+
+    /* PIN entry view */
+    .admin-pin-view {
+      min-height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      position: relative;
+      transition: opacity 0.3s ease;
+    }
+    .admin-pin-view.fade-out { opacity: 0; }
+    .admin-pin-close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font: inherit;
+      font-size: 22px;
+      line-height: 1;
+      cursor: pointer;
+    }
+    .admin-pin-close:hover { color: var(--text); border-color: var(--gold); }
+    .admin-pin-card {
+      width: 100%;
+      max-width: 320px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      padding: 28px 22px;
+      text-align: center;
+    }
+    .admin-pin-title {
+      color: var(--gold);
+      font-size: 14px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 22px;
+    }
+    .admin-pin-dots {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      margin-bottom: 26px;
+    }
+    .admin-pin-dots span {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 1.5px solid var(--gold);
+      background: transparent;
+      transition: background 0.15s, transform 0.15s;
+    }
+    .admin-pin-dots span.filled {
+      background: var(--gold);
+      transform: scale(1.1);
+    }
+    @keyframes admin-pin-shake {
+      0%, 100% { transform: translateX(0); }
+      15% { transform: translateX(-8px); }
+      30% { transform: translateX(8px); }
+      45% { transform: translateX(-6px); }
+      60% { transform: translateX(6px); }
+      75% { transform: translateX(-3px); }
+    }
+    .admin-pin-dots.admin-pin-shake {
+      animation: admin-pin-shake 0.45s ease;
+    }
+    .admin-pin-dots.admin-pin-shake span {
+      border-color: var(--magenta);
+      background: var(--magenta);
+    }
+    .admin-pin-numpad {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    .admin-pin-numpad button {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      color: var(--text);
+      font: inherit;
+      font-size: 22px;
+      font-weight: 500;
+      padding: 16px 0;
+      cursor: pointer;
+      letter-spacing: 0;
+    }
+    .admin-pin-numpad button:hover { border-color: var(--gold); color: var(--gold); }
+    .admin-pin-numpad button:active { background: var(--gold); color: var(--bg); }
+    .admin-pin-clear, .admin-pin-del {
+      color: var(--muted) !important;
+      font-size: 18px !important;
+    }
+
+    /* Dashboard view */
+    .admin-dashboard-view {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 20px 16px 60px;
+    }
+    .admin-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 8px 0 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .admin-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--gold);
+      font-size: 16px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+    }
+    .admin-giraffe-icon {
+      width: 28px;
+      height: 28px;
+      color: var(--gold);
+      flex-shrink: 0;
+    }
+    .admin-exit {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      border-radius: 11px;
+      padding: 6px 12px;
+      font: inherit;
+      font-size: 13px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .admin-exit:hover { color: var(--magenta); border-color: var(--magenta); }
+    .admin-meta {
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: 0.5px;
+      padding: 12px 0 4px;
+      display: flex;
+      gap: 6px;
+    }
+    .admin-section {
+      margin-top: 22px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(232, 201, 106, 0.3);
+    }
+    .admin-section-title {
+      color: var(--gold);
+      font-size: 13px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin: 0 0 12px;
+    }
+    .admin-section-body { font-size: 14px; color: var(--text); }
+    .admin-section-pending {
+      color: var(--muted);
+      font-size: 13px;
+      font-style: italic;
+      margin: 4px 0;
+      opacity: 0.85;
+    }
+    .admin-notes-textarea {
+      width: 100%;
+      min-height: 140px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      color: var(--text);
+      font: inherit;
+      font-size: 14px;
+      padding: 12px;
+      resize: vertical;
+      box-sizing: border-box;
+    }
+    .admin-notes-textarea:focus { outline: none; border-color: var(--gold); }
+    .admin-notes-hint {
+      color: var(--muted);
+      font-size: 12px;
+      margin: 6px 0 0;
+      opacity: 0.8;
+    }
+
+    .app-title { cursor: default; }
   </style>
 </head>
 <body>
@@ -2337,6 +2539,111 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
       <img class="tab-footer-art" src="assets/Fusion25_Turmbuhne_nacht_Medium.png" alt="" loading="lazy">
     </section>
   </main>
+
+  <!-- ============================================================
+       Hidden admin dashboard
+       ------------------------------------------------------------
+       Reveal: 5 rapid taps on the "Fusion 2026" header title (within
+       2 seconds) → PIN entry → dashboard. PIN unlock is cached in
+       sessionStorage('fusion_admin') so it only needs entering once
+       per browser session.
+
+       SECURITY NOTE — security-by-obscurity only. Suitable for a
+       private friend-group app. The PIN is visible in the source to
+       anyone who opens DevTools. Do not store sensitive personal data
+       in this admin view beyond what's already in the regular app.
+       For real authentication, swap to Firebase Auth (future upgrade).
+       ============================================================ -->
+  <div id="admin-overlay" class="admin-overlay" hidden>
+    <!-- PIN entry screen -->
+    <div id="admin-pin-view" class="admin-pin-view">
+      <button class="admin-pin-close" id="admin-pin-close" type="button" aria-label="Close">×</button>
+      <div class="admin-pin-card">
+        <div class="admin-pin-title">Admin</div>
+        <div class="admin-pin-dots" id="admin-pin-dots">
+          <span></span><span></span><span></span><span></span>
+        </div>
+        <div class="admin-pin-numpad">
+          <button type="button" data-pin-key="1">1</button>
+          <button type="button" data-pin-key="2">2</button>
+          <button type="button" data-pin-key="3">3</button>
+          <button type="button" data-pin-key="4">4</button>
+          <button type="button" data-pin-key="5">5</button>
+          <button type="button" data-pin-key="6">6</button>
+          <button type="button" data-pin-key="7">7</button>
+          <button type="button" data-pin-key="8">8</button>
+          <button type="button" data-pin-key="9">9</button>
+          <button type="button" data-pin-key="clear" class="admin-pin-clear" aria-label="Clear">C</button>
+          <button type="button" data-pin-key="0">0</button>
+          <button type="button" data-pin-key="del" class="admin-pin-del" aria-label="Delete">⌫</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dashboard view (revealed after correct PIN or with cached session flag) -->
+    <div id="admin-dashboard-view" class="admin-dashboard-view" hidden>
+      <header class="admin-header">
+        <div class="admin-title">
+          <svg class="admin-giraffe-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M14 5l1 5 4 1v8h-3v-7l-2-1V5z"/>
+            <rect x="6" y="14" width="9" height="6" rx="1.5"/>
+            <line x1="13" y1="3" x2="13" y2="5"/>
+            <line x1="16" y1="3" x2="16" y2="5"/>
+          </svg>
+          <span>High Society Giraffes — Admin</span>
+        </div>
+        <button type="button" class="admin-exit" id="admin-exit">Exit admin</button>
+      </header>
+      <div class="admin-meta">
+        <span>Last updated:</span>
+        <span id="admin-last-updated">—</span>
+      </div>
+
+      <!-- Sections — Part 1 ships empty stubs; Parts 2 + 3 will fill them in. -->
+      <section class="admin-section">
+        <h2 class="admin-section-title">Camp overview</h2>
+        <div id="admin-overview-body" class="admin-section-body">
+          <p class="admin-section-pending">Coming up in the next admin PR (camp totals + spend stats).</p>
+        </div>
+      </section>
+
+      <section class="admin-section">
+        <h2 class="admin-section-title">Arrival timeline</h2>
+        <div id="admin-arrival-body" class="admin-section-body">
+          <p class="admin-section-pending">Coming up in the CSV admin PR.</p>
+        </div>
+      </section>
+
+      <section class="admin-section">
+        <h2 class="admin-section-title">Ticket status</h2>
+        <div id="admin-tickets-body" class="admin-section-body">
+          <p class="admin-section-pending">Coming up in the CSV admin PR.</p>
+        </div>
+      </section>
+
+      <section class="admin-section">
+        <h2 class="admin-section-title">Budget summary</h2>
+        <div id="admin-budget-body" class="admin-section-body">
+          <p class="admin-section-pending">Coming up in the next admin PR.</p>
+        </div>
+      </section>
+
+      <section class="admin-section">
+        <h2 class="admin-section-title">Packing list progress</h2>
+        <div id="admin-packing-body" class="admin-section-body">
+          <p class="admin-section-pending">Coming up in the next admin PR.</p>
+        </div>
+      </section>
+
+      <section class="admin-section">
+        <h2 class="admin-section-title">Quick notes</h2>
+        <div class="admin-section-body">
+          <textarea id="admin-notes" class="admin-notes-textarea" placeholder="Private notes — auto-saved on this device"></textarea>
+          <p class="admin-notes-hint">Stored locally on this device only.</p>
+        </div>
+      </section>
+    </div>
+  </div>
 
   <nav class="tab-bar" aria-label="Primary">
     <button class="tab-btn active" data-tab="tab-home">
@@ -4448,6 +4755,149 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
       const swBlob = new Blob([swSource], { type: 'application/javascript' });
       const swUrl = URL.createObjectURL(swBlob);
       navigator.serviceWorker.register(swUrl).catch(() => {});
+    }
+
+    // ==================== Admin dashboard — Part 1 (PIN gate + shell) ====================
+    // SECURITY NOTE — security-by-obscurity only. Suitable for a private
+    // friend-group app. The PIN below is in plain source for anyone with
+    // DevTools to see; do not store sensitive personal data in this admin
+    // view beyond what's already in the regular app. For real authentication,
+    // swap to Firebase Auth (future upgrade).
+    const ADMIN_PIN = '0000'; // TODO: replace 0000 with your chosen 4-digit PIN
+    const ADMIN_SESSION_KEY = 'fusion_admin';
+    const ADMIN_NOTES_KEY = 'fusion_admin_notes';
+    const ADMIN_TAP_WINDOW_MS = 2000;
+    const ADMIN_TAPS_REQUIRED = 5;
+
+    const adminOverlay = document.getElementById('admin-overlay');
+    const adminPinView = document.getElementById('admin-pin-view');
+    const adminPinClose = document.getElementById('admin-pin-close');
+    const adminPinDots = document.getElementById('admin-pin-dots');
+    const adminPinDotEls = adminPinDots ? adminPinDots.querySelectorAll('span') : [];
+    const adminDashboardView = document.getElementById('admin-dashboard-view');
+    const adminExitBtn = document.getElementById('admin-exit');
+    const adminLastUpdatedEl = document.getElementById('admin-last-updated');
+    const adminNotesTextarea = document.getElementById('admin-notes');
+    const adminTitleEl = document.querySelector('h1.app-title');
+
+    let adminPinEntered = '';
+    let adminTitleTapTimes = [];
+
+    function adminUpdatePinDots() {
+      adminPinDotEls.forEach((el, i) => {
+        el.classList.toggle('filled', i < adminPinEntered.length);
+      });
+    }
+
+    function adminShowPinView() {
+      adminPinView.hidden = false;
+      adminDashboardView.hidden = true;
+      adminPinView.classList.remove('fade-out');
+      adminPinEntered = '';
+      adminUpdatePinDots();
+    }
+
+    function adminShowDashboard() {
+      adminPinView.hidden = true;
+      adminDashboardView.hidden = false;
+      adminLastUpdatedEl.textContent = new Date().toLocaleString();
+      // Hydrate notes from storage on every open so multi-tab edits show.
+      if (adminNotesTextarea) {
+        adminNotesTextarea.value = localStorage.getItem(ADMIN_NOTES_KEY) || '';
+      }
+    }
+
+    function adminOpenOverlay() {
+      adminOverlay.hidden = false;
+      if (sessionStorage.getItem(ADMIN_SESSION_KEY) === '1') {
+        adminShowDashboard();
+      } else {
+        adminShowPinView();
+      }
+    }
+
+    function adminCloseOverlay() {
+      adminOverlay.hidden = true;
+      adminPinEntered = '';
+      adminUpdatePinDots();
+    }
+
+    function adminPinShake() {
+      adminPinDots.classList.add('admin-pin-shake');
+      setTimeout(() => {
+        adminPinDots.classList.remove('admin-pin-shake');
+        adminPinEntered = '';
+        adminUpdatePinDots();
+      }, 1000);
+    }
+
+    function adminHandlePinKey(key) {
+      if (key === 'del') {
+        adminPinEntered = adminPinEntered.slice(0, -1);
+      } else if (key === 'clear') {
+        adminPinEntered = '';
+      } else if (adminPinEntered.length < 4) {
+        adminPinEntered += key;
+      }
+      adminUpdatePinDots();
+      if (adminPinEntered.length === 4) {
+        if (adminPinEntered === ADMIN_PIN) {
+          sessionStorage.setItem(ADMIN_SESSION_KEY, '1');
+          adminPinView.classList.add('fade-out');
+          setTimeout(() => {
+            adminPinView.classList.remove('fade-out');
+            adminShowDashboard();
+          }, 320);
+        } else {
+          adminPinShake();
+        }
+      }
+    }
+
+    document.querySelectorAll('[data-pin-key]').forEach(btn => {
+      btn.addEventListener('click', () => adminHandlePinKey(btn.getAttribute('data-pin-key')));
+    });
+
+    if (adminPinClose) adminPinClose.addEventListener('click', adminCloseOverlay);
+
+    if (adminExitBtn) {
+      adminExitBtn.addEventListener('click', () => {
+        sessionStorage.removeItem(ADMIN_SESSION_KEY);
+        adminCloseOverlay();
+      });
+    }
+
+    // Hardware keyboard support inside PIN screen.
+    document.addEventListener('keydown', (e) => {
+      if (adminOverlay.hidden) return;
+      if (adminDashboardView.hidden === false) return; // dashboard already open
+      if (e.key >= '0' && e.key <= '9') { adminHandlePinKey(e.key); e.preventDefault(); }
+      else if (e.key === 'Backspace') { adminHandlePinKey('del'); e.preventDefault(); }
+      else if (e.key === 'Escape') { adminCloseOverlay(); }
+    });
+
+    // 5 rapid taps on the header title within 2 seconds → reveal admin overlay.
+    if (adminTitleEl) {
+      adminTitleEl.addEventListener('click', () => {
+        const now = Date.now();
+        adminTitleTapTimes = adminTitleTapTimes.filter(t => now - t < ADMIN_TAP_WINDOW_MS);
+        adminTitleTapTimes.push(now);
+        if (adminTitleTapTimes.length >= ADMIN_TAPS_REQUIRED) {
+          adminTitleTapTimes = [];
+          adminOpenOverlay();
+        }
+      });
+    }
+
+    // Quick notes auto-save (debounced ~250ms so we batch fast typing).
+    if (adminNotesTextarea) {
+      let adminNotesTimer = null;
+      adminNotesTextarea.addEventListener('input', () => {
+        if (adminNotesTimer) clearTimeout(adminNotesTimer);
+        adminNotesTimer = setTimeout(() => {
+          localStorage.setItem(ADMIN_NOTES_KEY, adminNotesTextarea.value);
+        }, 250);
+      });
     }
   </script>
 </body>
