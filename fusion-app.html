@@ -158,9 +158,30 @@
       .tab-hero { height: 160px; }
     }
 
-    .tab-hero-camp { background-image: url('assets/IMG_6814.JPG'); }
-    .tab-hero-info { background-image: url('assets/IMG_4293.JPG'); }
-    .tab-hero-map { background-image: url('assets/Fusion25_firespace_Medium.png'); }
+    .tab-hero-camp { background-image: url('assets/Fusion25_Turmbuhne_nacht_Medium.png'); }
+    .tab-hero-info { background-image: url('assets/Fusion25_Luftschloss_Medium.png'); }
+    .tab-hero-map  { background-image: url('assets/Fusion25_firespace_Medium.png'); }
+
+    .vibe-gallery {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding: 4px 2px;
+      margin: 16px -2px 0;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .vibe-gallery::-webkit-scrollbar { display: none; }
+    .vibe-gallery img {
+      flex: 0 0 auto;
+      width: 220px;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 13px;
+      border: 1px solid var(--border);
+      scroll-snap-align: start;
+    }
 
     .tab-bar {
       position: fixed;
@@ -257,7 +278,7 @@
           rgba(15, 15, 30, 0.82) 60%,
           rgba(15, 15, 30, 0.95) 100%
         ),
-        url('assets/IMG_4272.JPG');
+        url('assets/Fusion25_Trancefloor_nacht_Medium.png');
       background-size: cover;
       background-position: center;
       border-color: rgba(232, 201, 106, 0.18);
@@ -1710,6 +1731,15 @@
       <div class="link-stack">
         <a class="link-btn" href="https://fusion-festival.de/en" target="_blank" rel="noopener noreferrer" data-i18n="home_website_btn">Official website</a>
         <a class="link-btn" href="https://tickets.fusion-festival.de" target="_blank" rel="noopener noreferrer" data-i18n="home_tickets_btn">Ticket portal</a>
+      </div>
+
+      <div class="vibe-gallery" aria-label="Fusion vibes">
+        <img src="assets/Fusion25_Trancefloor_Medium.png" alt="" loading="lazy">
+        <img src="assets/Fusion25_Palapa_Medium.png" alt="" loading="lazy">
+        <img src="assets/Fusion25_Laser_Tunnel_Medium.png" alt="" loading="lazy">
+        <img src="assets/Fusion25_Rakete_Medium.png" alt="" loading="lazy">
+        <img src="assets/Fusion25_Rote_Platz_Medium.png" alt="" loading="lazy">
+        <img src="assets/Fusion25_Tanzwuste_lights_Medium.png" alt="" loading="lazy">
       </div>
     </section>
     <section id="tab-info">
