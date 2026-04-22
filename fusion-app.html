@@ -2969,11 +2969,67 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
       return cleanCell(r.name || r.member || r.members);
     }
 
-    const AVATAR_PALETTE = ['#e8c96a', '#4bc8a0', '#7a4bc8', '#c84b6a', '#e87a3a'];
-    function avatarColor(name) {
+    // Each camp member gets a unique procedurally-generated giraffe avatar.
+    // Name is hashed to seed every colour/spot/position choice so the same
+    // person always gets the same giraffe across reloads and devices.
+    const GIRAFFE_BG_COLORS = ['#2a1a3e', '#1a2e2a', '#2e1a1a', '#1a2a2e', '#2e2a1a', '#1e1a2e'];
+    const GIRAFFE_BODY_COLORS = ['#c8a850', '#d4956a', '#c8b896', '#a8c896', '#96a8c8', '#c896b4'];
+
+    function hashName(name) {
       let h = 0;
-      for (let i = 0; i < name.length; i++) h = ((h << 5) - h + name.charCodeAt(i)) | 0;
-      return AVATAR_PALETTE[Math.abs(h) % AVATAR_PALETTE.length];
+      for (let i = 0; i < name.length; i++) {
+        h = (Math.imul(31, h) + name.charCodeAt(i)) | 0;
+      }
+      return Math.abs(h);
+    }
+
+    function seededRand(seed, index) {
+      return ((seed * 1664525 + index * 22695477 + 1013904223) & 0x7fffffff) / 0x7fffffff;
+    }
+
+    function darkenHex(hex, factor) {
+      const n = parseInt(hex.slice(1), 16);
+      const r = Math.max(0, Math.min(255, Math.round(((n >> 16) & 0xff) * factor)));
+      const g = Math.max(0, Math.min(255, Math.round(((n >> 8) & 0xff) * factor)));
+      const b = Math.max(0, Math.min(255, Math.round((n & 0xff) * factor)));
+      return '#' + ((r << 16) | (g << 8) | b).toString(16).padStart(6, '0');
+    }
+
+    function generateGiraffeAvatar(name) {
+      const seed = hashName(name || '?');
+      const bg = GIRAFFE_BG_COLORS[seed % GIRAFFE_BG_COLORS.length];
+      const body = GIRAFFE_BODY_COLORS[Math.floor(seededRand(seed, 1) * GIRAFFE_BODY_COLORS.length)];
+      const spot = darkenHex(body, 0.7);
+      const spotCount = 5 + Math.floor(seededRand(seed, 2) * 3); // 5, 6 or 7
+      let spots = '';
+      for (let i = 0; i < spotCount; i++) {
+        const onNeck = seededRand(seed, 10 + i) < 0.5;
+        const cx = onNeck
+          ? 36 + seededRand(seed, 20 + i) * 8
+          : 30 + seededRand(seed, 30 + i) * 20;
+        const cy = onNeck
+          ? 26 + seededRand(seed, 40 + i) * 22
+          : 48 + seededRand(seed, 50 + i) * 14;
+        const rx = 2 + seededRand(seed, 60 + i) * 3;
+        const ry = 2 + seededRand(seed, 70 + i) * 2;
+        spots += `<ellipse cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" rx="${rx.toFixed(1)}" ry="${ry.toFixed(1)}" fill="${spot}"/>`;
+      }
+      return (
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" width="100%" height="100%" aria-hidden="true">' +
+          `<circle cx="40" cy="40" r="38" fill="${bg}"/>` +
+          // ossicones (giraffe horns) + their tiny round tufts
+          `<rect x="33.5" y="3" width="3" height="6" rx="1.5" fill="${body}"/>` +
+          `<rect x="43.5" y="3" width="3" height="6" rx="1.5" fill="${body}"/>` +
+          `<circle cx="35" cy="3.5" r="1.8" fill="${spot}"/>` +
+          `<circle cx="45" cy="3.5" r="1.8" fill="${spot}"/>` +
+          `<rect x="28" y="45" width="24" height="20" rx="8" fill="${body}"/>` +
+          `<rect x="35" y="22" width="10" height="28" rx="5" fill="${body}"/>` +
+          `<circle cx="40" cy="20" r="12" fill="${body}"/>` +
+          spots +
+          `<circle cx="36" cy="18" r="1.5" fill="#1a1a2a"/>` +
+          `<circle cx="44" cy="18" r="1.5" fill="#1a1a2a"/>` +
+        '</svg>'
+      );
     }
 
     function renderMembers(rows) {
@@ -2994,8 +3050,7 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
 
         const avatar = document.createElement('div');
         avatar.className = 'member-avatar';
-        avatar.style.background = avatarColor(name);
-        avatar.textContent = (name.match(/\p{L}/u)?.[0] || '?').toUpperCase();
+        avatar.innerHTML = generateGiraffeAvatar(name);
         card.appendChild(avatar);
 
         const main = document.createElement('div');
