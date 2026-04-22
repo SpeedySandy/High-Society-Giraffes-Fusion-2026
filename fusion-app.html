@@ -162,25 +162,14 @@
     .tab-hero-info { background-image: url('assets/Fusion25_Luftschloss_Medium.png'); }
     .tab-hero-map  { background-image: url('assets/Fusion25_firespace_Medium.png'); }
 
-    .vibe-gallery {
-      display: flex;
-      gap: 10px;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      padding: 4px 2px;
-      margin: 16px -2px 0;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-    }
-    .vibe-gallery::-webkit-scrollbar { display: none; }
-    .vibe-gallery img {
-      flex: 0 0 auto;
-      width: 220px;
-      height: 140px;
+    .home-footer-art {
+      display: block;
+      width: 100%;
+      height: 160px;
       object-fit: cover;
       border-radius: 13px;
       border: 1px solid var(--border);
-      scroll-snap-align: start;
+      margin-top: 16px;
     }
 
     .tab-bar {
@@ -1733,14 +1722,7 @@
         <a class="link-btn" href="https://tickets.fusion-festival.de" target="_blank" rel="noopener noreferrer" data-i18n="home_tickets_btn">Ticket portal</a>
       </div>
 
-      <div class="vibe-gallery" aria-label="Fusion vibes">
-        <img src="assets/Fusion25_Trancefloor_Medium.png" alt="" loading="lazy">
-        <img src="assets/Fusion25_Palapa_Medium.png" alt="" loading="lazy">
-        <img src="assets/Fusion25_Laser_Tunnel_Medium.png" alt="" loading="lazy">
-        <img src="assets/Fusion25_Rakete_Medium.png" alt="" loading="lazy">
-        <img src="assets/Fusion25_Rote_Platz_Medium.png" alt="" loading="lazy">
-        <img src="assets/Fusion25_Tanzwuste_lights_Medium.png" alt="" loading="lazy">
-      </div>
+      <img class="home-footer-art" src="assets/Fusion25_Palapa_Medium.png" alt="" loading="lazy">
     </section>
     <section id="tab-info">
       <div class="tab-hero tab-hero-info" aria-hidden="true"></div>
