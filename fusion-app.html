@@ -3112,9 +3112,9 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
       renderArrivals();
     });
 
-    // Feedback form — opens the user's mail client pre-filled. Replace
-    // FEEDBACK_EMAIL with the crew's inbox.
-    const FEEDBACK_EMAIL = 'TODO_REPLACE_FEEDBACK_EMAIL@example.com';
+    // Feedback form — opens a WhatsApp chat with Sandro, pre-filled with
+    // the user's name + message. Digits only, international format, no +.
+    const FEEDBACK_WHATSAPP = '34625667136';
     const feedbackForm = document.getElementById('feedback-form');
 
     feedbackForm.addEventListener('submit', (e) => {
@@ -3122,12 +3122,10 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
       const name = document.getElementById('feedback-name').value.trim();
       const message = document.getElementById('feedback-message').value.trim();
       if (!message) return;
-      const subject = 'Fusion app feedback' + (name ? ' from ' + name : '');
-      const body = (name ? 'From: ' + name + '\n\n' : '') + message;
-      const href = 'mailto:' + FEEDBACK_EMAIL +
-        '?subject=' + encodeURIComponent(subject) +
-        '&body=' + encodeURIComponent(body);
-      window.location.href = href;
+      const body = '[Fusion app feedback]' + (name ? ' from ' + name : '') + '\n\n' + message;
+      const href = 'https://wa.me/' + FEEDBACK_WHATSAPP +
+        '?text=' + encodeURIComponent(body);
+      window.open(href, '_blank', 'noopener,noreferrer');
     });
 
     // Re-render camp content on language change (badges, table empty text, seat labels)
