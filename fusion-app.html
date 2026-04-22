@@ -1705,6 +1705,48 @@
       margin-top: 8px;
     }
 
+    /* Part C: category chart */
+    .budget-chart-row {
+      display: grid;
+      grid-template-columns: 110px 1fr 100px;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+    .budget-chart-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .budget-chart-swatch {
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+      flex-shrink: 0;
+    }
+    .budget-chart-bar {
+      width: 100%;
+      height: 12px;
+      line-height: 0;
+    }
+    .budget-chart-bar svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .budget-chart-value {
+      font-size: 12px;
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+      text-align: right;
+      white-space: nowrap;
+    }
+
     .equip-list { display: grid; gap: 6px; margin-top: 4px; }
 
     .equip-item {
@@ -4541,27 +4583,77 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
       budgetTotalValueEl.textContent = formatCents(sumCents);
     }
 
-    // ---------- Export (placeholder — will be rewritten in a follow-up PR) ----------
-    async function copyBudget() {
+    // ---------- Export (Part C) — multi-section plain-text summary ----------
+    function buildBudgetExportText() {
       const lines = [];
-      lines.push('HIGH SOCIETY GIRAFFES — Fusion 2026');
-      lines.push(tr('budget_title') + ' · ' + new Date().toLocaleString());
+      const now = new Date();
+      lines.push('HIGH SOCIETY GIRAFFES — FUSION 2026');
+      lines.push('Budget Summary · Generated: ' + now.toLocaleString());
       lines.push('');
-      const all = loadBudgetExpenses();
-      const totalCents = all.reduce((s, x) => s + (x.amount || 0), 0);
-      lines.push(tr('budget_total_spent') + ': ' + formatCents(totalCents));
-      if (!all.length) {
+
+      const expenses = loadBudgetExpenses();
+      const totalCents = expenses.reduce((s, e) => s + (e.amount || 0), 0);
+
+      // Expenses
+      lines.push('EXPENSES (' + formatCents(totalCents) + ' total)');
+      if (!expenses.length) {
         lines.push(tr('budget_no_expenses'));
       } else {
-        lines.push('');
-        all.forEach(exp => {
-          lines.push('- ' + exp.description + '  ' + formatCents(exp.amount) +
+        // Oldest first so the export reads chronologically.
+        const chrono = expenses.slice().reverse();
+        chrono.forEach(exp => {
+          const d = new Date(exp.date);
+          const dateStr = isNaN(d.getTime()) ? '' : '[' + d.toLocaleDateString() + '] ';
+          const splitStr = (exp.splitBetween || []).join(', ');
+          lines.push(
+            dateStr + (exp.description || '') +
+            '  ' + formatCents(exp.amount) +
             '  [' + tr('budget_cat_' + exp.category) + ']' +
-            '  ' + tr('budget_paid_by') + ' ' + exp.paidBy +
-            '  ' + tr('budget_split_label') + ' ' + (exp.splitBetween || []).join(', '));
+            '  Paid by ' + (exp.paidBy || '—') +
+            '  Split: ' + (splitStr || '—')
+          );
         });
       }
-      const text = lines.join('\n');
+      lines.push('');
+
+      // Per person
+      if (typeof computeBudgetBalances === 'function') {
+        const { members, balances, paid, share } = computeBudgetBalances();
+        if (members.length) {
+          lines.push('PER PERSON');
+          members.forEach(name => {
+            const p = paid[name] || 0;
+            const s = share[name] || 0;
+            const b = balances[name] || 0;
+            const note = b > 0 ? ' (' + tr('budget_you_are_owed') + ')'
+                       : b < 0 ? ' (' + tr('budget_you_owe') + ')'
+                       : '';
+            const sign = b > 0 ? '+' : '';
+            lines.push(name + ':  Paid ' + formatCents(p) +
+              ' · Share ' + formatCents(s) +
+              ' · Balance ' + sign + formatCents(b) + note);
+          });
+          lines.push('');
+
+          // Settlements
+          if (typeof computeSettlements === 'function') {
+            lines.push('SETTLEMENTS');
+            const settlements = computeSettlements({ ...balances });
+            if (!settlements.length) {
+              lines.push(tr('budget_all_settled'));
+            } else {
+              settlements.forEach(t => {
+                lines.push(t.from + ' pays ' + t.to + ' ' + formatCents(t.amount));
+              });
+            }
+          }
+        }
+      }
+      return lines.join('\n');
+    }
+
+    async function copyBudget() {
+      const text = buildBudgetExportText();
       let ok = false;
       try {
         if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -4764,6 +4856,69 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
       });
     }
 
+    // ==================== Budget Tracker v2 (Part C: category chart) ====================
+    // Horizontal bar chart rendered as inline SVG, one bar per category
+    // that has at least one expense. Width is proportional to the largest
+    // category spend so the biggest bucket fills the track and smaller
+    // ones scale against it. Each row shows swatch + name + amount + %.
+    function renderBudgetChart() {
+      const section = document.getElementById('budget-chart');
+      const body = document.getElementById('budget-chart-body');
+      if (!section || !body) return;
+      const expenses = loadBudgetExpenses();
+      if (!expenses.length) { section.hidden = true; return; }
+
+      const sums = {};
+      BUDGET_CATEGORIES.forEach(c => { sums[c.id] = 0; });
+      expenses.forEach(e => {
+        if (Object.prototype.hasOwnProperty.call(sums, e.category)) {
+          sums[e.category] += (e.amount || 0);
+        }
+      });
+      const cats = BUDGET_CATEGORIES.filter(c => sums[c.id] > 0);
+      if (!cats.length) { section.hidden = true; return; }
+      section.hidden = false;
+
+      const totalCents = expenses.reduce((s, e) => s + (e.amount || 0), 0);
+      const maxVal = Math.max.apply(null, cats.map(c => sums[c.id]));
+
+      body.innerHTML = '';
+      cats.forEach(c => {
+        const val = sums[c.id];
+        const fillWidth = maxVal ? (val / maxVal) * 100 : 0;
+        const pctOfTotal = totalCents ? Math.round((val / totalCents) * 100) : 0;
+
+        const row = document.createElement('div');
+        row.className = 'budget-chart-row';
+
+        const label = document.createElement('div');
+        label.className = 'budget-chart-label';
+        const swatch = document.createElement('span');
+        swatch.className = 'budget-chart-swatch';
+        swatch.style.background = c.color;
+        const name = document.createElement('span');
+        name.textContent = tr('budget_cat_' + c.id);
+        label.append(swatch, name);
+
+        const barWrap = document.createElement('div');
+        barWrap.className = 'budget-chart-bar';
+        // viewBox 0 0 100 12, preserveAspectRatio="none" so width fills
+        // the column while height stays fixed.
+        barWrap.innerHTML =
+          '<svg viewBox="0 0 100 12" preserveAspectRatio="none" aria-hidden="true">' +
+            '<rect x="0" y="0" width="100" height="12" rx="4" fill="#1a1a2e"/>' +
+            '<rect x="0" y="0" width="' + fillWidth.toFixed(2) + '" height="12" rx="4" fill="' + c.color + '"/>' +
+          '</svg>';
+
+        const valueEl = document.createElement('div');
+        valueEl.className = 'budget-chart-value';
+        valueEl.textContent = formatCents(val) + ' · ' + pctOfTotal + '%';
+
+        row.append(label, barWrap, valueEl);
+        body.appendChild(row);
+      });
+    }
+
     // ---------- Master re-render ----------
     function renderBudget() {
       renderBudgetMembersList();
@@ -4771,6 +4926,7 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
       renderBudgetFilters();
       renderBudgetList();
       renderBudgetTotal();
+      renderBudgetChart();
       renderBudgetBreakdown();
       renderBudgetSettlements();
     }
