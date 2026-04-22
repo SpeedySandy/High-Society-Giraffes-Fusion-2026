@@ -2118,6 +2118,78 @@
       opacity: 0.8;
     }
 
+    .admin-stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .admin-stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      padding: 14px 12px;
+      text-align: center;
+    }
+    .admin-stat-value {
+      color: var(--gold);
+      font-size: 22px;
+      font-weight: 500;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0;
+    }
+    .admin-stat-label {
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-top: 4px;
+    }
+
+    .admin-kv-rows {
+      display: grid;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .admin-kv-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 10px;
+      padding: 8px 12px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 11px;
+    }
+    .admin-kv-key {
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: 0.5px;
+    }
+    .admin-kv-val {
+      color: var(--text);
+      font-size: 14px;
+      font-variant-numeric: tabular-nums;
+      text-align: right;
+    }
+
+    .admin-progress-summary {
+      color: var(--text);
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+    .admin-progress-bar {
+      height: 6px;
+      background: var(--surface2);
+      border-radius: 11px;
+      overflow: hidden;
+    }
+    .admin-progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--gold);
+      transition: width 0.25s;
+    }
+
     .app-title { cursor: default; }
   </style>
 </head>
@@ -2602,9 +2674,7 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
       <!-- Sections — Part 1 ships empty stubs; Parts 2 + 3 will fill them in. -->
       <section class="admin-section">
         <h2 class="admin-section-title">Camp overview</h2>
-        <div id="admin-overview-body" class="admin-section-body">
-          <p class="admin-section-pending">Coming up in the next admin PR (camp totals + spend stats).</p>
-        </div>
+        <div id="admin-overview-body" class="admin-section-body"></div>
       </section>
 
       <section class="admin-section">
@@ -2623,16 +2693,12 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
 
       <section class="admin-section">
         <h2 class="admin-section-title">Budget summary</h2>
-        <div id="admin-budget-body" class="admin-section-body">
-          <p class="admin-section-pending">Coming up in the next admin PR.</p>
-        </div>
+        <div id="admin-budget-body" class="admin-section-body"></div>
       </section>
 
       <section class="admin-section">
         <h2 class="admin-section-title">Packing list progress</h2>
-        <div id="admin-packing-body" class="admin-section-body">
-          <p class="admin-section-pending">Coming up in the next admin PR.</p>
-        </div>
+        <div id="admin-packing-body" class="admin-section-body"></div>
       </section>
 
       <section class="admin-section">
@@ -4805,6 +4871,136 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
       if (adminNotesTextarea) {
         adminNotesTextarea.value = localStorage.getItem(ADMIN_NOTES_KEY) || '';
       }
+      // Re-render local-data sections every open so latest localStorage shows.
+      renderAdminLocalSections();
+    }
+
+    // ---------- Admin: local-data sections (Part 2) ----------
+    // Reads from the same localStorage keys the rest of the app writes to.
+    // Keys touched: fusion_budget_members, fusion_budget_expenses,
+    // fusion_budget_settled (post Budget Part B), fusion_packing_checked.
+    function adminReadJSON(key, fallback) {
+      try { const v = JSON.parse(localStorage.getItem(key)); return v != null ? v : fallback; }
+      catch { return fallback; }
+    }
+    function adminFmtCents(c) { return '€' + ((c || 0) / 100).toFixed(2); }
+
+    function renderAdminOverview() {
+      const body = document.getElementById('admin-overview-body');
+      if (!body) return;
+      const members = adminReadJSON('fusion_budget_members', []) || [];
+      const expenses = adminReadJSON('fusion_budget_expenses', []) || [];
+      const settled = adminReadJSON('fusion_budget_settled', []) || [];
+      const totalSpent = expenses.reduce((s, e) => s + (e.amount || 0), 0);
+      // Outstanding settlements: until Budget Part B ships the settlement
+      // simplification algorithm we have nothing concrete to count, so fall
+      // back to the persisted settled-array count subtracted from a coarse
+      // upper-bound (members - 1). This is a placeholder until Part B lands.
+      const outstanding = expenses.length ? Math.max(0, Math.max(0, members.length - 1) - settled.length) : 0;
+      const cards = [
+        { label: 'Members',     value: members.length },
+        { label: 'Expenses',    value: expenses.length },
+        { label: 'Total spent', value: adminFmtCents(totalSpent) },
+        { label: 'Outstanding', value: outstanding }
+      ];
+      body.innerHTML = '';
+      const grid = document.createElement('div');
+      grid.className = 'admin-stat-grid';
+      cards.forEach(c => {
+        const card = document.createElement('div');
+        card.className = 'admin-stat-card';
+        const v = document.createElement('div');
+        v.className = 'admin-stat-value';
+        v.textContent = c.value;
+        const l = document.createElement('div');
+        l.className = 'admin-stat-label';
+        l.textContent = c.label;
+        card.append(v, l);
+        grid.appendChild(card);
+      });
+      body.appendChild(grid);
+    }
+
+    function renderAdminBudget() {
+      const body = document.getElementById('admin-budget-body');
+      if (!body) return;
+      const members = adminReadJSON('fusion_budget_members', []) || [];
+      const expenses = adminReadJSON('fusion_budget_expenses', []) || [];
+      body.innerHTML = '';
+      if (!expenses.length) {
+        const p = document.createElement('p');
+        p.className = 'admin-section-pending';
+        p.textContent = 'No expenses logged yet.';
+        body.appendChild(p);
+        return;
+      }
+      const totalCents = expenses.reduce((s, e) => s + (e.amount || 0), 0);
+      const fairShare = members.length ? Math.round(totalCents / members.length) : 0;
+      const largest = expenses.reduce((max, e) => (e.amount || 0) > (max.amount || 0) ? e : max, expenses[0]);
+      const rows = document.createElement('div');
+      rows.className = 'admin-kv-rows';
+      [
+        ['Total spent', adminFmtCents(totalCents)],
+        ['Per-person fair share', adminFmtCents(fairShare)],
+        ['Largest expense', largest ? (adminFmtCents(largest.amount) + ' — ' + (largest.description || '')) : '—']
+      ].forEach(([k, v]) => {
+        const row = document.createElement('div');
+        row.className = 'admin-kv-row';
+        const kk = document.createElement('span');
+        kk.className = 'admin-kv-key';
+        kk.textContent = k;
+        const vv = document.createElement('span');
+        vv.className = 'admin-kv-val';
+        vv.textContent = v;
+        row.append(kk, vv);
+        rows.appendChild(row);
+      });
+      body.appendChild(rows);
+      // Settlement list placeholder — wired up by Budget Part B.
+      const note = document.createElement('p');
+      note.className = 'admin-section-pending';
+      note.textContent = 'Unsettled-payment list lands once Budget Part B ships the settlement algorithm.';
+      body.appendChild(note);
+    }
+
+    function renderAdminPacking() {
+      const body = document.getElementById('admin-packing-body');
+      if (!body) return;
+      // Read packing list state. The packing items array is defined in the
+      // packing module above; we only need totals for the admin view.
+      const checked = adminReadJSON('fusion_packing_checked', {}) || {};
+      const total = (typeof packingItems !== 'undefined' && Array.isArray(packingItems))
+        ? packingItems.length
+        : 0;
+      const done = total
+        ? packingItems.filter(it => checked[it.id]).length
+        : Object.values(checked).filter(Boolean).length;
+      const pct = total ? Math.round((done / total) * 100) : 0;
+      body.innerHTML = '';
+
+      const summary = document.createElement('div');
+      summary.className = 'admin-progress-summary';
+      summary.textContent = done + ' of ' + total + ' items packed on this device';
+      body.appendChild(summary);
+
+      const bar = document.createElement('div');
+      bar.className = 'admin-progress-bar';
+      const fill = document.createElement('div');
+      fill.className = 'admin-progress-bar-fill';
+      fill.style.width = pct + '%';
+      bar.appendChild(fill);
+      body.appendChild(bar);
+
+      const note = document.createElement('p');
+      note.className = 'admin-notes-hint';
+      note.textContent = "Each member's checklist is stored on their own device — this only reflects this browser.";
+      body.appendChild(note);
+    }
+
+    function renderAdminLocalSections() {
+      renderAdminOverview();
+      renderAdminBudget();
+      renderAdminPacking();
     }
 
     function adminOpenOverlay() {
