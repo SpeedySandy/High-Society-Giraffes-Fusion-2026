@@ -1922,6 +1922,23 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
       </div>
 
       <div class="camp-section">
+        <h2 class="camp-section-title">
+          <span data-i18n="camp_equipment_title">Shared Equipment</span>
+          <span class="headcount-badge" id="equip-progress" hidden></span>
+        </h2>
+        <div class="packing-progress">
+          <div class="bar"><div class="fill" id="equip-fill"></div></div>
+          <div class="label" id="equip-progress-label">0 of 0 items confirmed</div>
+        </div>
+        <form class="equip-add-form" id="equip-add-form" autocomplete="off">
+          <input type="text" id="equip-new" data-i18n-ph="camp_equipment_new_ph" placeholder="What are you bringing?" required>
+          <button type="submit" data-i18n="camp_equipment_add">Add</button>
+        </form>
+        <p id="equip-empty" class="carpool-empty" data-i18n="camp_equipment_empty" hidden>No shared equipment yet — add what you're bringing.</p>
+        <div id="equip-list" class="equip-list"></div>
+      </div>
+
+      <div class="camp-section">
         <h2 class="camp-section-title" data-i18n="camp_budget_title">Shared Budget</h2>
         <div class="budget-summary">
           <div class="stat">
@@ -1953,23 +1970,6 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
           <button type="submit" data-i18n="camp_budget_add">Add expense</button>
         </form>
         <button type="button" id="budget-export" class="budget-export" data-i18n="camp_budget_export">Copy summary</button>
-      </div>
-
-      <div class="camp-section">
-        <h2 class="camp-section-title">
-          <span data-i18n="camp_equipment_title">Shared Equipment</span>
-          <span class="headcount-badge" id="equip-progress" hidden></span>
-        </h2>
-        <div class="packing-progress">
-          <div class="bar"><div class="fill" id="equip-fill"></div></div>
-          <div class="label" id="equip-progress-label">0 of 0 items confirmed</div>
-        </div>
-        <form class="equip-add-form" id="equip-add-form" autocomplete="off">
-          <input type="text" id="equip-new" data-i18n-ph="camp_equipment_new_ph" placeholder="What are you bringing?" required>
-          <button type="submit" data-i18n="camp_equipment_add">Add</button>
-        </form>
-        <p id="equip-empty" class="carpool-empty" data-i18n="camp_equipment_empty" hidden>No shared equipment yet — add what you're bringing.</p>
-        <div id="equip-list" class="equip-list"></div>
       </div>
 
       <div class="camp-section">
