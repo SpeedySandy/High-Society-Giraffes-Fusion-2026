@@ -2190,6 +2190,110 @@
       transition: width 0.25s;
     }
 
+    /* Arrival timeline */
+    .admin-timeline-day {
+      display: grid;
+      grid-template-columns: 110px 1fr;
+      gap: 10px;
+      align-items: start;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .admin-timeline-day:last-child { border-bottom: none; }
+    .admin-timeline-head {
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding-top: 4px;
+    }
+    .admin-timeline-today .admin-timeline-head {
+      color: var(--gold);
+      font-weight: 500;
+    }
+    .admin-timeline-head-muted { opacity: 0.7; }
+    .admin-timeline-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+    .admin-timeline-empty {
+      color: var(--muted);
+      font-size: 13px;
+      opacity: 0.5;
+      padding: 4px 0;
+    }
+    .admin-pill {
+      display: inline-block;
+      padding: 3px 9px;
+      border-radius: 11px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 12px;
+    }
+    .admin-pill-gold {
+      background: rgba(232, 201, 106, 0.18);
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+    .admin-pill-muted {
+      opacity: 0.7;
+    }
+
+    /* Tickets table */
+    .admin-tickets-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .admin-tickets-table th {
+      text-align: left;
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 500;
+      padding: 8px 6px;
+      border-bottom: 1px solid var(--border);
+    }
+    .admin-tickets-table td {
+      padding: 8px 6px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+      vertical-align: middle;
+    }
+    .admin-tickets-table tr:last-child td { border-bottom: none; }
+    .admin-tickets-summary {
+      color: var(--muted);
+      font-size: 12px;
+      margin: 10px 0 0;
+      letter-spacing: 0.3px;
+    }
+    .admin-tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 9px;
+      font-size: 11px;
+      letter-spacing: 0.3px;
+      border: 1px solid;
+    }
+    .admin-tag-yes {
+      background: rgba(75, 200, 160, 0.15);
+      border-color: rgba(75, 200, 160, 0.5);
+      color: var(--teal);
+    }
+    .admin-tag-no {
+      background: rgba(200, 75, 106, 0.15);
+      border-color: rgba(200, 75, 106, 0.5);
+      color: var(--magenta);
+    }
+    .admin-tag-pending {
+      background: rgba(232, 122, 58, 0.15);
+      border-color: rgba(232, 122, 58, 0.5);
+      color: #e87a3a;
+    }
+
     .app-title { cursor: default; }
   </style>
 </head>
@@ -2679,16 +2783,12 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
 
       <section class="admin-section">
         <h2 class="admin-section-title">Arrival timeline</h2>
-        <div id="admin-arrival-body" class="admin-section-body">
-          <p class="admin-section-pending">Coming up in the CSV admin PR.</p>
-        </div>
+        <div id="admin-arrival-body" class="admin-section-body"></div>
       </section>
 
       <section class="admin-section">
         <h2 class="admin-section-title">Ticket status</h2>
-        <div id="admin-tickets-body" class="admin-section-body">
-          <p class="admin-section-pending">Coming up in the CSV admin PR.</p>
-        </div>
+        <div id="admin-tickets-body" class="admin-section-body"></div>
       </section>
 
       <section class="admin-section">
@@ -4873,6 +4973,8 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
       }
       // Re-render local-data sections every open so latest localStorage shows.
       renderAdminLocalSections();
+      // Kick off CSV fetches in parallel (each renders its own loading state).
+      renderAdminCsvSections();
     }
 
     // ---------- Admin: local-data sections (Part 2) ----------
@@ -5001,6 +5103,211 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
       renderAdminOverview();
       renderAdminBudget();
       renderAdminPacking();
+    }
+
+    // ---------- Admin: CSV-backed sections (Part 3) ----------
+    // Reuses the global SHEET_URL_* constants and the existing fetchCSV +
+    // memberName + cleanCell helpers from the regular Camp tab so this view
+    // stays in sync with the same source data.
+
+    // Festival days for the arrival timeline. Stored as ISO so we can bucket
+    // arrival rows by parsed date and compare against today.
+    const ADMIN_FUSION_DATES = [
+      { iso: '2026-06-24', label: 'Wed 24 Jun' },
+      { iso: '2026-06-25', label: 'Thu 25 Jun' },
+      { iso: '2026-06-26', label: 'Fri 26 Jun' },
+      { iso: '2026-06-27', label: 'Sat 27 Jun' },
+      { iso: '2026-06-28', label: 'Sun 28 Jun' }
+    ];
+
+    function adminTodayISO() {
+      const d = new Date();
+      return d.getFullYear() + '-' +
+        String(d.getMonth() + 1).padStart(2, '0') + '-' +
+        String(d.getDate()).padStart(2, '0');
+    }
+
+    function adminParseDateToISO(raw) {
+      if (!raw) return null;
+      let d = new Date(raw);
+      if (!isNaN(d.getTime())) {
+        const y = d.getFullYear();
+        if (y > 2000 && y < 3000) {
+          return y + '-' + String(d.getMonth() + 1).padStart(2, '0') +
+            '-' + String(d.getDate()).padStart(2, '0');
+        }
+      }
+      // dd.mm.yyyy / dd/mm/yyyy / dd-mm-yyyy fallback
+      const m = raw.match(/(\d{1,2})[.\/\-](\d{1,2})[.\/\-](\d{2,4})/);
+      if (m) {
+        let y = parseInt(m[3], 10);
+        if (y < 100) y += 2000;
+        const mo = parseInt(m[2], 10) - 1;
+        const dy = parseInt(m[1], 10);
+        const dt = new Date(Date.UTC(y, mo, dy));
+        if (!isNaN(dt.getTime())) {
+          return y + '-' + String(mo + 1).padStart(2, '0') + '-' + String(dy).padStart(2, '0');
+        }
+      }
+      return null;
+    }
+
+    async function renderAdminArrival() {
+      const body = document.getElementById('admin-arrival-body');
+      if (!body) return;
+      body.innerHTML = '<p class="admin-section-pending">Loading…</p>';
+      const { data, error } = await fetchCSV(SHEET_URL_ARRIVAL_FUSION);
+      body.innerHTML = '';
+      if (!data) {
+        const p = document.createElement('p');
+        p.className = 'admin-section-pending';
+        p.textContent = "Couldn't load arrival data" + (error && error.message ? ' (' + error.message + ')' : '');
+        body.appendChild(p);
+        return;
+      }
+      const today = adminTodayISO();
+      const buckets = {};
+      ADMIN_FUSION_DATES.forEach(d => { buckets[d.iso] = []; });
+      const otherBucket = [];
+      data.forEach(r => {
+        const name = memberName(r);
+        if (!name) return;
+        const arrivalRaw = cleanCell(r['arrival fusion'] || r.arrival || r.arrival_date || r.date || '');
+        const iso = adminParseDateToISO(arrivalRaw);
+        if (iso && buckets[iso]) buckets[iso].push(name);
+        else otherBucket.push({ name, raw: arrivalRaw });
+      });
+
+      ADMIN_FUSION_DATES.forEach(dt => {
+        const isToday = dt.iso === today;
+        const day = document.createElement('div');
+        day.className = 'admin-timeline-day' + (isToday ? ' admin-timeline-today' : '');
+        const head = document.createElement('div');
+        head.className = 'admin-timeline-head';
+        head.textContent = dt.label + (isToday ? ' · today' : '');
+        day.appendChild(head);
+        const pillsBox = document.createElement('div');
+        pillsBox.className = 'admin-timeline-pills';
+        if (!buckets[dt.iso].length) {
+          const empty = document.createElement('span');
+          empty.className = 'admin-timeline-empty';
+          empty.textContent = '—';
+          pillsBox.appendChild(empty);
+        } else {
+          buckets[dt.iso].forEach(n => {
+            const pill = document.createElement('span');
+            pill.className = 'admin-pill' + (isToday ? ' admin-pill-gold' : '');
+            pill.textContent = n;
+            pillsBox.appendChild(pill);
+          });
+        }
+        day.appendChild(pillsBox);
+        body.appendChild(day);
+      });
+
+      if (otherBucket.length) {
+        const other = document.createElement('div');
+        other.className = 'admin-timeline-day';
+        const h = document.createElement('div');
+        h.className = 'admin-timeline-head admin-timeline-head-muted';
+        h.textContent = 'Unparsed';
+        other.appendChild(h);
+        const pb = document.createElement('div');
+        pb.className = 'admin-timeline-pills';
+        otherBucket.forEach(o => {
+          const pill = document.createElement('span');
+          pill.className = 'admin-pill admin-pill-muted';
+          pill.textContent = o.name + (o.raw ? ' (' + o.raw + ')' : '');
+          pb.appendChild(pill);
+        });
+        other.appendChild(pb);
+        body.appendChild(other);
+      }
+    }
+
+    function adminTicketColorClass(val) {
+      const v = (val || '').toLowerCase().trim();
+      if (!v || v === '—' || v === '-' || v === '?') return 'admin-tag-pending';
+      if (/^(yes|y|ja|si|sí|✓|true|1|got it|paid|done)$/.test(v)) return 'admin-tag-yes';
+      if (/^(no|n|nein|×|x|false|0)$/.test(v)) return 'admin-tag-no';
+      if (/(not yet|noch nicht|todav[ií]a|pending|tba|wip|soon)/i.test(v)) return 'admin-tag-pending';
+      return 'admin-tag-pending';
+    }
+
+    function adminIsTicketYes(val) {
+      return /^(yes|y|ja|si|sí|✓|true|1|got it|paid|done)$/i.test((val || '').trim());
+    }
+
+    function adminMakeTag(label, cls) {
+      const span = document.createElement('span');
+      span.className = 'admin-tag ' + cls;
+      span.textContent = label;
+      return span;
+    }
+
+    async function renderAdminTickets() {
+      const body = document.getElementById('admin-tickets-body');
+      if (!body) return;
+      body.innerHTML = '<p class="admin-section-pending">Loading…</p>';
+      const { data, error } = await fetchCSV(SHEET_URL_MEMBERS);
+      body.innerHTML = '';
+      if (!data) {
+        const p = document.createElement('p');
+        p.className = 'admin-section-pending';
+        p.textContent = "Couldn't load member data" + (error && error.message ? ' (' + error.message + ')' : '');
+        body.appendChild(p);
+        return;
+      }
+      const rows = data.filter(r => memberName(r));
+      if (!rows.length) {
+        const p = document.createElement('p');
+        p.className = 'admin-section-pending';
+        p.textContent = 'No members in the sheet yet.';
+        body.appendChild(p);
+        return;
+      }
+      // Try common header variants — sheet authors may differ on casing.
+      function readTicket(r) {
+        return cleanCell(r['has ticket'] || r['has_ticket'] || r.ticket || r['ticket?'] || r['festival ticket'] || '');
+      }
+      function readVehicle(r) {
+        return cleanCell(r['vehicle ticket'] || r['vehicle_ticket'] || r.vehicle || r['car ticket'] || r['car_ticket'] || '');
+      }
+
+      let yesCount = 0;
+      const table = document.createElement('table');
+      table.className = 'admin-tickets-table';
+      const thead = document.createElement('thead');
+      thead.innerHTML = '<tr><th>Name</th><th>Ticket?</th><th>Vehicle?</th></tr>';
+      table.appendChild(thead);
+      const tbody = document.createElement('tbody');
+      rows.forEach(r => {
+        const name = memberName(r);
+        const t = readTicket(r);
+        const v = readVehicle(r);
+        if (adminIsTicketYes(t)) yesCount++;
+        const tr = document.createElement('tr');
+        const td1 = document.createElement('td');
+        td1.textContent = name;
+        const td2 = document.createElement('td');
+        td2.appendChild(adminMakeTag(t || 'Not yet', adminTicketColorClass(t)));
+        const td3 = document.createElement('td');
+        td3.appendChild(adminMakeTag(v || 'Not yet', adminTicketColorClass(v)));
+        tr.append(td1, td2, td3);
+        tbody.appendChild(tr);
+      });
+      table.appendChild(tbody);
+      body.appendChild(table);
+
+      const summary = document.createElement('p');
+      summary.className = 'admin-tickets-summary';
+      summary.textContent = yesCount + ' of ' + rows.length + ' members have tickets';
+      body.appendChild(summary);
+    }
+
+    function renderAdminCsvSections() {
+      renderAdminArrival();
+      renderAdminTickets();
     }
 
     function adminOpenOverlay() {
