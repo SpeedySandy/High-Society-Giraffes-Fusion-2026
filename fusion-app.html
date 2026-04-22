@@ -1978,9 +1978,14 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
           <div class="gps-label" data-i18n="camp_gps_coords">GPS coordinates</div>
           <div class="gps-coords" id="gps-coords">53.3180, 12.7520</div>
         </div>
+        <div class="gps-card">
+          <div class="gps-label" data-i18n="camp_gps_w3w">what3words address</div>
+          <div class="gps-coords" id="gps-w3w">///inhibition.deviance.joshing</div>
+        </div>
         <div class="gps-buttons">
           <a class="gps-btn" data-gps="google" href="#" target="_blank" rel="noopener noreferrer" data-i18n="camp_gps_open_google">Open in Google Maps</a>
           <a class="gps-btn" data-gps="apple" href="#" target="_blank" rel="noopener noreferrer" data-i18n="camp_gps_open_apple">Open in Apple Maps</a>
+          <a class="gps-btn" data-gps="w3w" href="#" target="_blank" rel="noopener noreferrer" data-i18n="camp_gps_open_w3w">Open in what3words</a>
         </div>
       </div>
     </section>
@@ -2200,8 +2205,10 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         camp_equipment_empty: "No shared equipment yet — add what you're bringing.",
         camp_gps_title: "Camp GPS & Meeting Point",
         camp_gps_coords: "GPS coordinates",
+        camp_gps_w3w: "what3words address",
         camp_gps_open_google: "Open in Google Maps",
-        camp_gps_open_apple: "Open in Apple Maps"
+        camp_gps_open_apple: "Open in Apple Maps",
+        camp_gps_open_w3w: "Open in what3words"
       },
       es: {
         nav_home: "Inicio",
@@ -2396,8 +2403,10 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         camp_equipment_empty: "Aún no hay equipamiento compartido — añade lo que traes.",
         camp_gps_title: "GPS del camp y punto de encuentro",
         camp_gps_coords: "Coordenadas GPS",
+        camp_gps_w3w: "Dirección what3words",
         camp_gps_open_google: "Abrir en Google Maps",
-        camp_gps_open_apple: "Abrir en Apple Maps"
+        camp_gps_open_apple: "Abrir en Apple Maps",
+        camp_gps_open_w3w: "Abrir en what3words"
       },
       de: {
         nav_home: "Start",
@@ -2592,8 +2601,10 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         camp_equipment_empty: "Noch keine gemeinsame Ausrüstung — trag ein, was du mitbringst.",
         camp_gps_title: "Camp-GPS & Treffpunkt",
         camp_gps_coords: "GPS-Koordinaten",
+        camp_gps_w3w: "what3words-Adresse",
         camp_gps_open_google: "In Google Maps öffnen",
-        camp_gps_open_apple: "In Apple Maps öffnen"
+        camp_gps_open_apple: "In Apple Maps öffnen",
+        camp_gps_open_w3w: "In what3words öffnen"
       }
     };
 
@@ -3163,12 +3174,16 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
 
     const CAMP_LAT = 53.3180;
     const CAMP_LON = 12.7520;
+    const CAMP_W3W = 'inhibition.deviance.joshing';
 
     document.getElementById('gps-coords').textContent = CAMP_LAT.toFixed(4) + ', ' + CAMP_LON.toFixed(4);
+    document.getElementById('gps-w3w').textContent = '///' + CAMP_W3W;
     const googleMapsHref = 'https://maps.google.com/?q=' + CAMP_LAT + ',' + CAMP_LON;
     const appleMapsHref = 'https://maps.apple.com/?q=' + CAMP_LAT + ',' + CAMP_LON;
+    const w3wHref = 'https://what3words.com/' + CAMP_W3W;
     document.querySelectorAll('[data-gps="google"]').forEach(a => { a.href = googleMapsHref; });
     document.querySelectorAll('[data-gps="apple"]').forEach(a => { a.href = appleMapsHref; });
+    document.querySelectorAll('[data-gps="w3w"]').forEach(a => { a.href = w3wHref; });
 
     // Track members for budget dropdown — wrap the existing renderMembers
     let campMembersList = [];
