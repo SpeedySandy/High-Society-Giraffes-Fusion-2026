@@ -593,6 +593,11 @@
     .packing-item.checked .packing-label { text-decoration: line-through; color: var(--muted); }
     .packing-item[hidden] { display: none; }
 
+    /* Ensure the HTML `hidden` attribute always wins over explicit
+       `display:` rules (e.g. .skeleton/.member-grid use `display: grid`,
+       which otherwise beats the UA `[hidden] { display: none }`). */
+    [hidden] { display: none !important; }
+
     .packing-label {
       color: var(--text);
       font-size: 14px;
