@@ -431,6 +431,12 @@
 
     .accordion + .accordion { margin-top: 12px; }
 
+    /* Cross-type spacing — when an accordion is followed by a flat
+       camp-section (or vice versa) on the Info tab, apply the larger
+       camp-section gap so the two blocks don't crowd each other. */
+    .accordion + .camp-section,
+    .camp-section + .accordion { margin-top: 24px; }
+
     .accordion {
       background: var(--surface);
       border: 1px solid var(--border);
