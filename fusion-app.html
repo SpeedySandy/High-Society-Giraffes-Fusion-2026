@@ -1557,6 +1557,152 @@
       font-variant-numeric: tabular-nums;
     }
 
+    /* Part B: breakdown + settlements */
+    .budget-breakdown, .budget-settlements {
+      margin-top: 6px;
+    }
+    .budget-breakdown-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .budget-breakdown-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      padding: 10px 12px;
+    }
+    .budget-breakdown-card.owed { border-color: rgba(75, 200, 160, 0.45); }
+    .budget-breakdown-card.owes { border-color: rgba(200, 75, 106, 0.45); }
+    .budget-breakdown-name {
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 6px;
+    }
+    .budget-breakdown-rows { display: grid; gap: 2px; margin-bottom: 6px; }
+    .budget-breakdown-row {
+      display: flex;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: 0.3px;
+      font-variant-numeric: tabular-nums;
+    }
+    .budget-breakdown-balance {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      padding-top: 4px;
+      border-top: 1px dashed var(--border);
+    }
+    .budget-breakdown-balance strong {
+      font-size: 14px;
+      font-variant-numeric: tabular-nums;
+      color: var(--text);
+      font-weight: 500;
+    }
+    .budget-breakdown-card.owed .budget-breakdown-balance strong { color: var(--teal); }
+    .budget-breakdown-card.owes .budget-breakdown-balance strong { color: var(--magenta); }
+
+    .budget-badge-teal,
+    .budget-badge-magenta,
+    .budget-badge-muted {
+      display: inline-block;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 2px 6px;
+      border-radius: 8px;
+      border: 1px solid;
+    }
+    .budget-badge-teal {
+      color: var(--teal);
+      background: rgba(75, 200, 160, 0.12);
+      border-color: rgba(75, 200, 160, 0.45);
+    }
+    .budget-badge-magenta {
+      color: var(--magenta);
+      background: rgba(200, 75, 106, 0.12);
+      border-color: rgba(200, 75, 106, 0.45);
+    }
+    .budget-badge-muted {
+      color: var(--muted);
+      background: var(--surface2);
+      border-color: var(--border);
+    }
+
+    .budget-share-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+    .budget-share-line #budget-share-value {
+      color: var(--gold);
+      font-size: 16px;
+      font-weight: 500;
+      text-transform: none;
+      letter-spacing: 0;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .budget-settlement {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      margin-bottom: 6px;
+    }
+    .budget-settlement-text {
+      color: var(--text);
+      font-size: 14px;
+    }
+    .budget-settlement-text strong { color: var(--gold); font-weight: 500; }
+    .budget-settlement-amount {
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 500;
+      font-variant-numeric: tabular-nums;
+    }
+    .budget-settlement-btn {
+      background: transparent;
+      border: 1px solid var(--teal);
+      color: var(--teal);
+      border-radius: 10px;
+      font: inherit;
+      font-size: 12px;
+      padding: 5px 10px;
+      cursor: pointer;
+      letter-spacing: 0.3px;
+    }
+    .budget-settlement-btn:hover { background: var(--teal); color: var(--bg); }
+    .budget-all-settled {
+      color: var(--teal);
+      background: rgba(75, 200, 160, 0.1);
+      border: 1px solid rgba(75, 200, 160, 0.4);
+      border-radius: 11px;
+      padding: 10px 14px;
+      margin: 0;
+      font-size: 13px;
+      text-align: center;
+    }
+
+    .admin-settlements-list {
+      display: grid;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
     .equip-list { display: grid; gap: 6px; margin-top: 4px; }
 
     .equip-item {
@@ -4487,6 +4633,178 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
     }
     budgetExport.addEventListener('click', copyBudget);
 
+    // ==================== Budget Tracker v2 (Part B: breakdown + settlements) ====================
+    // New localStorage key for marking individual settlements as paid.
+    const BUDGET_SETTLED_KEY = 'fusion_budget_settled';
+    function loadBudgetSettled() { return budgetLoadJSON(BUDGET_SETTLED_KEY, []) || []; }
+    function saveBudgetSettled(arr) { budgetSaveJSON(BUDGET_SETTLED_KEY, arr); }
+
+    // Compute per-person balance in cents. Positive balance = owed money,
+    // negative = owes money. Uses integer cents throughout and distributes
+    // the rounding remainder across the first N splitters so totals match
+    // the source expense to the cent.
+    function computeBudgetBalances() {
+      const members = loadBudgetMembers();
+      const expenses = loadBudgetExpenses();
+      const settled = loadBudgetSettled();
+      const paid = {}, share = {};
+      members.forEach(m => { paid[m] = 0; share[m] = 0; });
+      expenses.forEach(e => {
+        const amount = e.amount || 0;
+        if (Object.prototype.hasOwnProperty.call(paid, e.paidBy)) {
+          paid[e.paidBy] += amount;
+        }
+        const splitList = (e.splitBetween || []).filter(n => Object.prototype.hasOwnProperty.call(share, n));
+        if (!splitList.length) return;
+        const base = Math.floor(amount / splitList.length);
+        const rem = amount - base * splitList.length;
+        splitList.forEach((n, i) => {
+          share[n] += base + (i < rem ? 1 : 0);
+        });
+      });
+      const balances = {};
+      members.forEach(m => { balances[m] = paid[m] - share[m]; });
+      // Apply recorded settlements: debtor paid creditor, which moves both
+      // balances toward zero (debtor gains, creditor loses).
+      settled.forEach(s => {
+        if (balances[s.from] != null) balances[s.from] += (s.amount || 0);
+        if (balances[s.to] != null) balances[s.to] -= (s.amount || 0);
+      });
+      return { members, balances, paid, share };
+    }
+
+    // Debt-simplification: minimum transactions to settle all debts. At each
+    // step pair the largest creditor with the largest debtor, transfer the
+    // min of the two, and repeat until everyone's at zero (within rounding).
+    function computeSettlements(balances) {
+      const creditors = [], debtors = [];
+      Object.keys(balances).forEach(n => {
+        const b = balances[n];
+        if (b > 0) creditors.push({ name: n, amount: b });
+        else if (b < 0) debtors.push({ name: n, amount: -b });
+      });
+      creditors.sort((a, b) => b.amount - a.amount);
+      debtors.sort((a, b) => b.amount - a.amount);
+      const settlements = [];
+      let ci = 0, di = 0;
+      while (ci < creditors.length && di < debtors.length) {
+        const c = creditors[ci], d = debtors[di];
+        const pay = Math.min(c.amount, d.amount);
+        if (pay > 0) settlements.push({ from: d.name, to: c.name, amount: pay });
+        c.amount -= pay; d.amount -= pay;
+        if (c.amount === 0) ci++;
+        if (d.amount === 0) di++;
+      }
+      return settlements;
+    }
+
+    function renderBudgetBreakdown() {
+      const section = document.getElementById('budget-breakdown');
+      const grid = document.getElementById('budget-breakdown-grid');
+      const shareValueEl = document.getElementById('budget-share-value');
+      if (!section || !grid || !shareValueEl) return;
+      const { members, balances, paid, share } = computeBudgetBalances();
+      const expenses = loadBudgetExpenses();
+      if (!expenses.length || !members.length) {
+        section.hidden = true;
+        return;
+      }
+      section.hidden = false;
+      const totalCents = expenses.reduce((s, e) => s + (e.amount || 0), 0);
+      const fair = Math.round(totalCents / members.length);
+      shareValueEl.textContent = formatCents(fair);
+
+      grid.innerHTML = '';
+      const ordered = members.slice().sort((a, b) => (balances[b] || 0) - (balances[a] || 0));
+      ordered.forEach(name => {
+        const bal = balances[name] || 0;
+        const card = document.createElement('div');
+        card.className = 'budget-breakdown-card' + (bal > 0 ? ' owed' : bal < 0 ? ' owes' : '');
+
+        const nameEl = document.createElement('div');
+        nameEl.className = 'budget-breakdown-name';
+        nameEl.textContent = name;
+        card.appendChild(nameEl);
+
+        const rows = document.createElement('div');
+        rows.className = 'budget-breakdown-rows';
+        [['Paid', formatCents(paid[name] || 0)], ['Share', formatCents(share[name] || 0)]].forEach(([k, v]) => {
+          const row = document.createElement('div');
+          row.className = 'budget-breakdown-row';
+          const k1 = document.createElement('span'); k1.textContent = k;
+          const v1 = document.createElement('span'); v1.textContent = v;
+          row.append(k1, v1);
+          rows.appendChild(row);
+        });
+        card.appendChild(rows);
+
+        const balEl = document.createElement('div');
+        balEl.className = 'budget-breakdown-balance';
+        const pill = document.createElement('span');
+        const amt = document.createElement('strong');
+        if (bal > 0) {
+          pill.className = 'budget-badge-teal'; pill.textContent = tr('budget_you_are_owed');
+          amt.textContent = '+' + formatCents(bal);
+        } else if (bal < 0) {
+          pill.className = 'budget-badge-magenta'; pill.textContent = tr('budget_you_owe');
+          amt.textContent = formatCents(bal);
+        } else {
+          pill.className = 'budget-badge-muted'; pill.textContent = '—';
+          amt.textContent = formatCents(0);
+        }
+        balEl.append(pill, amt);
+        card.appendChild(balEl);
+        grid.appendChild(card);
+      });
+    }
+
+    function renderBudgetSettlements() {
+      const section = document.getElementById('budget-settlements');
+      const body = document.getElementById('budget-settlements-body');
+      if (!section || !body) return;
+      const { members, balances } = computeBudgetBalances();
+      const expenses = loadBudgetExpenses();
+      if (!expenses.length || !members.length) {
+        section.hidden = true;
+        return;
+      }
+      section.hidden = false;
+      body.innerHTML = '';
+      const settlements = computeSettlements({ ...balances });
+      if (!settlements.length) {
+        const done = document.createElement('p');
+        done.className = 'budget-all-settled';
+        done.textContent = tr('budget_all_settled');
+        body.appendChild(done);
+        return;
+      }
+      settlements.forEach(s => {
+        const row = document.createElement('div');
+        row.className = 'budget-settlement';
+        const left = document.createElement('div');
+        left.className = 'budget-settlement-text';
+        const from = document.createElement('strong'); from.textContent = s.from;
+        const arrow = document.createTextNode(' → ');
+        const to = document.createElement('strong'); to.textContent = s.to;
+        left.append(from, arrow, to);
+        const amt = document.createElement('span');
+        amt.className = 'budget-settlement-amount';
+        amt.textContent = formatCents(s.amount);
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'budget-settlement-btn';
+        btn.textContent = tr('budget_settled');
+        btn.addEventListener('click', () => {
+          const cur = loadBudgetSettled();
+          cur.push({ from: s.from, to: s.to, amount: s.amount, at: new Date().toISOString() });
+          saveBudgetSettled(cur);
+          renderBudget();
+        });
+        row.append(left, amt, btn);
+        body.appendChild(row);
+      });
+    }
+
     // ---------- Master re-render ----------
     function renderBudget() {
       renderBudgetMembersList();
@@ -4494,6 +4812,8 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
       renderBudgetFilters();
       renderBudgetList();
       renderBudgetTotal();
+      renderBudgetBreakdown();
+      renderBudgetSettlements();
     }
 
     // Equipment list: user-added items, persisted in localStorage as
@@ -4994,11 +5314,16 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
       const expenses = adminReadJSON('fusion_budget_expenses', []) || [];
       const settled = adminReadJSON('fusion_budget_settled', []) || [];
       const totalSpent = expenses.reduce((s, e) => s + (e.amount || 0), 0);
-      // Outstanding settlements: until Budget Part B ships the settlement
-      // simplification algorithm we have nothing concrete to count, so fall
-      // back to the persisted settled-array count subtracted from a coarse
-      // upper-bound (members - 1). This is a placeholder until Part B lands.
-      const outstanding = expenses.length ? Math.max(0, Math.max(0, members.length - 1) - settled.length) : 0;
+      // Outstanding count: real number now that Budget Part B ships the
+      // settlement-simplification algorithm. Reuse the same helpers so admin
+      // can't drift from the Camp tab.
+      let outstanding = 0;
+      if (typeof computeBudgetBalances === 'function' && typeof computeSettlements === 'function') {
+        const { balances } = computeBudgetBalances();
+        outstanding = computeSettlements({ ...balances }).length;
+      } else {
+        outstanding = expenses.length ? Math.max(0, members.length - 1 - settled.length) : 0;
+      }
       const cards = [
         { label: 'Members',     value: members.length },
         { label: 'Expenses',    value: expenses.length },
@@ -5058,11 +5383,34 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         rows.appendChild(row);
       });
       body.appendChild(rows);
-      // Settlement list placeholder — wired up by Budget Part B.
-      const note = document.createElement('p');
-      note.className = 'admin-section-pending';
-      note.textContent = 'Unsettled-payment list lands once Budget Part B ships the settlement algorithm.';
-      body.appendChild(note);
+
+      // Unsettled payments from the Camp tab's settlement algorithm.
+      if (typeof computeBudgetBalances === 'function' && typeof computeSettlements === 'function') {
+        const { balances } = computeBudgetBalances();
+        const settlements = computeSettlements({ ...balances });
+        if (settlements.length) {
+          const list = document.createElement('div');
+          list.className = 'admin-settlements-list';
+          settlements.forEach(s => {
+            const row = document.createElement('div');
+            row.className = 'admin-kv-row';
+            const left = document.createElement('span');
+            left.className = 'admin-kv-key';
+            left.textContent = s.from + ' → ' + s.to;
+            const right = document.createElement('span');
+            right.className = 'admin-kv-val';
+            right.textContent = adminFmtCents(s.amount);
+            row.append(left, right);
+            list.appendChild(row);
+          });
+          body.appendChild(list);
+        } else {
+          const done = document.createElement('p');
+          done.className = 'admin-section-pending';
+          done.textContent = 'All settled up.';
+          body.appendChild(done);
+        }
+      }
     }
 
     function renderAdminPacking() {
