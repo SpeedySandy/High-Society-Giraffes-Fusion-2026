@@ -4932,6 +4932,55 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
 
     // Equipment list: user-added items, persisted in localStorage as
     // [{id, name, done, who}]. Anyone can add what they're bringing.
+    //
+    // One-time migration for legacy data: the pre-#14 equipment tracker used
+    // the key 'fusion_equipment' with a fixed list of 10 items and an object
+    // shape { itemId: { done, who } }. Users who saved entries back then lost
+    // visibility after the refactor. On first load with an empty new array
+    // and an existing legacy object, convert each entry into the new shape
+    // (mapping IDs to their original English labels) and wipe the old key.
+    (function migrateLegacyEquipment() {
+      const NEW_KEY = 'fusion_equipment_v2';
+      const OLD_KEY = 'fusion_equipment';
+      const newRaw = localStorage.getItem(NEW_KEY);
+      if (newRaw) {
+        try {
+          const arr = JSON.parse(newRaw);
+          if (Array.isArray(arr) && arr.length > 0) return; // new data already present, skip
+        } catch (_) { /* fall through and try to migrate */ }
+      }
+      const oldRaw = localStorage.getItem(OLD_KEY);
+      if (!oldRaw) return;
+      let oldObj;
+      try { oldObj = JSON.parse(oldRaw); } catch (_) { return; }
+      if (!oldObj || typeof oldObj !== 'object' || Array.isArray(oldObj)) return;
+      const LEGACY_LABELS = {
+        gas_stove:        'Gas stove',
+        first_aid:        'First-aid kit',
+        tarp:             'Tarp',
+        water_containers: 'Water containers',
+        rope_pegs:        'Rope & pegs',
+        tools:            'Tools (hammer, knife)',
+        cooler:           'Shared cooler',
+        solar_charger:    'Solar charger',
+        rug:              'Chill-out rug',
+        lighting:         'Camp lighting'
+      };
+      const keys = Object.keys(oldObj);
+      if (!keys.length) return;
+      const nowTag = Date.now().toString(36);
+      const migrated = keys.map((k, i) => ({
+        id: 'eq-legacy-' + nowTag + '-' + i,
+        name: LEGACY_LABELS[k] || k,
+        done: !!(oldObj[k] && oldObj[k].done),
+        who:  (oldObj[k] && oldObj[k].who) || ''
+      }));
+      try {
+        localStorage.setItem(NEW_KEY, JSON.stringify(migrated));
+        localStorage.removeItem(OLD_KEY);
+      } catch (_) { /* storage quota / disabled — leave old key in place */ }
+    })();
+
     const EQUIP_KEY = 'fusion_equipment_v2';
     const equipList = document.getElementById('equip-list');
     const equipEmpty = document.getElementById('equip-empty');
