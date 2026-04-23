@@ -1295,6 +1295,34 @@
       border-top: 1px solid var(--border);
     }
 
+    /* Empty-state CTA shown until the first expense is added */
+    .budget-empty-state {
+      text-align: center;
+      padding: 18px 14px 14px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 13px;
+    }
+    .budget-empty-intro {
+      color: var(--muted);
+      font-size: 14px;
+      margin: 0 0 14px;
+      line-height: 1.4;
+    }
+    .budget-empty-cta {
+      background: var(--gold);
+      color: var(--bg);
+      border: none;
+      border-radius: 11px;
+      padding: 10px 18px;
+      font: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      letter-spacing: 0.3px;
+    }
+    .budget-empty-cta:hover { opacity: 0.92; }
+
     .budget-members-block { margin-bottom: 16px; }
     .budget-members-list {
       display: flex;
@@ -2807,81 +2835,91 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
       <div class="camp-section">
         <h2 class="camp-section-title" data-i18n="budget_title">Shared Budget</h2>
 
-        <!-- Camp members editor (used by the expense form below) -->
-        <div class="budget-members-block">
-          <div class="budget-sub-label" data-i18n="budget_members_label">Camp members</div>
-          <div class="budget-members-list" id="budget-members-list"></div>
-          <form class="budget-members-add" id="budget-members-add" autocomplete="off">
-            <input type="text" id="budget-member-new" data-i18n-ph="budget_member_add_ph" placeholder="Add name…">
-            <button type="submit" data-i18n="budget_member_add">Add</button>
+        <!-- Empty-state CTA: shown until someone adds an expense or taps
+             to expand. Hides the full calculator so the section doesn't
+             look like a wall of blank fields to new users. -->
+        <div id="budget-empty-state" class="budget-empty-state" hidden>
+          <p class="budget-empty-intro" data-i18n="budget_empty_intro">Track shared expenses and settle up at the end.</p>
+          <button type="button" class="budget-empty-cta" id="budget-empty-cta" data-i18n="budget_empty_cta">Add first expense</button>
+        </div>
+
+        <div id="budget-full">
+          <!-- Camp members editor (used by the expense form below) -->
+          <div class="budget-members-block">
+            <div class="budget-sub-label" data-i18n="budget_members_label">Camp members</div>
+            <div class="budget-members-list" id="budget-members-list"></div>
+            <form class="budget-members-add" id="budget-members-add" autocomplete="off">
+              <input type="text" id="budget-member-new" data-i18n-ph="budget_member_add_ph" placeholder="Add name…">
+              <button type="submit" data-i18n="budget_member_add">Add</button>
+            </form>
+          </div>
+
+          <!-- Add expense -->
+          <form class="budget-form-v2" id="budget-form" autocomplete="off">
+            <div class="budget-form-grid">
+              <label>
+                <span data-i18n="budget_desc">Description</span>
+                <input type="text" id="budget-desc" required>
+              </label>
+              <label>
+                <span data-i18n="budget_amount">Amount (€)</span>
+                <input type="number" id="budget-amount" step="0.01" min="0" required>
+              </label>
+              <label>
+                <span data-i18n="budget_category">Category</span>
+                <select id="budget-category" required>
+                  <option value="transport" data-i18n="budget_cat_transport">Transport</option>
+                  <option value="food" data-i18n="budget_cat_food">Food &amp; drink</option>
+                  <option value="gear" data-i18n="budget_cat_gear">Gear</option>
+                  <option value="camp" data-i18n="budget_cat_camp">Camp fees</option>
+                  <option value="other" data-i18n="budget_cat_other">Other</option>
+                </select>
+              </label>
+              <label>
+                <span data-i18n="budget_paid_by">Paid by</span>
+                <select id="budget-paid-by" required></select>
+              </label>
+            </div>
+            <div class="budget-split-block">
+              <div class="budget-sub-label" data-i18n="budget_split_between">Split between</div>
+              <div class="budget-split-options" id="budget-split-options"></div>
+            </div>
+            <button type="submit" data-i18n="budget_add_expense">Add expense</button>
           </form>
-        </div>
 
-        <!-- Add expense -->
-        <form class="budget-form-v2" id="budget-form" autocomplete="off">
-          <div class="budget-form-grid">
-            <label>
-              <span data-i18n="budget_desc">Description</span>
-              <input type="text" id="budget-desc" required>
-            </label>
-            <label>
-              <span data-i18n="budget_amount">Amount (€)</span>
-              <input type="number" id="budget-amount" step="0.01" min="0" required>
-            </label>
-            <label>
-              <span data-i18n="budget_category">Category</span>
-              <select id="budget-category" required>
-                <option value="transport" data-i18n="budget_cat_transport">Transport</option>
-                <option value="food" data-i18n="budget_cat_food">Food &amp; drink</option>
-                <option value="gear" data-i18n="budget_cat_gear">Gear</option>
-                <option value="camp" data-i18n="budget_cat_camp">Camp fees</option>
-                <option value="other" data-i18n="budget_cat_other">Other</option>
-              </select>
-            </label>
-            <label>
-              <span data-i18n="budget_paid_by">Paid by</span>
-              <select id="budget-paid-by" required></select>
-            </label>
+          <!-- Filter chips + running total -->
+          <div class="budget-filters" id="budget-filters"></div>
+          <div class="budget-list" id="budget-list"></div>
+          <p class="budget-empty" id="budget-empty" data-i18n="budget_no_expenses" hidden>No expenses yet — start with the first beer run.</p>
+          <div class="budget-total-line">
+            <span data-i18n="budget_total_spent">Total spent</span>
+            <span class="budget-total-value" id="budget-total-value">€0.00</span>
           </div>
-          <div class="budget-split-block">
-            <div class="budget-sub-label" data-i18n="budget_split_between">Split between</div>
-            <div class="budget-split-options" id="budget-split-options"></div>
+
+          <!-- Category chart -->
+          <div class="budget-chart" id="budget-chart" hidden>
+            <h3 class="budget-subheading" data-i18n="budget_chart_title">Spend by category</h3>
+            <div id="budget-chart-body"></div>
           </div>
-          <button type="submit" data-i18n="budget_add_expense">Add expense</button>
-        </form>
 
-        <!-- Filter chips + running total -->
-        <div class="budget-filters" id="budget-filters"></div>
-        <div class="budget-list" id="budget-list"></div>
-        <p class="budget-empty" id="budget-empty" data-i18n="budget_no_expenses" hidden>No expenses yet — start with the first beer run.</p>
-        <div class="budget-total-line">
-          <span data-i18n="budget_total_spent">Total spent</span>
-          <span class="budget-total-value" id="budget-total-value">€0.00</span>
-        </div>
-
-        <!-- Category chart -->
-        <div class="budget-chart" id="budget-chart" hidden>
-          <h3 class="budget-subheading" data-i18n="budget_chart_title">Spend by category</h3>
-          <div id="budget-chart-body"></div>
-        </div>
-
-        <!-- Per-person breakdown -->
-        <div class="budget-breakdown" id="budget-breakdown" hidden>
-          <h3 class="budget-subheading" data-i18n="budget_breakdown_title">Per person</h3>
-          <div class="budget-breakdown-grid" id="budget-breakdown-grid"></div>
-          <div class="budget-share-line">
-            <span data-i18n="budget_per_person_share">Per person fair share</span>
-            <span id="budget-share-value">€0.00</span>
+          <!-- Per-person breakdown -->
+          <div class="budget-breakdown" id="budget-breakdown" hidden>
+            <h3 class="budget-subheading" data-i18n="budget_breakdown_title">Per person</h3>
+            <div class="budget-breakdown-grid" id="budget-breakdown-grid"></div>
+            <div class="budget-share-line">
+              <span data-i18n="budget_per_person_share">Per person fair share</span>
+              <span id="budget-share-value">€0.00</span>
+            </div>
           </div>
-        </div>
 
-        <!-- Settlement suggestions -->
-        <div class="budget-settlements" id="budget-settlements" hidden>
-          <h3 class="budget-subheading" data-i18n="budget_settlements_title">Settlement</h3>
-          <div id="budget-settlements-body"></div>
-        </div>
+          <!-- Settlement suggestions -->
+          <div class="budget-settlements" id="budget-settlements" hidden>
+            <h3 class="budget-subheading" data-i18n="budget_settlements_title">Settlement</h3>
+            <div id="budget-settlements-body"></div>
+          </div>
 
-        <button type="button" class="budget-export" id="budget-export" data-i18n="budget_export">Copy summary</button>
+          <button type="button" class="budget-export" id="budget-export" data-i18n="budget_export">Copy summary</button>
+        </div>
       </div>
 
       <div class="camp-section">
@@ -3232,6 +3270,8 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         budget_clear_confirm: "Tap again to delete",
         budget_no_expenses: "No expenses yet — start with the first beer run.",
         budget_chart_title: "Spend by category",
+        budget_empty_intro: "Track shared expenses and settle up at the end.",
+        budget_empty_cta: "Add first expense",
         camp_equipment_title: "Shared Equipment",
         camp_equipment_who: "Assigned",
         camp_equipment_item: "Item",
@@ -3460,6 +3500,8 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         budget_clear_confirm: "Pulsa otra vez para borrar",
         budget_no_expenses: "Sin gastos aún — empieza con la primera ronda.",
         budget_chart_title: "Gasto por categoría",
+        budget_empty_intro: "Lleva un registro de los gastos compartidos y ajusta cuentas al final.",
+        budget_empty_cta: "Añadir el primer gasto",
         camp_equipment_title: "Equipo compartido",
         camp_equipment_who: "Asignado a",
         camp_equipment_item: "Artículo",
@@ -3688,6 +3730,8 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         budget_clear_confirm: "Nochmal tippen zum Löschen",
         budget_no_expenses: "Noch keine Ausgaben — fang mit der ersten Runde an.",
         budget_chart_title: "Ausgaben pro Kategorie",
+        budget_empty_intro: "Gemeinsame Ausgaben festhalten und am Ende fair abrechnen.",
+        budget_empty_cta: "Erste Ausgabe eintragen",
         camp_equipment_title: "Gemeinsame Ausrüstung",
         camp_equipment_who: "Wer bringt's",
         camp_equipment_item: "Gegenstand",
@@ -4338,13 +4382,36 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
 
     let budgetActiveFilter = 'all';
     let budgetPendingDeleteId = null; // tap-to-confirm delete
+    let budgetForceExpanded = false;  // set when user taps "Add first expense"
 
-    // storage helpers
+    // Storage helpers — dual-write a mirror under KEY + '_backup' so a single
+    // primary-key corruption, accidental clear, or future rename can't silently
+    // erase user-entered data. Read path restores from the backup if primary
+    // is missing or invalid.
     function budgetLoadJSON(key, fallback) {
-      try { const v = JSON.parse(localStorage.getItem(key)); return v != null ? v : fallback; }
-      catch { return fallback; }
+      const primary = (function read(k) {
+        try { const raw = localStorage.getItem(k); if (raw == null) return { ok: false };
+          const v = JSON.parse(raw); return { ok: true, v };
+        } catch { return { ok: false }; }
+      })(key);
+      if (primary.ok && primary.v != null) return primary.v;
+      const backup = (function read(k) {
+        try { const raw = localStorage.getItem(k); if (raw == null) return { ok: false };
+          const v = JSON.parse(raw); return { ok: true, v };
+        } catch { return { ok: false }; }
+      })(key + '_backup');
+      if (backup.ok && backup.v != null) {
+        // Quietly restore the primary key from the backup for next read.
+        try { localStorage.setItem(key, JSON.stringify(backup.v)); } catch (_) { /* ignore */ }
+        return backup.v;
+      }
+      return fallback;
     }
-    function budgetSaveJSON(key, val) { localStorage.setItem(key, JSON.stringify(val)); }
+    function budgetSaveJSON(key, val) {
+      const s = JSON.stringify(val);
+      try { localStorage.setItem(key, s); } catch (_) { /* ignore quota */ }
+      try { localStorage.setItem(key + '_backup', s); } catch (_) { /* ignore quota */ }
+    }
     function loadBudgetMembers() {
       const m = budgetLoadJSON(BUDGET_MEMBERS_KEY, null);
       return Array.isArray(m) && m.length ? m : BUDGET_DEFAULT_MEMBERS.slice();
@@ -4918,8 +4985,34 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
       });
     }
 
+    // ---------- Empty-state CTA (collapse until first expense) ----------
+    // Section is "full" when there's at least one expense OR the user tapped
+    // the empty-state CTA this session. Otherwise only the CTA card is shown.
+    const budgetEmptyStateEl = document.getElementById('budget-empty-state');
+    const budgetFullEl = document.getElementById('budget-full');
+    const budgetEmptyCtaBtn = document.getElementById('budget-empty-cta');
+
+    if (budgetEmptyCtaBtn) {
+      budgetEmptyCtaBtn.addEventListener('click', () => {
+        budgetForceExpanded = true;
+        renderBudget();
+        // Focus description to make it obvious where to type next.
+        const descInput = document.getElementById('budget-desc');
+        if (descInput) descInput.focus();
+      });
+    }
+
+    function renderBudgetEmptyState() {
+      if (!budgetEmptyStateEl || !budgetFullEl) return;
+      const hasExpenses = loadBudgetExpenses().length > 0;
+      const showFull = hasExpenses || budgetForceExpanded;
+      budgetEmptyStateEl.hidden = showFull;
+      budgetFullEl.hidden = !showFull;
+    }
+
     // ---------- Master re-render ----------
     function renderBudget() {
+      renderBudgetEmptyState();
       renderBudgetMembersList();
       renderBudgetFormOptions();
       renderBudgetFilters();
