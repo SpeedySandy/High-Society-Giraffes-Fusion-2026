@@ -3963,7 +3963,10 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
     function loadSchedule() {
       try { return JSON.parse(localStorage.getItem(SCHEDULE_KEY) || '[]'); } catch { return []; }
     }
-    function saveSchedule(arr) { localStorage.setItem(SCHEDULE_KEY, JSON.stringify(arr)); }
+    function saveSchedule(arr) {
+      localStorage.setItem(SCHEDULE_KEY, JSON.stringify(arr));
+      cloudMirror(SCHEDULE_KEY, arr);
+    }
 
     function renderSchedule() {
       const items = loadSchedule();
@@ -4017,6 +4020,117 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
     const SHEET_URL_ARRIVAL_FUSION = SHEET_URL;
     const SHEET_URL_ARRIVAL_BERLIN = SHEET_URL;
     const WHATSAPP_URL = 'https://chat.whatsapp.com/CJmx1iqWw5TF2LwWvE39hx?mode=gi_t';
+
+    // ==================== Cloud Store (Apps Script web app) ====================
+    // Shared backend for Shared Equipment, Shared Budget, and Camp Meetups.
+    // Until CLOUD_STORE_URL is set, the app behaves as before (per-device
+    // localStorage only). Once set, every save mirrors up and every Camp-tab
+    // open hydrates the local store from the cloud. Deploy guide:
+    // apps-script/README.md
+    //
+    // TODO: paste your deployed Apps Script /exec URL below.
+    const CLOUD_STORE_URL = '';
+    // Map of cloud namespace -> the localStorage key it shadows.
+    const CLOUD_NAMESPACES = {
+      equipment:       'fusion_equipment_v2',
+      budget_members:  'fusion_budget_members',
+      budget_expenses: 'fusion_budget_expenses',
+      budget_settled:  'fusion_budget_settled',
+      meetups:         'fusion_camp_schedule'
+    };
+    const CLOUD_LS_TO_NS = Object.fromEntries(
+      Object.entries(CLOUD_NAMESPACES).map(([k, v]) => [v, k])
+    );
+
+    async function cloudGet(key) {
+      if (!CLOUD_STORE_URL) return undefined;
+      try {
+        const url = CLOUD_STORE_URL + '?key=' + encodeURIComponent(key) + '&t=' + Date.now();
+        const res = await fetch(url, { method: 'GET' });
+        if (!res.ok) return undefined;
+        const json = await res.json();
+        return json && json.ok ? json.value : undefined;
+      } catch (_) { return undefined; }
+    }
+
+    async function cloudSet(key, value) {
+      if (!CLOUD_STORE_URL) return false;
+      try {
+        const res = await fetch(CLOUD_STORE_URL, {
+          method: 'POST',
+          // text/plain sidesteps Apps Script's missing CORS preflight handler.
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ key, value })
+        });
+        if (!res.ok) return false;
+        const json = await res.json();
+        return !!(json && json.ok);
+      } catch (_) { return false; }
+    }
+
+    // Fire-and-forget push from any saveX site. Looks up the cloud namespace
+    // for the given localStorage key; no-op if the key isn't shared.
+    function cloudMirror(lsKey, value) {
+      if (!CLOUD_STORE_URL) return;
+      const ns = CLOUD_LS_TO_NS[lsKey];
+      if (!ns) return;
+      cloudSet(ns, value);
+    }
+
+    // Pull all shared namespaces from the cloud and overwrite localStorage
+    // where it differs. For namespaces the cloud has no value for yet, seed
+    // from the local cache so the first user to open the app populates it.
+    // Re-renders any affected feature in place.
+    let cloudHydrateInFlight = false;
+    async function cloudHydrateAll() {
+      if (!CLOUD_STORE_URL || cloudHydrateInFlight) return;
+      cloudHydrateInFlight = true;
+      try {
+        const adopted = [];
+        await Promise.all(Object.entries(CLOUD_NAMESPACES).map(async ([ns, lsKey]) => {
+          const v = await cloudGet(ns);
+          if (v === undefined) return; // network/script error — leave local alone
+          if (v === null) {
+            // Cloud has no value yet. If local has one, seed the cloud.
+            const localRaw = localStorage.getItem(lsKey);
+            if (localRaw) {
+              try { await cloudSet(ns, JSON.parse(localRaw)); } catch (_) { /* noop */ }
+            }
+            return;
+          }
+          // Cloud has a value — adopt it locally if it differs.
+          try {
+            const serialized = JSON.stringify(v);
+            if (localStorage.getItem(lsKey) !== serialized) {
+              localStorage.setItem(lsKey, serialized);
+              // Mirror to the budget backup keys too (PR #41 dual-write safety).
+              if (lsKey.startsWith('fusion_budget_')) {
+                localStorage.setItem(lsKey + '_backup', serialized);
+              }
+              adopted.push(ns);
+            }
+          } catch (_) { /* noop */ }
+        }));
+        if (!adopted.length) return;
+        // Re-render features touched by the hydration.
+        const touched = new Set(adopted);
+        if (touched.has('equipment') && typeof loadEquip === 'function' && typeof renderEquip === 'function') {
+          // Reload the in-memory equipItems from the new localStorage value.
+          // eslint-disable-next-line no-undef
+          equipItems = loadEquip();
+          renderEquip();
+        }
+        if ((touched.has('budget_members') || touched.has('budget_expenses') || touched.has('budget_settled')) &&
+            typeof renderBudget === 'function') {
+          renderBudget();
+        }
+        if (touched.has('meetups') && typeof renderSchedule === 'function') {
+          renderSchedule();
+        }
+      } finally {
+        cloudHydrateInFlight = false;
+      }
+    }
 
     document.getElementById('whatsapp-link').href = WHATSAPP_URL;
 
@@ -4334,8 +4448,13 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
       btn.addEventListener('click', () => {
         loadMembers();
         loadArrivals(arrivalCurrent || 'fusion');
+        cloudHydrateAll();
       });
     });
+
+    // Initial cloud hydration: deferred so the DOM is wired and the per-feature
+    // render functions are defined before adopting cloud data.
+    setTimeout(cloudHydrateAll, 100);
 
     // Stage 5 — Budget, Equipment, GPS
 
@@ -4428,9 +4547,15 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
       const m = budgetLoadJSON(BUDGET_MEMBERS_KEY, null);
       return Array.isArray(m) && m.length ? m : BUDGET_DEFAULT_MEMBERS.slice();
     }
-    function saveBudgetMembers(m) { budgetSaveJSON(BUDGET_MEMBERS_KEY, m); }
+    function saveBudgetMembers(m) {
+      budgetSaveJSON(BUDGET_MEMBERS_KEY, m);
+      cloudMirror(BUDGET_MEMBERS_KEY, m);
+    }
     function loadBudgetExpenses() { return budgetLoadJSON(BUDGET_EXPENSES_KEY, []) || []; }
-    function saveBudgetExpenses(e) { budgetSaveJSON(BUDGET_EXPENSES_KEY, e); }
+    function saveBudgetExpenses(e) {
+      budgetSaveJSON(BUDGET_EXPENSES_KEY, e);
+      cloudMirror(BUDGET_EXPENSES_KEY, e);
+    }
 
     // Money helpers — store as integer cents, display with toFixed(2).
     function amountToCents(amount) { return Math.round((parseFloat(amount) || 0) * 100); }
@@ -4766,7 +4891,10 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
     // New localStorage key for marking individual settlements as paid.
     const BUDGET_SETTLED_KEY = 'fusion_budget_settled';
     function loadBudgetSettled() { return budgetLoadJSON(BUDGET_SETTLED_KEY, []) || []; }
-    function saveBudgetSettled(arr) { budgetSaveJSON(BUDGET_SETTLED_KEY, arr); }
+    function saveBudgetSettled(arr) {
+      budgetSaveJSON(BUDGET_SETTLED_KEY, arr);
+      cloudMirror(BUDGET_SETTLED_KEY, arr);
+    }
 
     // Compute per-person balance in cents. Positive balance = owed money,
     // negative = owes money. Uses integer cents throughout and distributes
@@ -5100,7 +5228,10 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         return Array.isArray(v) ? v : [];
       } catch { return []; }
     }
-    function saveEquip() { localStorage.setItem(EQUIP_KEY, JSON.stringify(equipItems)); }
+    function saveEquip() {
+      localStorage.setItem(EQUIP_KEY, JSON.stringify(equipItems));
+      cloudMirror(EQUIP_KEY, equipItems);
+    }
     let equipItems = loadEquip();
 
     function updateEquipProgress() {
