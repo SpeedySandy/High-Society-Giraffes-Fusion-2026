@@ -369,6 +369,77 @@
       border-top: 1px solid var(--border);
     }
 
+    /* Important dates timeline (Home tab) */
+    .timeline-card { margin-top: 16px; }
+    .timeline-title {
+      color: var(--gold);
+      font-size: 11px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin: 0 0 12px;
+    }
+    .timeline-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 0;
+    }
+    .timeline-item {
+      display: grid;
+      grid-template-columns: minmax(95px, auto) 1fr auto;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 0;
+      border-top: 1px solid var(--border);
+    }
+    .timeline-item:first-child { border-top: none; padding-top: 4px; }
+    .timeline-date {
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: 0.3px;
+      font-variant-numeric: tabular-nums;
+    }
+    .timeline-label {
+      color: var(--text);
+      font-size: 13px;
+      line-height: 1.3;
+    }
+    .timeline-status {
+      font-size: 10px;
+      padding: 3px 8px;
+      border-radius: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      font-weight: 500;
+      white-space: nowrap;
+      border: 1px solid transparent;
+    }
+    .timeline-item.past { opacity: 0.5; }
+    .timeline-item.past .timeline-status {
+      background: var(--surface2);
+      color: var(--muted);
+      border-color: var(--border);
+    }
+    .timeline-item.today .timeline-status {
+      background: var(--magenta);
+      color: var(--bg);
+    }
+    .timeline-item.soon .timeline-status {
+      background: var(--gold);
+      color: var(--bg);
+    }
+    .timeline-item.upcoming .timeline-status {
+      background: rgba(232, 201, 106, 0.15);
+      color: var(--gold);
+      border-color: rgba(232, 201, 106, 0.4);
+    }
+    .timeline-item.live .timeline-status {
+      background: var(--teal);
+      color: var(--bg);
+    }
+
     .dates-label {
       color: var(--muted);
       font-size: 13px;
@@ -2593,6 +2664,11 @@
         </div>
       </div>
 
+      <div class="card timeline-card" id="timeline-card">
+        <h2 class="timeline-title" data-i18n="timeline_title">Important dates</h2>
+        <ul class="timeline-list" id="timeline-list" aria-live="polite"></ul>
+      </div>
+
       <div class="card weather-card" id="weather-card">
         <div class="weather-header">
           <h2 class="weather-title" data-i18n="weather_title">Weather in Lärz</h2>
@@ -3117,6 +3193,16 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         home_dates_value: "Wed 24 June – Sun 28 June 2026",
         home_bourse_label: "Bourse",
         home_bourse_date: "5 May 2026",
+        timeline_title: "Important dates",
+        timeline_cancellation: "Cancellation deadline (Ticket:Bourse after)",
+        timeline_festival: "Fusion 2026",
+        timeline_gates: "Gates open · 07:00",
+        timeline_big_floors: "Big floors start · 18:00",
+        timeline_status_past: "Past",
+        timeline_status_today: "Today",
+        timeline_status_soon: "Soon",
+        timeline_status_upcoming: "Upcoming",
+        timeline_status_live: "Live now",
         home_website_btn: "Official website",
         home_tickets_btn: "Ticket portal",
         weather_title: "Weather in Lärz",
@@ -3348,6 +3434,16 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         home_dates_value: "Mié 24 junio – Dom 28 junio 2026",
         home_bourse_label: "Bolsa",
         home_bourse_date: "5 mayo 2026",
+        timeline_title: "Fechas importantes",
+        timeline_cancellation: "Fecha límite cancelación (luego Ticket:Bourse)",
+        timeline_festival: "Fusion 2026",
+        timeline_gates: "Apertura puertas · 07:00",
+        timeline_big_floors: "Empiezan las pistas grandes · 18:00",
+        timeline_status_past: "Pasado",
+        timeline_status_today: "Hoy",
+        timeline_status_soon: "Pronto",
+        timeline_status_upcoming: "Próximo",
+        timeline_status_live: "En curso",
         home_website_btn: "Web oficial",
         home_tickets_btn: "Portal de entradas",
         weather_title: "Tiempo en Lärz",
@@ -3579,6 +3675,16 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         home_dates_value: "Mi 24. Juni – So 28. Juni 2026",
         home_bourse_label: "Börse",
         home_bourse_date: "5. Mai 2026",
+        timeline_title: "Wichtige Termine",
+        timeline_cancellation: "Stornierungs-Deadline (danach Ticket:Bourse)",
+        timeline_festival: "Fusion 2026",
+        timeline_gates: "Einlass · 07:00",
+        timeline_big_floors: "Große Floors starten · 18:00",
+        timeline_status_past: "Vergangen",
+        timeline_status_today: "Heute",
+        timeline_status_soon: "Bald",
+        timeline_status_upcoming: "Anstehend",
+        timeline_status_live: "Läuft jetzt",
         home_website_btn: "Offizielle Website",
         home_tickets_btn: "Ticketportal",
         weather_title: "Wetter in Lärz",
@@ -3847,6 +3953,72 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
     }
     tickCountdown();
     setInterval(tickCountdown, 1000);
+
+    // Important dates timeline (Home tab) — sourced from the official
+    // Fusion Festival 2026 deadlines published by Kulturkosmos.
+    const FUSION_TIMELINE = [
+      { dateISO: '2026-04-30', endISO: null,         key: 'timeline_cancellation' },
+      { dateISO: '2026-06-24', endISO: '2026-06-28', key: 'timeline_festival' },
+      { dateISO: '2026-06-24', endISO: null,         key: 'timeline_gates' },
+      { dateISO: '2026-06-25', endISO: null,         key: 'timeline_big_floors' }
+    ];
+
+    function timelineStatus(dateISO, endISO) {
+      const today = new Date(); today.setHours(0, 0, 0, 0);
+      const d = new Date(dateISO + 'T00:00:00');
+      if (endISO) {
+        const e = new Date(endISO + 'T23:59:59');
+        if (today >= d && today <= e) return 'live';
+      }
+      if (d.getTime() === today.getTime()) return 'today';
+      if (d < today) return 'past';
+      const diffDays = Math.round((d - today) / 86400000);
+      if (diffDays <= 14) return 'soon';
+      return 'upcoming';
+    }
+
+    function renderTimeline() {
+      const list = document.getElementById('timeline-list');
+      if (!list) return;
+      const lang = document.documentElement.lang || 'en';
+      const locale = { en: 'en-GB', es: 'es-ES', de: 'de-DE' }[lang] || 'en-GB';
+      list.innerHTML = '';
+      FUSION_TIMELINE.forEach(item => {
+        const status = timelineStatus(item.dateISO, item.endISO);
+        const d = new Date(item.dateISO + 'T00:00:00');
+        let dateLabel;
+        if (item.endISO) {
+          const e = new Date(item.endISO + 'T00:00:00');
+          dateLabel = d.toLocaleDateString(locale, { day: 'numeric', month: 'short' }) +
+            ' – ' + e.toLocaleDateString(locale, { day: 'numeric', month: 'short' });
+        } else {
+          dateLabel = d.toLocaleDateString(locale, { weekday: 'short', day: 'numeric', month: 'short' });
+        }
+        const li = document.createElement('li');
+        li.className = 'timeline-item ' + status;
+        const dateEl = document.createElement('span');
+        dateEl.className = 'timeline-date';
+        dateEl.textContent = dateLabel;
+        const labelEl = document.createElement('span');
+        labelEl.className = 'timeline-label';
+        labelEl.textContent = tr(item.key);
+        const statusEl = document.createElement('span');
+        statusEl.className = 'timeline-status';
+        statusEl.textContent = tr('timeline_status_' + status);
+        li.append(dateEl, labelEl, statusEl);
+        list.appendChild(li);
+      });
+    }
+    renderTimeline();
+    // Recompute every minute so "today" / "soon" stay correct around midnight.
+    setInterval(renderTimeline, 60 * 1000);
+
+    // Re-render on language change.
+    const prevApplyLangTimeline = window.applyLang;
+    window.applyLang = function(lang) {
+      prevApplyLangTimeline(lang);
+      renderTimeline();
+    };
 
     // Accordions
     document.querySelectorAll('[data-acc] .accordion-header').forEach(hdr => {
