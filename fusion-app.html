@@ -704,6 +704,34 @@
       color: var(--bg);
     }
 
+    /* Quick German phrases (Info → German phrases accordion) */
+    .phrases-list {
+      list-style: none;
+      margin: 8px 0 0;
+      padding: 0;
+      display: grid;
+      gap: 0;
+    }
+    .phrases-list li {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 12px;
+      align-items: baseline;
+      padding: 8px 0;
+      border-top: 1px solid var(--border);
+    }
+    .phrases-list li:first-child { border-top: none; padding-top: 4px; }
+    .phrase-de {
+      color: var(--gold);
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .phrase-tr {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.3;
+    }
+
     .rules-intro {
       color: var(--text);
       font-size: 14px;
@@ -2834,6 +2862,17 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         </div>
       </div>
 
+      <div class="accordion" data-acc id="phrases-accordion">
+        <button class="accordion-header" type="button" aria-expanded="false">
+          <span data-i18n="info_phrases_title">Quick German phrases</span>
+          <span class="chev" aria-hidden="true"></span>
+        </button>
+        <div class="accordion-body">
+          <p class="multi-line" data-i18n="info_phrases_intro">Useful at the bar, in line, or when you're lost.</p>
+          <ul class="phrases-list" id="phrases-list"></ul>
+        </div>
+      </div>
+
       <div class="accordion" data-acc>
         <button class="accordion-header" type="button" aria-expanded="false">
           <span data-i18n="camp_feedback_title">Questions, Tips, App Feature Requests, Etc.</span>
@@ -3249,6 +3288,8 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         info_kulturkosmos_title: "Kulturkosmos",
         info_kulturkosmos_body: "Kulturkosmos Lärz e.V. grew out of a collective project in the early 1990s and took over the former Soviet airfield in Lärz, Mecklenburg. The first Fusion festival followed in 1997 on the same runways and hangars that still shape the site today.\n\nFusion is organised on a non-commercial, community-funded basis. Instead of corporate sponsors, the festival is supported by sympathisers who contribute to the year-round cultural work of Kulturkosmos.\n\nThe programme is carried by dozens of crews and bars from across Europe. Each bar, stage and decoration is built by a collective — the network of crews is what makes the site feel like a city of its own.",
         info_forum_link: "Visit the forum",
+        info_phrases_title: "Quick German phrases",
+        info_phrases_intro: "Useful at the bar, in line, or when you're lost.",
         pack_progress: "{done} of {total} items packed",
         pack_rain_boots: "Rain boots",
         pack_rain_coat: "Rain coat",
@@ -3494,6 +3535,8 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         info_kulturkosmos_title: "Kulturkosmos",
         info_kulturkosmos_body: "Kulturkosmos Lärz e.V. surgió de un proyecto colectivo a principios de los 90 y tomó el antiguo aeródromo soviético de Lärz, Mecklemburgo. El primer festival Fusion se celebró en 1997 en las mismas pistas y hangares que siguen dando forma al recinto.\n\nFusion se organiza sin fines comerciales, financiado por la comunidad. En lugar de patrocinadores corporativos, lo sostienen simpatizantes que apoyan la labor cultural de Kulturkosmos durante todo el año.\n\nEl programa lo llevan docenas de crews y bares de toda Europa. Cada bar, escenario y decoración los construye un colectivo — la red de crews es lo que convierte el recinto en una ciudad propia.",
         info_forum_link: "Visita el foro",
+        info_phrases_title: "Frases rápidas en alemán",
+        info_phrases_intro: "Útiles en la barra, en la cola, o si te pierdes.",
         pack_progress: "{done} de {total} artículos listos",
         pack_rain_boots: "Botas de lluvia",
         pack_rain_coat: "Impermeable",
@@ -3739,6 +3782,8 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         info_kulturkosmos_title: "Kulturkosmos",
         info_kulturkosmos_body: "Der Kulturkosmos Lärz e.V. entstand Anfang der 1990er aus einem kollektiven Projekt und übernahm den ehemaligen sowjetischen Flugplatz in Lärz in Mecklenburg. 1997 fand auf denselben Start- und Landebahnen und in den Hangars die erste Fusion statt — sie prägen das Gelände bis heute.\n\nDie Fusion ist nicht-kommerziell organisiert und wird von der Community getragen. Statt Konzernsponsoring tragen Sympathisant*innen die ganzjährige Kulturarbeit des Kulturkosmos mit.\n\nDas Programm stemmen Dutzende Crews und Bars aus ganz Europa. Jede Bar, Bühne und Dekoration wird von einem Kollektiv gebaut — das Netzwerk der Crews macht aus dem Gelände eine eigene Stadt.",
         info_forum_link: "Zum Forum",
+        info_phrases_title: "Schnelle deutsche Sätze",
+        info_phrases_intro: "Hilfreich an der Bar, in der Schlange oder wenn du dich verlaufen hast.",
         pack_progress: "{done} von {total} Sachen gepackt",
         pack_rain_boots: "Gummistiefel",
         pack_rain_coat: "Regenjacke",
@@ -4033,6 +4078,54 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
     window.applyLang = function(lang) {
       prevApplyLangTimeline(lang);
       renderTimeline();
+    };
+
+    // Quick German phrases (Info tab). Auto-hides for DE speakers.
+    const GERMAN_PHRASES = [
+      { de: 'Eine Mate, bitte',           en: 'A Club Mate, please',       es: 'Una Club Mate, por favor' },
+      { de: 'Zwei Bier, bitte',           en: 'Two beers, please',         es: 'Dos cervezas, por favor' },
+      { de: 'Wasser, bitte',              en: 'Water, please',             es: 'Agua, por favor' },
+      { de: 'Prost!',                     en: 'Cheers!',                   es: '¡Salud!' },
+      { de: 'Wie viel kostet das?',       en: 'How much is this?',         es: '¿Cuánto cuesta?' },
+      { de: 'Wo ist die Toilette?',       en: "Where's the toilet?",       es: '¿Dónde está el baño?' },
+      { de: 'Wo finde ich [Bühne]?',      en: 'Where can I find [stage]?', es: '¿Dónde está [el escenario]?' },
+      { de: 'Sprichst du Englisch?',      en: 'Do you speak English?',     es: '¿Hablas inglés?' },
+      { de: 'Ich verstehe nicht',         en: "I don't understand",        es: 'No entiendo' },
+      { de: 'Können Sie mir helfen?',     en: 'Can you help me?',          es: '¿Me puede ayudar?' },
+      { de: 'Ich brauche einen Arzt',     en: 'I need a doctor',           es: 'Necesito un médico' },
+      { de: 'Ich habe mein Handy verloren', en: 'I lost my phone',         es: 'He perdido el móvil' },
+      { de: 'Wo ist mein Camp?',          en: 'Where is my camp?',         es: '¿Dónde está mi camp?' },
+      { de: 'Danke / Bitte',              en: 'Thanks / Please',           es: 'Gracias / Por favor' },
+      { de: 'Tschüss',                    en: 'Bye',                       es: 'Adiós' }
+    ];
+
+    function renderPhrases() {
+      const accordion = document.getElementById('phrases-accordion');
+      const list = document.getElementById('phrases-list');
+      if (!accordion || !list) return;
+      const lang = document.documentElement.lang || 'en';
+      // DE speakers don't need the section — hide it entirely.
+      if (lang === 'de') { accordion.hidden = true; return; }
+      accordion.hidden = false;
+      list.innerHTML = '';
+      GERMAN_PHRASES.forEach(p => {
+        const li = document.createElement('li');
+        const de = document.createElement('span');
+        de.className = 'phrase-de';
+        de.textContent = p.de;
+        const tr = document.createElement('span');
+        tr.className = 'phrase-tr';
+        tr.textContent = (lang === 'es' ? p.es : p.en);
+        li.append(de, tr);
+        list.appendChild(li);
+      });
+    }
+    renderPhrases();
+
+    const prevApplyLangPhrases = window.applyLang;
+    window.applyLang = function(lang) {
+      prevApplyLangPhrases(lang);
+      renderPhrases();
     };
 
     // Accordions
