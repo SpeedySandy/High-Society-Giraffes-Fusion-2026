@@ -948,6 +948,69 @@
 
     .schedule-list .del:hover { color: var(--magenta); background: rgba(200, 75, 106, 0.1); }
 
+    /* Camp meetups: optional day + stage tags */
+    .schedule-tags-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      margin: 6px 0;
+    }
+    .schedule-tags-row select {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      font: inherit;
+      font-size: 13px;
+      padding: 8px 10px;
+    }
+    .schedule-tags-row select:focus { outline: none; border-color: var(--gold); }
+    .schedule-day-heading {
+      color: var(--gold);
+      font-size: 11px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin: 14px 0 4px;
+      padding-top: 8px;
+      border-top: 1px solid var(--border);
+    }
+    .schedule-day-heading:first-child {
+      margin-top: 4px;
+      padding-top: 0;
+      border-top: none;
+    }
+    .schedule-day-heading.unscheduled {
+      color: var(--muted);
+    }
+    .schedule-item-main { flex: 1; min-width: 0; }
+    .schedule-item-text {
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.3;
+    }
+    .schedule-item-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 4px;
+    }
+    .schedule-tag {
+      display: inline-block;
+      font-size: 10px;
+      padding: 1px 6px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      color: var(--muted);
+      letter-spacing: 0.2px;
+    }
+    .schedule-tag.day {
+      background: rgba(232, 201, 106, 0.12);
+      border-color: rgba(232, 201, 106, 0.4);
+      color: var(--gold);
+    }
+
     .schedule-empty {
       color: var(--muted);
       font-style: italic;
@@ -2931,6 +2994,10 @@ Fusion provides on-site legal advice — ask at the Info point.</p>
 
           <h3 class="schedule-sub-title" data-i18n="schedule_camp_title">Camp meetups</h3>
           <label class="schedule-input-label" for="schedule-input" data-i18n="schedule_input_label">Meetup or must-see Artist?</label>
+          <div class="schedule-tags-row">
+            <select id="schedule-day-select" aria-label="Day"></select>
+            <select id="schedule-stage-select" aria-label="Stage"></select>
+          </div>
           <div class="schedule-add">
             <input type="text" id="schedule-input" autocomplete="off">
             <button type="button" id="schedule-add-btn" data-i18n="schedule_add">Add</button>
@@ -3470,6 +3537,10 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         info_schedule_link: "Official program",
         info_schedule_note: "Full program published closer to the event.",
         schedule_camp_title: "Camp meetups",
+        schedule_day_none: "Day (optional)",
+        schedule_day_unscheduled: "Anytime",
+        schedule_stage_none: "Stage (optional)",
+        schedule_stage_other: "Other stage…",
         schedule_playlist_title: "Crew playlist",
         schedule_input_label: "Meetup or must-see Artist?",
         schedule_add: "Add",
@@ -3728,6 +3799,10 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         info_schedule_link: "Programa oficial",
         info_schedule_note: "El programa completo se publica cerca del evento.",
         schedule_camp_title: "Encuentros del camping",
+        schedule_day_none: "Día (opcional)",
+        schedule_day_unscheduled: "Cuando sea",
+        schedule_stage_none: "Escenario (opcional)",
+        schedule_stage_other: "Otro escenario…",
         schedule_playlist_title: "Playlist del grupo",
         schedule_input_label: "¿Encuentro o artista imprescindible?",
         schedule_add: "Añadir",
@@ -3986,6 +4061,10 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         info_schedule_link: "Offizielles Programm",
         info_schedule_note: "Das vollständige Programm erscheint näher am Festival.",
         schedule_camp_title: "Camp-Treffen",
+        schedule_day_none: "Tag (optional)",
+        schedule_day_unscheduled: "Jederzeit",
+        schedule_stage_none: "Bühne (optional)",
+        schedule_stage_other: "Andere Bühne…",
         schedule_playlist_title: "Crew-Playlist",
         schedule_input_label: "Treffen oder Must-See-Act?",
         schedule_add: "Hinzufügen",
@@ -4389,51 +4468,186 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
     updatePackProgress();
 
     // Camp meetup schedule (editable, localStorage)
+    // Camp Meetups (Info → Program & Meetups). Items used to be plain
+    // strings; the new shape is { id, text, day, stage } where day/stage are
+    // optional codes. normalizeSchedule() wraps any legacy string entry so
+    // the migration is silent — old cloud data keeps rendering.
     const SCHEDULE_KEY = 'fusion_camp_schedule';
     const scheduleList = document.getElementById('schedule-list');
     const scheduleInput = document.getElementById('schedule-input');
     const scheduleAddBtn = document.getElementById('schedule-add-btn');
     const scheduleEmpty = document.getElementById('schedule-empty');
+    const scheduleDaySelect = document.getElementById('schedule-day-select');
+    const scheduleStageSelect = document.getElementById('schedule-stage-select');
+
+    // Fixed festival days (codes are stable; labels come from i18n).
+    const SCHEDULE_DAYS = [
+      { code: 'wed', dateISO: '2026-06-24' },
+      { code: 'thu', dateISO: '2026-06-25' },
+      { code: 'fri', dateISO: '2026-06-26' },
+      { code: 'sat', dateISO: '2026-06-27' },
+      { code: 'sun', dateISO: '2026-06-28' }
+    ];
+
+    // Main Fusion stages. "Other" lets you note a non-listed stage in the
+    // text field. Stage names are proper nouns so they stay German-only.
+    const SCHEDULE_STAGES = [
+      'Tanzwüste', 'Trancefloor', 'Bachstelzen', 'Turmbühne',
+      'Luftschloss', 'Palast der Republik', 'Goldener Kessel',
+      'Pier', 'Kino', 'Schaubude'
+    ];
 
     function loadSchedule() {
-      try { return JSON.parse(localStorage.getItem(SCHEDULE_KEY) || '[]'); } catch { return []; }
+      try {
+        const raw = JSON.parse(localStorage.getItem(SCHEDULE_KEY) || '[]');
+        return Array.isArray(raw) ? raw.map(normalizeScheduleItem).filter(Boolean) : [];
+      } catch { return []; }
+    }
+    function normalizeScheduleItem(item) {
+      if (typeof item === 'string') {
+        const t = item.trim();
+        if (!t) return null;
+        return { id: 'sch-legacy-' + Math.random().toString(36).slice(2, 8), text: t, day: null, stage: null };
+      }
+      if (item && typeof item === 'object' && typeof item.text === 'string' && item.text.trim()) {
+        return {
+          id: item.id || ('sch-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 6)),
+          text: item.text.trim(),
+          day: SCHEDULE_DAYS.some(d => d.code === item.day) ? item.day : null,
+          stage: typeof item.stage === 'string' && item.stage ? item.stage : null
+        };
+      }
+      return null;
     }
     function saveSchedule(arr) {
-      localStorage.setItem(SCHEDULE_KEY, JSON.stringify(arr));
-      cloudMirror(SCHEDULE_KEY, arr);
+      const clean = arr.map(normalizeScheduleItem).filter(Boolean);
+      localStorage.setItem(SCHEDULE_KEY, JSON.stringify(clean));
+      cloudMirror(SCHEDULE_KEY, clean);
+    }
+
+    function scheduleLocale() {
+      const lang = document.documentElement.lang || 'en';
+      return { en: 'en-GB', es: 'es-ES', de: 'de-DE' }[lang] || 'en-GB';
+    }
+    function scheduleDayLabel(code) {
+      const day = SCHEDULE_DAYS.find(d => d.code === code);
+      if (!day) return '';
+      const d = new Date(day.dateISO + 'T00:00:00');
+      return d.toLocaleDateString(scheduleLocale(), { weekday: 'short', day: 'numeric', month: 'short' });
+    }
+
+    function renderScheduleSelects() {
+      if (!scheduleDaySelect || !scheduleStageSelect) return;
+      const prevDay = scheduleDaySelect.value;
+      const prevStage = scheduleStageSelect.value;
+      // Day select
+      scheduleDaySelect.innerHTML = '';
+      const dayNone = document.createElement('option');
+      dayNone.value = '';
+      dayNone.textContent = tr('schedule_day_none');
+      scheduleDaySelect.appendChild(dayNone);
+      SCHEDULE_DAYS.forEach(d => {
+        const opt = document.createElement('option');
+        opt.value = d.code;
+        opt.textContent = scheduleDayLabel(d.code);
+        scheduleDaySelect.appendChild(opt);
+      });
+      if (prevDay) scheduleDaySelect.value = prevDay;
+      // Stage select
+      scheduleStageSelect.innerHTML = '';
+      const stageNone = document.createElement('option');
+      stageNone.value = '';
+      stageNone.textContent = tr('schedule_stage_none');
+      scheduleStageSelect.appendChild(stageNone);
+      SCHEDULE_STAGES.forEach(s => {
+        const opt = document.createElement('option');
+        opt.value = s;
+        opt.textContent = s;
+        scheduleStageSelect.appendChild(opt);
+      });
+      const otherOpt = document.createElement('option');
+      otherOpt.value = '__other__';
+      otherOpt.textContent = tr('schedule_stage_other');
+      scheduleStageSelect.appendChild(otherOpt);
+      if (prevStage) scheduleStageSelect.value = prevStage;
     }
 
     function renderSchedule() {
       const items = loadSchedule();
       scheduleList.innerHTML = '';
-      items.forEach((text, idx) => {
-        const li = document.createElement('li');
-        const span = document.createElement('span');
-        span.textContent = text;
-        const del = document.createElement('button');
-        del.type = 'button';
-        del.className = 'del';
-        del.textContent = '×';
-        del.setAttribute('aria-label', 'Remove');
-        del.addEventListener('click', () => {
-          const cur = loadSchedule();
-          cur.splice(idx, 1);
-          saveSchedule(cur);
-          renderSchedule();
-        });
-        li.append(span, del);
-        scheduleList.appendChild(li);
-      });
       scheduleEmpty.hidden = items.length > 0;
+      if (!items.length) return;
+
+      // Group: each festival day in chronological order, then "Unscheduled".
+      const groups = SCHEDULE_DAYS.map(d => ({ code: d.code, label: scheduleDayLabel(d.code), items: [] }));
+      const unscheduled = { code: null, label: tr('schedule_day_unscheduled'), items: [] };
+      items.forEach(it => {
+        const g = groups.find(g => g.code === it.day);
+        (g || unscheduled).items.push(it);
+      });
+      const renderGroup = (g, isFirst) => {
+        if (!g.items.length) return;
+        const heading = document.createElement('li');
+        heading.className = 'schedule-day-heading' + (g.code === null ? ' unscheduled' : '') + (isFirst ? ' first' : '');
+        // Use a regular li but visually a heading; CSS reset for first-child.
+        heading.textContent = g.label;
+        heading.style.listStyle = 'none';
+        scheduleList.appendChild(heading);
+        g.items.forEach(it => {
+          const li = document.createElement('li');
+          const main = document.createElement('div');
+          main.className = 'schedule-item-main';
+          const textEl = document.createElement('div');
+          textEl.className = 'schedule-item-text';
+          textEl.textContent = it.text;
+          main.appendChild(textEl);
+          if (it.stage) {
+            const tags = document.createElement('div');
+            tags.className = 'schedule-item-tags';
+            const stageTag = document.createElement('span');
+            stageTag.className = 'schedule-tag';
+            stageTag.textContent = it.stage;
+            tags.appendChild(stageTag);
+            main.appendChild(tags);
+          }
+          const del = document.createElement('button');
+          del.type = 'button';
+          del.className = 'del';
+          del.textContent = '×';
+          del.setAttribute('aria-label', 'Remove');
+          del.addEventListener('click', () => {
+            const cur = loadSchedule().filter(x => x.id !== it.id);
+            saveSchedule(cur);
+            renderSchedule();
+          });
+          li.append(main, del);
+          scheduleList.appendChild(li);
+        });
+      };
+      let firstGroup = true;
+      groups.forEach(g => {
+        if (g.items.length) { renderGroup(g, firstGroup); firstGroup = false; }
+      });
+      if (unscheduled.items.length) renderGroup(unscheduled, firstGroup);
     }
 
     function addScheduleEntry() {
       const val = scheduleInput.value.trim();
       if (!val) return;
+      const day = scheduleDaySelect && scheduleDaySelect.value ? scheduleDaySelect.value : null;
+      let stage = scheduleStageSelect && scheduleStageSelect.value ? scheduleStageSelect.value : null;
+      if (stage === '__other__') stage = null; // "Other" means: detail's in the text
       const cur = loadSchedule();
-      cur.push(val);
+      cur.push({
+        id: 'sch-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 6),
+        text: val,
+        day,
+        stage
+      });
       saveSchedule(cur);
       scheduleInput.value = '';
+      if (scheduleDaySelect) scheduleDaySelect.value = '';
+      if (scheduleStageSelect) scheduleStageSelect.value = '';
       renderSchedule();
     }
 
@@ -4441,7 +4655,16 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
     scheduleInput.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') { e.preventDefault(); addScheduleEntry(); }
     });
+    renderScheduleSelects();
     renderSchedule();
+
+    // Re-render on language change (day labels + group headings + selects).
+    const prevApplyLangSchedule = window.applyLang;
+    window.applyLang = function(lang) {
+      prevApplyLangSchedule(lang);
+      renderScheduleSelects();
+      renderSchedule();
+    };
 
     // Camp tab — external data sources
     // All three datasets (members, arrival Fusion, arrival Berlin) come from the
