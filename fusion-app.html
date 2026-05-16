@@ -704,63 +704,6 @@
       color: var(--bg);
     }
 
-    /* Safety on site (Info → Safety accordion) */
-    .safety-emergency {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 12px 16px;
-      margin: 8px 0 14px;
-      background: rgba(200, 75, 106, 0.12);
-      border: 1.5px solid var(--magenta);
-      border-radius: 13px;
-      color: var(--text);
-      text-decoration: none;
-      font-size: 14px;
-    }
-    .safety-emergency strong {
-      color: var(--magenta);
-      font-size: 22px;
-      font-weight: 500;
-      letter-spacing: 1px;
-      font-variant-numeric: tabular-nums;
-    }
-    .safety-emergency:hover, .safety-emergency:focus { background: rgba(200, 75, 106, 0.2); }
-    .safety-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 13px;
-      padding: 12px 14px;
-      margin-top: 8px;
-    }
-    .safety-card-accent { border-color: rgba(232, 201, 106, 0.45); }
-    .safety-card-title {
-      color: var(--gold);
-      font-size: 12px;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 1.2px;
-      margin-bottom: 6px;
-    }
-    .safety-phone {
-      display: inline-block;
-      color: var(--gold);
-      font-size: 18px;
-      font-weight: 500;
-      letter-spacing: 0.5px;
-      text-decoration: none;
-      font-variant-numeric: tabular-nums;
-      margin: 4px 0 6px;
-    }
-    .safety-phone:hover, .safety-phone:focus { text-decoration: underline; }
-    .safety-card-note {
-      color: var(--text);
-      font-size: 13px;
-      line-height: 1.4;
-      opacity: 0.92;
-    }
-
     /* Quick German phrases (Info → German phrases accordion) */
     .phrases-list {
       list-style: none;
@@ -2802,7 +2745,7 @@
       <div class="card dates-card" style="margin-top: 16px;">
         <div class="dates-row">
           <span class="dates-label" data-i18n="home_dates_label">Festival dates</span>
-          <span class="dates-value" data-i18n="home_dates_value">Wed 24 June – Sun 28 June 2026</span>
+          <span class="dates-value" data-i18n="home_dates_value">Wed 24 June – Tue 30 June 2026</span>
         </div>
         <div class="dates-row">
           <span class="dates-label">
@@ -2884,42 +2827,6 @@ Fusion provides on-site legal advice — ask at the Info point.</p>
           <div class="gps-buttons">
             <a class="gps-btn" data-gps="google" href="#" target="_blank" rel="noopener noreferrer" data-i18n="camp_gps_open_google">Open in Google Maps</a>
             <a class="gps-btn" data-gps="apple" href="#" target="_blank" rel="noopener noreferrer" data-i18n="camp_gps_open_apple">Open in Apple Maps</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="accordion" data-acc>
-        <button class="accordion-header" type="button" aria-expanded="false">
-          <span data-i18n="info_safety_title">Safety on site</span>
-          <span class="chev" aria-hidden="true"></span>
-        </button>
-        <div class="accordion-body">
-          <p class="multi-line" data-i18n="info_safety_intro">Save these numbers to your phone before you arrive. Awareness and Medical are available 24/7.</p>
-
-          <a class="safety-emergency" href="tel:112">
-            <span>🚨 <span data-i18n="info_safety_emergency_label">Life-threatening emergency</span></span>
-            <strong>112</strong>
-          </a>
-
-          <div class="safety-card safety-card-accent">
-            <div class="safety-card-title">📞 <span data-i18n="info_safety_awareness_title">Awareness — call anytime</span></div>
-            <a class="safety-phone" href="tel:+49398332740400">+49 39833 2740 400</a>
-            <div class="safety-card-note" data-i18n="info_safety_awareness_note">Help Point on the airstrip between Luftschloss and Palast der Republik. Anyone — bad trip, bad feeling, just need someone to talk to.</div>
-          </div>
-
-          <div class="safety-card">
-            <div class="safety-card-title">🧪 <span data-i18n="info_safety_drugs_title">Drug checking</span></div>
-            <div class="safety-card-note" data-i18n="info_safety_drugs_note">Anonymous lab analysis by the University Medical Center Rostock. Short personal counselling before you get your results. Watch the public warning boards — past years have flagged contaminated batches.</div>
-          </div>
-
-          <div class="safety-card">
-            <div class="safety-card-title">🚑 <span data-i18n="info_safety_medical_title">Medical (Sanitätsdienst)</span></div>
-            <div class="safety-card-note" data-i18n="info_safety_medical_note">DRK + ASB, 24/7. Multiple medical points across the site — ask at any Info point for the nearest one.</div>
-          </div>
-
-          <div class="safety-card">
-            <div class="safety-card-title">📦 <span data-i18n="info_safety_info_title">Info Point / Lost &amp; Found</span></div>
-            <div class="safety-card-note" data-i18n="info_safety_info_note">Opposite the Kino hangar. Hand in or claim lost items, ask anything about the site.</div>
           </div>
         </div>
       </div>
@@ -3390,7 +3297,7 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         home_mins: "Mins",
         home_secs: "Secs",
         home_dates_label: "Festival dates",
-        home_dates_value: "Wed 24 June – Sun 28 June 2026",
+        home_dates_value: "Wed 24 June – Tue 30 June 2026",
         home_bourse_label: "Bourse",
         home_bourse_date: "5 May – 27 June 2026",
         timeline_title: "Important dates & info",
@@ -3433,17 +3340,6 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         weather_cond_fog: "Fog",
         weather_cond_snow: "Snow",
         info_entry_title: "Getting There & Getting In",
-        info_safety_title: "Safety on site",
-        info_safety_intro: "Save these numbers to your phone before you arrive. Awareness and Medical are available 24/7.",
-        info_safety_emergency_label: "Life-threatening emergency",
-        info_safety_awareness_title: "Awareness — call anytime",
-        info_safety_awareness_note: "Help Point on the airstrip between Luftschloss and Palast der Republik. Anyone — bad trip, bad feeling, just need someone to talk to.",
-        info_safety_drugs_title: "Drug checking",
-        info_safety_drugs_note: "Anonymous lab analysis by the University Medical Center Rostock. Short personal counselling before you get your results. Watch the public warning boards — past years have flagged contaminated batches.",
-        info_safety_medical_title: "Medical (Sanitätsdienst)",
-        info_safety_medical_note: "DRK + ASB, 24/7. Multiple medical points across the site — ask at any Info point for the nearest one.",
-        info_safety_info_title: "Info Point / Lost & Found",
-        info_safety_info_note: "Opposite the Kino hangar. Hand in or claim lost items, ask anything about the site.",
         info_entry_body: "🦒 GETTING THERE & GETTING IN\nA survival guide for tall animals & their humans\n\n🚔 THE FRIENDLY NEIGHBOURHOOD POLICE\nWhether you're rolling in on a Bassliner, squeezing into a train, or in a car, there's always a delightful possibility of running into a police control along the way.\nIf you're feeling brave and insist on bringing your personal party essentials, just make sure they're properly hidden. We trust your creativity.\n\n🛒 THE ONSITE MARKETPLACE\nHere's the thing: you don't really need to smuggle anything. The festival is basically a well-stocked boutique for all kinds of tastes and temperaments. All varieties. All flavours.\n\n🚌 THE MIGHTY BASSLINER\nBassliners are the official buses of the people, and they fill up fast. Dozens of departures, limited seats, and thousands of people who all had the same idea as you. Check your slot. Check it again.\nBe aware: Bassliners can be delayed. They can get stuck in traffic — especially near the festival entrance. Take a sip, breathe, and relax. You are already at the festival in spirit.\n\n🚪 ENTERING THE PARALLEL SOCIETY\nWhen you finally arrive at the gates, take a deep breath — because there are no bag checks, no security pat-downs, no sniffer dogs judging your life choices. You are crossing into a parallel society. Police don't live here. Fusion rules apply.\nWhat this means: trust, community, and the collective understanding that everyone is here to have a good time without anyone in a neon vest going through your backpack.\n\n🪪 YOUR NAME IS YOUR TICKET\nYour ticket name must match your ID. The supporters at the bracelet station will check.\nYes, the ID. The actual one. With your face on it.\n\n🗺️ THE MAP IS NOT A SUGGESTION\nUpon entry, you'll receive a festival map. It is clear. The venue has signs. Many signs. Big signs. Signs that would be hard to miss even at 4am with your headlamp on backwards.\nPlease — consult the map before calling the camp crew because you can't find the camping area. We love you, but we also have things to do.",
         info_police_title: "Police controls & your rights",
         info_police_body: "Expect routine police and drug-detection checks on roads near Lärz. Stay calm and polite.\nYou have the right to remain silent. You are not required to answer questions beyond confirming your identity.\nYou do not have to open bags or your vehicle for a search without a warrant or a concrete suspicion — ask politely what the legal basis is.\nFusion provides on-site legal advice — ask at the Info point.",
@@ -3652,7 +3548,7 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         home_mins: "Min",
         home_secs: "Seg",
         home_dates_label: "Fechas del festival",
-        home_dates_value: "Mié 24 junio – Dom 28 junio 2026",
+        home_dates_value: "Mié 24 junio – Mar 30 junio 2026",
         home_bourse_label: "Bolsa",
         home_bourse_date: "5 mayo – 27 junio 2026",
         timeline_title: "Fechas e info importantes",
@@ -3695,17 +3591,6 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         weather_cond_fog: "Niebla",
         weather_cond_snow: "Nieve",
         info_entry_title: "Cómo llegar y cómo entrar",
-        info_safety_title: "Seguridad en el sitio",
-        info_safety_intro: "Guarda estos números en tu móvil antes de llegar. Awareness y Sanitarios disponibles 24/7.",
-        info_safety_emergency_label: "Emergencia vital",
-        info_safety_awareness_title: "Awareness — llama cuando sea",
-        info_safety_awareness_note: "Help Point en la pista entre Luftschloss y Palast der Republik. Para cualquiera — mal viaje, malas vibras o solo ganas de hablar.",
-        info_safety_drugs_title: "Análisis de sustancias",
-        info_safety_drugs_note: "Análisis anónimo del Centro Médico Universitario de Rostock. Antes de los resultados hay una consulta breve obligatoria. Atenta a los avisos públicos — años anteriores han alertado sobre lotes contaminados.",
-        info_safety_medical_title: "Sanitarios (Sanitätsdienst)",
-        info_safety_medical_note: "DRK + ASB, 24/7. Hay varios puntos sanitarios por el recinto — pregunta en cualquier Info Point por el más cercano.",
-        info_safety_info_title: "Info Point / Objetos perdidos",
-        info_safety_info_note: "Enfrente del hangar Kino. Entrega o recoge objetos perdidos, pregunta lo que necesites del sitio.",
         info_entry_body: "🦒 CÓMO LLEGAR Y CÓMO ENTRAR\nUna guía de supervivencia para animales altos y sus humanos\n\n🚔 LA SIMPÁTICA POLICÍA DEL BARRIO\nYa sea que llegues en un Bassliner, apretujado en un tren o en coche, siempre existe la deliciosa posibilidad de toparte con un control policial por el camino.\nSi te sientes valiente e insistes en traer tus esenciales personales de fiesta, asegúrate de que estén bien escondidos. Confiamos en tu creatividad.\n\n🛒 EL MERCADO DE DENTRO\nLa cosa es así: no hace falta contrabandear nada. El festival es básicamente una boutique bien surtida para todos los gustos y temperamentos. Todas las variedades. Todos los sabores.\n\n🚌 EL PODEROSO BASSLINER\nLos Bassliners son los autobuses oficiales del pueblo y se llenan rápido. Docenas de salidas, asientos limitados y miles de personas que tuvieron la misma idea que tú. Comprueba tu plaza. Compruébala otra vez.\nAviso: los Bassliners pueden retrasarse. Pueden quedarse atascados en el tráfico — sobre todo cerca de la entrada del festival. Da un trago, respira y relájate. Ya estás en el festival en espíritu.\n\n🚪 ENTRANDO EN LA SOCIEDAD PARALELA\nCuando por fin llegues a las puertas, respira hondo — porque no hay revisión de mochilas, ni cacheos de seguridad, ni perros rastreadores juzgando tus decisiones de vida. Estás cruzando a una sociedad paralela. La policía no vive aquí. Rigen las reglas de Fusion.\nQué significa esto: confianza, comunidad y el entendimiento colectivo de que todos estamos aquí para pasarlo bien sin que nadie con chaleco reflectante te revise la mochila.\n\n🪪 TU NOMBRE ES TU ENTRADA\nEl nombre de tu entrada debe coincidir con el de tu DNI. Los supporters en la estación de pulseras lo comprobarán.\nSí, el DNI. El de verdad. Con tu cara.\n\n🗺️ EL MAPA NO ES UNA SUGERENCIA\nAl entrar recibirás un mapa del festival. Es claro. El recinto está lleno de señales. Muchas señales. Señales grandes. Señales difíciles de pasar por alto incluso a las 4 de la mañana con la linterna frontal puesta al revés.\nPor favor — consulta el mapa antes de llamar al camp crew porque no encuentras la zona de acampada. Os queremos, pero también tenemos cosas que hacer.",
         info_police_title: "Controles policiales y tus derechos",
         info_police_body: "Habrá controles policiales y de drogas rutinarios en las carreteras cercanas a Lärz. Mantén la calma y sé educado.\nTienes derecho a guardar silencio. No estás obligado a responder más allá de identificarte.\nNo tienes que abrir bolsas ni el vehículo sin una orden o una sospecha concreta — pregunta con educación cuál es la base legal.\nFusion ofrece asesoramiento legal en el recinto — pregunta en el punto de información.",
@@ -3914,7 +3799,7 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         home_mins: "Min",
         home_secs: "Sek",
         home_dates_label: "Festivaltermine",
-        home_dates_value: "Mi 24. Juni – So 28. Juni 2026",
+        home_dates_value: "Mi 24. Juni – Di 30. Juni 2026",
         home_bourse_label: "Börse",
         home_bourse_date: "5. Mai – 27. Juni 2026",
         timeline_title: "Wichtige Termine & Infos",
@@ -3957,17 +3842,6 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         weather_cond_fog: "Nebel",
         weather_cond_snow: "Schnee",
         info_entry_title: "Anreise & Einlass",
-        info_safety_title: "Sicherheit vor Ort",
-        info_safety_intro: "Speichert diese Nummern vor der Anreise im Handy ein. Awareness und Sanitätsdienst sind 24/7 erreichbar.",
-        info_safety_emergency_label: "Lebensbedrohlicher Notfall",
-        info_safety_awareness_title: "Awareness — jederzeit anrufen",
-        info_safety_awareness_note: "Help Point auf dem Rollfeld zwischen Luftschloss und Palast der Republik. Für alle — bad trip, schlechtes Gefühl oder einfach jemand zum Reden.",
-        info_safety_drugs_title: "Drug-Checking",
-        info_safety_drugs_note: "Anonyme Substanzanalyse durch die Universitätsmedizin Rostock. Vor den Ergebnissen findet ein kurzes Beratungsgespräch statt. Achtet auf die öffentlichen Warnungen — letzte Jahre wurden verunreinigte Chargen gemeldet.",
-        info_safety_medical_title: "Sanitätsdienst",
-        info_safety_medical_note: "DRK + ASB, 24/7. Es gibt mehrere Sanitätspunkte auf dem Gelände — fragt am nächsten Info Point nach dem nächstgelegenen.",
-        info_safety_info_title: "Info Point / Fundbüro",
-        info_safety_info_note: "Gegenüber dem Kino-Hangar. Fundsachen abgeben oder abholen, alle Fragen zum Gelände stellen.",
         info_entry_body: "🦒 ANREISE & EINLASS\nEin Überlebensguide für große Tiere und ihre Menschen\n\n🚔 DIE FREUNDLICHE POLIZEI VON NEBENAN\nOb du im Bassliner anrollst, dich in einen Zug quetschst oder im Auto kommst — unterwegs besteht immer die entzückende Möglichkeit, in eine Polizeikontrolle zu geraten.\nWenn du dich mutig fühlst und darauf bestehst, dein persönliches Party-Zubehör mitzubringen, sorge einfach dafür, dass es gut versteckt ist. Wir vertrauen deiner Kreativität.\n\n🛒 DER MARKT VOR ORT\nSo ist die Sache: du musst eigentlich gar nichts schmuggeln. Das Festival ist im Grunde eine gut sortierte Boutique für alle Geschmäcker und Temperamente. Alle Sorten. Alle Geschmacksrichtungen.\n\n🚌 DER MÄCHTIGE BASSLINER\nBassliners sind die offiziellen Busse des Volkes, und sie füllen sich schnell. Dutzende Abfahrten, begrenzte Plätze und Tausende Menschen, die alle dieselbe Idee hatten wie du. Check deinen Slot. Check ihn nochmal.\nAchtung: Bassliners können sich verspäten. Sie können im Stau stecken bleiben — besonders in der Nähe des Festivaleingangs. Nimm einen Schluck, atme durch, entspann dich. Im Geiste bist du schon beim Festival.\n\n🚪 EINTRITT IN DIE PARALLELGESELLSCHAFT\nWenn du endlich an den Toren ankommst, atme tief durch — denn es gibt keine Taschenkontrollen, keine Abtastungen, keine Spürhunde, die deine Lebensentscheidungen bewerten. Du überquerst die Grenze in eine Parallelgesellschaft. Die Polizei wohnt hier nicht. Es gelten die Fusion-Regeln.\nWas das bedeutet: Vertrauen, Gemeinschaft und das kollektive Verständnis, dass alle hier sind, um eine gute Zeit zu haben — ohne dass jemand mit Warnweste deinen Rucksack durchwühlt.\n\n🪪 DEIN NAME IST DEIN TICKET\nDer Name auf deinem Ticket muss mit deinem Ausweis übereinstimmen. Die Supporter an der Bändchenstation prüfen das.\nJa, der Ausweis. Der echte. Mit deinem Gesicht drauf.\n\n🗺️ DIE KARTE IST KEIN VORSCHLAG\nBeim Einlass bekommst du eine Festivalkarte. Sie ist übersichtlich. Das Gelände ist beschildert. Mit vielen Schildern. Großen Schildern. Schildern, die selbst um 4 Uhr morgens mit verkehrt aufgesetzter Stirnlampe kaum zu übersehen sind.\nBitte — schau auf die Karte, bevor du die Camp-Crew anrufst, weil du den Campingbereich nicht findest. Wir lieben euch, aber wir haben auch zu tun.",
         info_police_title: "Polizeikontrollen & deine Rechte",
         info_police_body: "Auf den Straßen rund um Lärz sind routinemäßige Polizei- und Drogenkontrollen zu erwarten. Bleib ruhig und höflich.\nDu hast das Recht zu schweigen. Über die Identitätsfeststellung hinaus musst du keine Fragen beantworten.\nOhne Durchsuchungsbeschluss oder konkreten Verdacht musst du weder Taschen noch dein Fahrzeug öffnen — frage höflich nach der Rechtsgrundlage.\nDie Fusion bietet vor Ort Rechtsberatung an — frag am Infopunkt.",
@@ -4486,7 +4360,9 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
       { code: 'thu', dateISO: '2026-06-25' },
       { code: 'fri', dateISO: '2026-06-26' },
       { code: 'sat', dateISO: '2026-06-27' },
-      { code: 'sun', dateISO: '2026-06-28' }
+      { code: 'sun', dateISO: '2026-06-28' },
+      { code: 'mon', dateISO: '2026-06-29' },
+      { code: 'tue', dateISO: '2026-06-30' }
     ];
 
     // Main Fusion stages. "Other" lets you note a non-listed stage in the
@@ -6522,7 +6398,9 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
       { iso: '2026-06-25', label: 'Thu 25 Jun' },
       { iso: '2026-06-26', label: 'Fri 26 Jun' },
       { iso: '2026-06-27', label: 'Sat 27 Jun' },
-      { iso: '2026-06-28', label: 'Sun 28 Jun' }
+      { iso: '2026-06-28', label: 'Sun 28 Jun' },
+      { iso: '2026-06-29', label: 'Mon 29 Jun' },
+      { iso: '2026-06-30', label: 'Tue 30 Jun' }
     ];
 
     function adminTodayISO() {
