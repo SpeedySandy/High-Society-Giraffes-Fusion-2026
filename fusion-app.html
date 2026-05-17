@@ -4183,8 +4183,8 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
       const list = document.getElementById('phrases-list');
       if (!accordion || !list) return;
       const lang = document.documentElement.lang || 'en';
-      // DE speakers don't need the section — hide it entirely.
-      if (lang === 'de') { accordion.hidden = true; return; }
+      // Section is only useful for Spanish speakers — hide for EN and DE.
+      if (lang !== 'es') { accordion.hidden = true; return; }
       accordion.hidden = false;
       list.innerHTML = '';
       GERMAN_PHRASES.forEach(p => {
@@ -4194,7 +4194,7 @@ The programme is carried by dozens of crews and bars from across Europe. Each ba
         de.textContent = p.de;
         const tr = document.createElement('span');
         tr.className = 'phrase-tr';
-        tr.textContent = (lang === 'es' ? p.es : p.en);
+        tr.textContent = p.es;
         li.append(de, tr);
         list.appendChild(li);
       });
